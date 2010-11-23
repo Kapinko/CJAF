@@ -2,8 +2,13 @@
  * This is the base application file that needs to be included inside the base HTML
  * file.  once included it will start up the CJAF application framework.
  */
-(function($, require){
-	if(!require){
+
+/** JSLint Declarations */
+/*global window: false, document: false, unescape: false, ActiveXObject: false, 
+XMLHttpRequest: false, jQuery: false, require: false*/
+ 
+(function ($, require) {
+	if (!require) {
 		throw "The CJAF Application framework must have RequireJS available (http://requirejs.org)";
 	}
 	
@@ -11,32 +16,32 @@
 	 * This is the default locale.
 	 * @type {string}
 	 */
-	var DEFAULT_LOCALE		= 'en_US'; //default locale is U.S. English.
+	var DEFAULT_LOCALE		= 'en_US', //default locale is U.S. English.
 	/**
 	 * where the locale is stored.
 	 * @type {string}
 	 */
-	var COOKIE_LOCALE		= 'cjaf.locale';
+		COOKIE_LOCALE		= 'cjaf.locale',
 	/**
 	 * This is the URL that will be used as the default requireJS "baseUrl".
 	 * @type {string}
 	 */
-	var DEFAULT_BASE_URL	= '/js';
+		DEFAULT_BASE_URL	= '/js',
 	/**
 	 * These are the default paths that are set up for your application.
 	 * @type {Object.<string, string>}
 	 */
-	var DEFAULT_PATHS		= {
+		DEFAULT_PATHS		= {
 		"cjaf": "cjaf",
 		"lib": "lib",
 		"jQuery": "lib/jquery",
 		"jQueryUI": "lib/jquery/ui"
-	};
+	},
 	/**
 	 * Thes are the default dependencies common to every cjaf application.
 	 * @type {Array.<string>}
 	 */
-	var DEFAULT_DEPENDENCIES	= [
+		DEFAULT_DEPENDENCIES	= [
 		'jQuery/jquery.pnotify',
 		'jQuery/jquery.log',
 		'jQueryUI/jquery.ui.tooltip',
@@ -47,7 +52,7 @@
 		'lib/message/zend_validation_map',
 		'cjaf/model/abstract',
 		'cjaf/widget/dispatcher'
-	];
+	],
 
 	/**
 	 * Function taken from the w3schools page. This is used to retrieve
@@ -56,42 +61,43 @@
 	 * @see http://www.w3schools.com/js/js_cookies.asp
 	 * @return {string}
 	 */
-	var getCookie = function(name){
+	getCookie = function (name) {
 		var value = "",
 		start_index = -1,
+		end_index	= null,
 		cookie = document.cookie;
 
-		if(cookie.length > 0){
+		if (cookie.length > 0) {
 			start_index = cookie.indexOf(name + "=");
 		}
-		if(start_index != -1){
+		if (start_index !== -1) {
 			start_index = start_index + name.length + 1;
-			var end_index = cookie.indexOf(";", start_index);
+			end_index = cookie.indexOf(";", start_index);
 
-			if(end_index == -1){
+			if (end_index === -1) {
 				end_index = cookie.length;
 			}
 			value = unescape(cookie.substring(start_index, end_index));
 		}
 		return value;
-	};
+	},
 	/**
 	 * This function will retrieve the current locale from the "cjaf.locale"
 	 * cookie.
 	 * @return {string}
 	 */
-	var getLocale	= function(){
+	getLocale	= function () {
 		var locale	= getCookie(COOKIE_LOCALE);
 
-		if(!locale){
+		if (!locale) {
 			locale	= DEFAULT_LOCALE;
 		}
 		window.LocaleSetting	= locale;
 		return locale;
-	};
+	},
 
 	//Create the CJAF namespace
-	var cjaf	= window.cjaf	= {
+	cjaf	= {
 		/**
 		 * This is the current locale setting.
 		 * @type {string}
@@ -105,7 +111,7 @@
 		 * @param {Array.<string>} dependencies
 		 * @param {function(*)} callback
 		 */
-		'require': function(dependencies, callback){
+		'require': function (dependencies, callback) {
 			require(dependencies, callback);
 		},
 		/**
@@ -117,7 +123,7 @@
 		 * @param {Array.<string>} dependencies
 		 * @param {function} callback
 		 */
-		'define': function(module_name, dependencies, callback){
+		'define': function (module_name, dependencies, callback) {
 			require.def(module_name, dependencies, callback);
 		}
 	};
@@ -126,7 +132,7 @@
 	 * bootstrap file to start it up.
 	 * @constructor
 	 */
-	cjaf.Bootstrap	= function(){};
+	cjaf.Bootstrap	= function () {};
 	cjaf.Bootstrap.prototype	= {
 		/**
 		 * This function is the first thing called in the application
@@ -134,11 +140,11 @@
 		 * have any dependencies loaded other than those you explicitly
 		 * require yourself.
 		 */
-		"init": function(){},
+		"init": function () {},
 		/**
 		 * This function is what will be called upon application initialization.
 		 */
-		"run": function(){
+		"run": function () {
 			throw "This is an abstract function, it must be overridden.";
 		},
 		/**
@@ -151,14 +157,14 @@
 		 *
 		 * @return {Array.<string>}
 		 */
-		"getDependencies": function(){
+		"getDependencies": function () {
 			return [];
 		},
 		/**
 		 * This function should return your applications base URL.
 		 * @return {string} base_url
 		 */
-		"getBaseUrl": function(){
+		"getBaseUrl": function () {
 			return DEFAULT_BASE_URL;
 		},
 		/**
@@ -166,14 +172,14 @@
 		 * application needs.
 		 * @return {Object.<string, string>}
 		 */
-		"getCustomPaths": function(){
+		"getCustomPaths": function () {
 			return {};
 		},
 		/**
 		 * This function returns the currently set locale.
 		 * @return {string}
 		 */
-		"getLocale": function(){
+		"getLocale": function () {
 			return cjaf.LOCALE;
 		}
 	};
@@ -181,28 +187,28 @@
 	 * This is the CJAF Application object that will control the application as
 	 * a whole. IE to start up the application call cjaf.Application.start();
 	 */
-	cjaf.Appplication	= function(){
+	cjaf.Appplication	= (function () {
 			/**
 			 * This function will run just prior to calling the bootstraps
 			 * init() function. Here we perform any customizations to our libraries.
 			 */
-			var _preInit	= function(){
+			var _preInit	= function () {
 				//Override jQuery's default XHR so that IE8 does not crash.
 				$.ajaxSetup({
-					xhr: function(){
+					xhr: function () {
 						var xmlHttp;
 
 						try {
 							//[Sane] Firefox, Opera 8.0+, Safari/Webkit
 							xmlHttp	= new XMLHttpRequest();
-						} catch(e){
+						} catch (XMLHttpRequestNotFoundException) {
 							//[Insane] Internet Exploder
-							try{
+							try {
 								xmlHttp	= new ActiveXObject("MSXML2.XMLHTTP");
-							} catch(e){
+							} catch (MSXML2ObjectNotFoundException) {
 								try {
 									xmlHttp	= new ActiveXObject("Microsoft.XMLHTTP");
-								}catch(e){
+								} catch (XMLHttpRequestNotSupportedException) {
 									xmlHttp	= false;
 								}
 							}
@@ -210,34 +216,34 @@
 						return xmlHttp;
 					}
 
-				})
-			}
+				});
+			},
 			/**
 			 * This function will create a requireJS config base upon information
 			 * it pulls from your Bootstrap object.
 			 * @param {cjaf.Bootstrap} Bootstrap
 			 * @return {Object}
 			 */
-			var _createRequireJSConfig	= function(Bootstrap){
+			_createRequireJSConfig	= function (Bootstrap) {
 				var config	= {
 					baseUrl: Bootstrap.getBaseUrl(),
 					paths: $.extend({}, DEFAULT_PATHS, Bootstrap.getCustomPaths()),
 					locale: Bootstrap.getLocale()
-				}
+				};
 				return config;
-			};
+			},
 			/**
 			 * This function will pull merge the default dependencies with those
 			 * provided by your application's bootstrap.
 			 * @param {cjaf.Bootstrap} Bootstrap
 			 * @return {Array.<string>}
 			 */
-			var _getMergedDependencies	= function(Bootstrap){
+			_getMergedDependencies	= function (Bootstrap) {
 				var defaultDeps	= DEFAULT_DEPENDENCIES,
 					yourDeps	= Bootstrap.getDependencies();
 
 				return defaultDeps.concat(yourDeps);
-			};
+			},
 			/**
 			 * This function will remove the current content from the 'body' tag
 			 * (with fancy fade of course :) and replace it with the cornerstone
@@ -246,8 +252,8 @@
 			 * @param {jQuery} cornerstone
 			 * @param {jQuery} elements_to_clear
 			 */
-			var _showApplication	= function(cornerstone, elements_to_clear){
-				elements_to_clear.fadeOut('normal', function(){
+			_showApplication	= function (cornerstone, elements_to_clear) {
+				elements_to_clear.fadeOut('normal', function () {
 					cornerstone.fadeIn('normal');
 				});
 			};
@@ -265,20 +271,21 @@
 				 *				contains all of the elements we will clear when we're
 				 *				ready to display the application.
 				 */
-				"start": function(bootstrap_path, cornerstone, elements_to_clear){
+				"start": function (bootstrap_path, cornerstone, elements_to_clear) {
 					require({baseUrl: DEFAULT_BASE_URL}, [
 						bootstrap_path
 					],
 					/**
 					 * @param {cjaf.Bootstrap} ApplicationBootstrap
 					 */
-					function(ApplicationBootstrap){
-						var Bootstrap	= new ApplicationBootstrap();
+					function (ApplicationBootstrap) {
+						var Bootstrap	= new ApplicationBootstrap(),
+							config, dependencies;
 
-						if(!(Bootstrap instanceof cjaf.Bootstrap)){
+						if (!(Bootstrap instanceof cjaf.Bootstrap)) {
 							throw "Invalid bootstrap path. Object must be an instance of cjaf.Bootstrap";
 						}
-						if(cornerstone['length'] != 1 || !cornerstone['selector']){
+						if (cornerstone.length !== 1 || !cornerstone.selector) {
 							throw "Invalid application container element.";
 						}
 						cornerstone.fadeOut();
@@ -290,17 +297,18 @@
 						//Perform any bootstrap initialization work.
 						Bootstrap.init();
 
-						var config			= _createRequireJSConfig(Bootstrap);
-						var dependencies	= _getMergedDependencies(Bootstrap);
+						config			= _createRequireJSConfig(Bootstrap);
+						dependencies	= _getMergedDependencies(Bootstrap);
 
-						require(config, dependencies).ready(function(){
+						require(config, dependencies).ready(function () {
 							Bootstrap.run(cornerstone);
 							_showApplication(cornerstone, elements_to_clear);
 						});
 					});
 				}
-			}
-	}();
-
+			};
+		}());
+	
+	window.cjaf	= cjaf;
 	return cjaf;
-})(jQuery, require);
+}(jQuery, require));
