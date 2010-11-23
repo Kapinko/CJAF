@@ -6,6 +6,8 @@
 /** JSLint Declarations */
 /*global window: false, document: false, unescape: false, ActiveXObject: false, 
 XMLHttpRequest: false, jQuery: false, require: false*/
+/*jslint white:true, browser:true, onevar: false, undef: true, eqeqeq:true, plusplus: true,
+bitwise: true, regexp: true, newcap: true, immed: true */
  
 (function ($, require) {
 	if (!require) {
