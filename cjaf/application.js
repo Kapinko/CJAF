@@ -7,7 +7,7 @@
 /*global window: false, document: false, unescape: false, ActiveXObject: false, 
 XMLHttpRequest: false, jQuery: false, require: false*/
 /*jslint white:true, browser:true, onevar: false, undef: true, eqeqeq:true, plusplus: true,
-bitwise: true, regexp: true, newcap: true, immed: true */
+bitwise: true, regexp: true, newcap: true, immed: true, nomen: false */
  
 (function ($, require) {
 	if (!require) {
@@ -49,9 +49,9 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 		'jQueryUI/jquery.ui.tooltip',
 		'lib/locale/base',
 		'lib/class',
-		'lib/view',
 		'lib/event/factory',
 		'lib/message/zend_validation_map',
+		'cjaf/view',
 		'cjaf/model/abstract',
 		'cjaf/widget/dispatcher'
 	],
