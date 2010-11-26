@@ -48,6 +48,7 @@ bitwise: true, regexp: true, newcap: true, immed: true, nomen: false */
 		'jQuery/jquery.log',
 		'jQueryUI/jquery.ui.tooltip',
 		'lib/locale/base',
+		'lib/object',  //An extension to the JS object for prototypical inheritance.
 		'lib/class',
 		'lib/event/factory',
 		'lib/message/zend_validation_map',
