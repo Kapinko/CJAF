@@ -1,7 +1,6 @@
 /** JSLint Declarations */
 /*global jQuery:false, cjaf: false*/
-/*jslint white:true, browser:true, onevar: true, undef: true, eqeqeq:true,
- plusplus: true, bitwise: true, regexp: true, newcap: true, immed: true, nomen: false */
+/*jslint nomen: false*/
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/template', [
