@@ -44,16 +44,9 @@ bitwise: true, regexp: true, newcap: true, immed: true, nomen: false */
 	 * @type {Array.<string>}
 	 */
 		DEFAULT_DEPENDENCIES	= [
-		'jQuery/jquery.pnotify',
-		'jQuery/jquery.log',
-		'jQueryUI/jquery.ui.tooltip',
-		'lib/locale/base',
-		'lib/object',  //An extension to the JS object for prototypical inheritance.
-		'lib/class',
-		'lib/event/factory',
-		'lib/message/zend_validation_map',
+		'cjaf/object',
 		'cjaf/view',
-		'cjaf/model/abstract',
+		'cjaf/model',
 		'cjaf/widget/dispatcher'
 	],
 
