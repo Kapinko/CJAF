@@ -1,7 +1,5 @@
 /** JSLint Declarations */
 /*global jQuery: false, cjaf: false */
-/*jslint white:true, browser:true, onevar: false, undef: true, eqeqeq:true, plusplus: true,
-bitwise: true, regexp: true, newcap: true, immed: true */
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/pluggable', [
@@ -21,7 +19,7 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 			 *
 			 * @return {Array}
 			 */
-			getPluginList: function () {
+			"getPluginList": function () {
 				return this.plugins;
 			},
 			/**
@@ -29,7 +27,7 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 			 *
 			 * @param {Object}
 			 */
-			registerPlugin: function (plugin) {
+			"registerPlugin": function (plugin) {
 				this.plugins.push(plugin);
 			},
 			/**
@@ -39,7 +37,7 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 			 * @param {string} method_name
 			 * @return {bool}
 			 */
-			_callMethodOnPlugins: function (method_name) {
+			"callMethodOnPlugins": function (method_name) {
 				var plugins				= this.getPluginList(),
 					continue_execution	= true,
 					i					= 0,

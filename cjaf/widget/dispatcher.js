@@ -466,7 +466,7 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 			 * @return {bool}
 			 */
 			_preRender: function (target_page) {
-				return this._callMethodOnPlugins(
+				return this.callMethodOnPlugins(
 					'preRender',
 					this.getContentElement(),
 					this.getCurrentPage(),
@@ -509,7 +509,7 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 			 * @return {bool}
 			 */
 			_preWidgetLoad: function (target_page) {
-				return this._callMethodOnPlugins(
+				return this.callMethodOnPlugins(
 					'preWidgetLoad',
 					this.getContentElement(),
 					this.getCurrentPage(),
@@ -535,7 +535,7 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 			 * @return bool
 			 */
 			_postWidgetLoad: function () {
-				return this._callMethodOnPlugins(
+				return this.callMethodOnPlugins(
 					'postWidgetLoad',
 					this.getContentElement(),
 					this.getPreviousPage(),
@@ -557,7 +557,7 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 			 * @return {bool}
 			 */
 			_postRender: function () {
-				return this._callMethodOnPlugins(
+				return this.callMethodOnPlugins(
 					'postRender',
 					this.getContentElement(),
 					this.getPreviousPage(),
