@@ -23,7 +23,8 @@
 			 * @return {Object}
 			 */
 			Object.prototype.extend	= function (child_proto) {
-				var child	= Object.create(this);
+				var child	= function () {};
+				child.prototype	= this.prototype;
 				$.extend(child.prototype, child_proto);
 				
 				return child;
