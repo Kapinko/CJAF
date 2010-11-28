@@ -15,7 +15,7 @@
 	 */
 	function (AbstractBootstrap) {
 		var TestIndexBootstrap	= function () {};
-		TestIndexBootstrap.prototype	= new AbstractBootstrap()
+		TestIndexBootstrap.prototype	= new AbstractBootstrap();
 		$.extend(TestIndexBootstrap.prototype, {
 			/**
 			 * This function should return an array of dependencies that are necessary
@@ -28,7 +28,10 @@
 			 * @return {Array.<string>}
 			 */
 			"getDependencies": function () {
-				throw "getDependencies is an abstract function that must be overridden.";
+				return [
+					'test/widget/template',
+					'test/widget/page/index'
+				];
 			},
 			/**
 			 * Do any necessary pre-layout work here. This should be where you
@@ -41,7 +44,7 @@
 			 * widget to be used for this site.
 			 */
 			"_getLayoutWidgetName": function () {
-				throw "_getLayoutWidgetName is an abstract function that must be overridden.";
+				return 'test_template';
 			},
 			/**
 			 * This function must return an object suitable to be passed to the
@@ -65,7 +68,7 @@
 			 * @return {string}
 			 */
 			"_getDefaultPageId": function () {
-				throw "_getDefaultPageId is an abstract function that must be overridden.";
+				return 'index';
 			},
 			/**
 			 * This function must return a map of the page identifiers to the
@@ -75,7 +78,9 @@
 			 * @return {Object.<string, string>}
 			 */
 			"_getPageMap": function () {
-				throw "_getPageMap is an abstract function that must be overridden.";
+				return {
+					'index': 'test_page_index'
+				};
 			},
 			/**
 			 * This function must return the content element that the dispatcher
@@ -87,7 +92,7 @@
 			 * @return {jQuery}
 			 */
 			"_getContentElement": function (cornerstone) {
-				throw "_getContentElement is an abstract function that must be overridden.";
+				return cornerstone.find('#content-main');
 			},
 			/**
 			 * This function is where you should register all necessary dispatcher
