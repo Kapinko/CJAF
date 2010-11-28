@@ -5,10 +5,29 @@
 	cjaf.define('cjaf/widget/dispatcher/plugin', [
 	],
 	function () {
-		cjaf.DispatcherPlugin	= function () {
-			
+		/**
+		 * This is the constructor for all Dispatcher plugins.
+		 * 
+		 * @param {jQuery} element
+		 * @param {string} widget_name
+		 * @param {Object.<string,*>} widget_options
+		 */
+		var Plugin	= function (element, widget_name, widget_options) {
+			//Make sure we call init on plugin load.
+			this.init.apply(this, arguments);
 		};
-		$.extend(cjaf.DispatcherPlugin.prototype, {
+		$.extend(Plugin.prototype, {
+			/**
+			 * This is an initialization function that will be called upon 
+			 * object construction.
+			 * 
+			 * @param {jQuery} element
+			 * @param {string} widget_name
+			 * @param {Object.<string, *>} widget_options
+			 */
+			init: function (element, widget_name, widget_options) {
+				
+			},
 			/**
 			 * @param {jQuery} target_el
 			 * @param {string} current_page
@@ -47,6 +66,12 @@
 			}
 		});
 		
-		return $.cjaf.DispatcherPlugin;
+		if (!$.cjaf.hasOwnProperty('Dispatcher')) {
+			$.cjaf.Dispatcher	= {};
+		}
+		
+		$.cjaf.Dispatcher.Plugin	= Plugin;
+		
+		return $.cjaf.Dispatcher.Plugin;
 	});
 }(jQuery, cjaf));

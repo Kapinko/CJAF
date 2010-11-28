@@ -29,8 +29,11 @@
 			 */
 			"getDependencies": function () {
 				return [
+					'cjaf/widget/dispatcher/plugin/widget_loader',
+					
 					'test/widget/template',
-					'test/widget/page/index'
+					'test/widget/page/index',
+					'test/widget/navigation'
 				];
 			},
 			/**
@@ -68,7 +71,7 @@
 			 * @return {string}
 			 */
 			"_getDefaultPageId": function () {
-				return 'index';
+				return 'home';
 			},
 			/**
 			 * This function must return a map of the page identifiers to the
@@ -79,7 +82,7 @@
 			 */
 			"_getPageMap": function () {
 				return {
-					'index': 'test_page_index'
+					'home': 'test_page_index'
 				};
 			},
 			/**
@@ -99,14 +102,30 @@
 			 * plugins.
 			 *
 			 * @param {jQuery} container the element where the dispatcher is attached.
+			 * @param {jQuery} cornerstone the site container element.
 			 */
-			"_registerDispatcherPlugins": function (container) {},
+			"_registerDispatcherPlugins": function (container, cornerstone) {
+				var options	= {"pageList": this._getNavigationPageMap()};
+				container.dispatcher('registerPlugin', new $.cjaf.Dispatcher.Plugin.WidgetLoader(cornerstone.find('#nav-primary'), 'test_navigation', options));
+			},
 			/**
 			 * This function should return your applications base URL.
 			 * @return {string} base_url
 			 */
 			"getBaseUrl": function () {
 				return '/test/js';
+			},
+			/**
+			 * This function returns the navigation page map.
+			 * @return {Object.<string, Object>}
+			 */
+			_getNavigationPageMap: function () {
+				return {
+					"home": {},
+					"model": {},
+					"widget": {},
+					"base": {}
+				};
 			}
 		});
 		
