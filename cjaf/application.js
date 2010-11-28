@@ -36,8 +36,8 @@ bitwise: true, regexp: true, newcap: true, immed: true, nomen: false */
 		DEFAULT_PATHS		= {
 		"cjaf": "cjaf",
 		"lib": "lib",
-		"jQuery": "lib/jquery",
-		"jQueryUI": "lib/jquery/ui"
+		"jQuery": "ext/jquery",
+		"jQueryUI": "ext/jquery/ui"
 	},
 	/**
 	 * Thes are the default dependencies common to every cjaf application.
@@ -299,11 +299,18 @@ bitwise: true, regexp: true, newcap: true, immed: true, nomen: false */
 
 						config			= _createRequireJSConfig(Bootstrap);
 						dependencies	= _getMergedDependencies(Bootstrap);
-
-						require(config, dependencies).ready(function () {
-							Bootstrap.run(cornerstone);
-							_showApplication(cornerstone, elements_to_clear);
-						});
+						
+						//configure require
+						require(config);
+						
+						//start the application.
+						require(dependencies, 
+							function () {
+								require.ready(function () {
+									Bootstrap.run(cornerstone);
+									_showApplication(cornerstone, elements_to_clear);
+								});
+							});
 					});
 				}
 			};
