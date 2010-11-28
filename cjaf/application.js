@@ -249,9 +249,18 @@ bitwise: true, regexp: true, newcap: true, immed: true, nomen: false */
 			 * @param {jQuery} elements_to_clear
 			 */
 			_showApplication	= function (cornerstone, elements_to_clear) {
-				elements_to_clear.fadeOut('normal', function () {
+				var show_cornerstone	= function () {
 					cornerstone.fadeIn('normal');
-				});
+				};
+				
+				if (!elements_to_clear || elements_to_clear.length < 1) {
+					show_cornerstone();
+					
+				} else {
+					elements_to_clear.fadeOut('normal', function () {
+						show_cornerstone();
+					});
+				}
 			};
 
 			return {
@@ -288,29 +297,31 @@ bitwise: true, regexp: true, newcap: true, immed: true, nomen: false */
 						if (cornerstone.length !== 1 || !cornerstone.selector) {
 							throw "Invalid application container element.";
 						}
-						cornerstone.fadeOut();
-						cornerstone.css('display', 'none');
+						cornerstone.fadeOut('normal', function () {
+							cornerstone.css('display', 'none');
 
-						//Run the preInit to customize our setup.
-						_preInit();
+							//Run the preInit to customize our setup.
+							_preInit();
 
-						//Perform any bootstrap initialization work.
-						Bootstrap.init();
+							//Perform any bootstrap initialization work.
+							Bootstrap.init();
 
-						config			= _createRequireJSConfig(Bootstrap);
-						dependencies	= _getMergedDependencies(Bootstrap);
-						
-						//configure require
-						require(config);
-						
-						//start the application.
-						require(dependencies, 
-							function () {
-								require.ready(function () {
-									Bootstrap.run(cornerstone);
-									_showApplication(cornerstone, elements_to_clear);
+							config			= _createRequireJSConfig(Bootstrap);
+							dependencies	= _getMergedDependencies(Bootstrap);
+
+							//configure require
+							require(config);
+
+							//start the application.
+							require(dependencies, 
+								function () {
+									require.ready(function () {
+										Bootstrap.run(cornerstone);
+										_showApplication(cornerstone, elements_to_clear);
+									});
 								});
-							});
+						});
+						
 					});
 				}
 			};
