@@ -7,7 +7,7 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 	cjaf.define('cjaf/widget/dispatcher', [
 		'lib/event/factory',
 		'cjaf/widget/pluggable',
-		'jQuery/jquery.ba-bbq.min'
+		'jQuery/jquery.ba-bbq'
 	],
 	/**
 	 * @param {EventFactory} EventFactory
