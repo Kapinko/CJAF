@@ -8,7 +8,7 @@
 /*jslint white:true, browser:true, onevar: false, undef: true, eqeqeq:true, plusplus: true,
 bitwise: true, regexp: true, newcap: true, immed: true */
 
-(function ($, cjaf) { 
+(function ($, cjaf) {
 	cjaf.define('cjaf/bootstrap/abstract', [
 
 	],

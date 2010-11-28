@@ -266,9 +266,13 @@ bitwise: true, regexp: true, newcap: true, immed: true, nomen: false */
 				 * @type {jQuery} elements_to_clear - this jQuery wrapped element list
 				 *				contains all of the elements we will clear when we're
 				 *				ready to display the application.
+				 * @type {string} base_url - this is the base URL for all requirejs requests.
 				 */
-				"start": function (bootstrap_path, cornerstone, elements_to_clear) {
-					require({baseUrl: DEFAULT_BASE_URL}, [
+				"start": function (bootstrap_path, cornerstone, elements_to_clear, base_url) {
+					if (!base_url) {
+						base_url	= DEFAULT_BASE_URL;
+					}
+					require({baseUrl: base_url}, [
 						bootstrap_path
 					],
 					/**
