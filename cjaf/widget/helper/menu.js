@@ -20,7 +20,7 @@
 	function (Collection, Helper, MenuItem) {
 		//Make sure that the "Menu" namespace exists.
 		if (Helper.hasOwnProperty('Menu')) {
-			return Helper.Menu
+			return Helper.Menu;
 		}
 		
 		/**
