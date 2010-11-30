@@ -16,40 +16,36 @@
 	 * @return {cjaf.Widget.Helper.Menu.Renderer}
 	 */
 	function (Menu, MenuItem) {
+		Menu.Renderer	= cjaf.Class.extend(
 		/**
 		 * An abstract menu renderer.
 		 * @constructor
 		 * @param {cjaf.Widget.Helper.Menu} menu
+		 * @constructor
 		 */
-		Menu.Renderer	= function (menu) {
+		function (menu) {
 			this.menu	= menu;
-		};
-		Menu.Renderer.prototype	= {
-			
+		},
+		/** @prototype */
+		{
 			/**
 			 * This function will render the menu container.
 			 * @return {Menu.Renderer}
 			 */
-			"renderContainer": function () {
-				
-			},
+			"renderContainer": function () {},
 			/**
 			 * This function will render the menu itself.
 			 * @return {Menu.Renderer}
 			 */
-			"renderMenu": function () {
-				
-			},
+			"renderMenu": function () {},
 			/**
 			 * This function will render a given menu item.  Menu items will be
 			 * placed into the menu in the order which they are given.
 			 * @param {MenuItem} menu_item
 			 * @return {Menu.Renderer}
 			 */
-			"renderMenuItem": function (menu_item) {
-				
-			}
-		};
+			"renderMenuItem": function (menu_item) {}
+		});
 		return Menu.Renderer;
 	});
 }(jQuery, cjaf));

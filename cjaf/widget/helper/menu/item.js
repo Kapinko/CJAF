@@ -13,6 +13,7 @@
 	 * @return {cjaf.Widget.Helper.Menu.Item}
 	 */
 	function (Menu) {
+		Menu.Item	= cjaf.Class.extend(
 		/**
 		 * This is an object that is meant to represent a discrete item that
 		 * is contained within a menu.
@@ -20,8 +21,9 @@
 		 * @param {string} title
 		 * @param {function():boolean} action
 		 * @param {function():boolean} is_allowed
+		 * @constructor
 		 */
-		Menu.Item	= function (title, action, is_allowed) {
+		function (title, action, is_allowed) {
 			/**
 			 * This is the title of this menu item.
 			 * @type {string}
@@ -38,8 +40,9 @@
 			 * @type {function():boolean}
 			 */
 			this.is_allowed	= is_allowed;
-		};
-		Menu.Item.prototype	= {
+		},
+		/** @prototype */
+		{
 			/**
 			 * Get the title of this menu item.
 			 * @return {string}
@@ -60,7 +63,7 @@
 				
 				return is_allowed;
 			}
-		};
+		});
 		
 		return Menu.Item;
 	});
