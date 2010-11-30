@@ -13,7 +13,15 @@
 	 * @return {cjaf.Model.Response.Field}
 	 */
 	function () {
-		cjaf.Model.Response.Field	= function (name, is_required, alt_names) {
+		cjaf.Model.Response.Field	= cjaf.Class.extend(
+		/**
+		 * This is a represenation of a service response field.
+		 * @param {string} name
+		 * @param {boolean} is_required
+		 * @param {Array.<string>} alt_names 
+		 * @constructor 
+		 */
+		function (name, is_required, alt_names) {
 			/**
 			 * This is the field name that the CJAF model object will expect.
 			 * @type {string}
@@ -32,8 +40,9 @@
 			 * @type {Array.<string>}
 			 */
 			this.alt_names	= alt_names;
-		};
-		$.extend(cjaf.Model.Response.Field.prototype, {
+		},
+		/** @prototype */
+		{
 			/**
 			 * Get the name of this field.
 			 * @return {string}

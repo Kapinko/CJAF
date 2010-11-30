@@ -22,7 +22,14 @@
 			cjaf.Model.Response	= {};
 		}
 		
-		cjaf.Model.Response.Parser	= function (fields) {
+		cjaf.Model.Response.Parser	= cjaf.Class.extend(
+		/**
+		 * This is an object that is used to parse out
+		 * information from a service response.
+		 * @param {Array.<Object>} fields
+		 * @constructor
+		 */ 
+		function (fields) {
 			var field_name, field_rec, field_obj, required, alts;
 			
 			this.fields	= null;
@@ -49,8 +56,9 @@
 			} else {
 				this.fields	= fields;
 			}
-		};
-		$.extend(cjaf.Model.Response.Parser.prototype, {
+		},
+		/** @prototype */
+		{
 			/**
 			 * This will ensure that the given response object contains the
 			 * proper data members to create a model object.  It will return

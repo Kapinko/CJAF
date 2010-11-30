@@ -44,7 +44,7 @@ bitwise: true, regexp: true, newcap: true, immed: true, nomen: false */
 	 * @type {Array.<string>}
 	 */
 		DEFAULT_DEPENDENCIES	= [
-		'cjaf/object',
+		'cjaf/class',
 		'cjaf/view',
 		'cjaf/model',
 		'cjaf/widget',

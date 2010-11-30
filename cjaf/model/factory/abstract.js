@@ -6,10 +6,10 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/model/factory/abstract', [
-		'lib/plugins/String/camelCaseToUnderscore',
 		'cjaf/model',
 		'cjaf/model/response/parser',
-		'cjaf/model/collection'
+		'cjaf/model/collection',
+		'lib/plugins/String/camelCaseToUnderscore',
 	],
 	/**
 	 * @param {cjaf.Model} Model
@@ -22,23 +22,24 @@
 			cjaf.Model.Factory	= {};
 		}
 		
-		cjaf.Model.Factory.Abstract	= function () {
+		cjaf.Model.Factory.Abstract	= cjaf.Class.extend(
+		/** @Constructor */
+		function() {
 			//Call init on construction.
 			this.init();
-
+			
 			/**
 			 * This is the parser that we will use to parse any service.
 			 * 
-			 * We create the parser after the object initialization method
-			 * has been call because the child object may have added in 
-			 * some fields.
-			 * 
-			 * responses.
+			 * We create the parser after the object initialization 
+			 * method has been called because the child object may 
+			 * have added in some fields.
 			 * @type {ResponseParser}
 			 */
-			this.parser	= new ResponseParser(this.fields);
-		};
-		$.extend(cjaf.Model.Factory.Abstract.prototype, {
+			this.parser	= new ResponseParser(this.fields)
+		},
+		/** @Prototype */
+		{
 			"fields": {
 				'id': {
 					'required': true

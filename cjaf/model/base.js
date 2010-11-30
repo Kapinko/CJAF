@@ -10,7 +10,9 @@
 		'lib/plugins/String/camelCaseToUnderscore'
 	],
 	function () {
-		cjaf.Model.Base	= function (id, filters) {
+		cjaf.Model.Base	= cjaf.Class.extend(
+		/** @constructor */
+		function (id, filters) {
 			/**
 			 * @type {number}
 			 */
@@ -22,8 +24,9 @@
 			 * @type {Object.<string, function()>}
 			 */
 			this.filters	= (filters) ? filters : {};
-		};
-		$.extend(cjaf.Model.Base.prototype, {
+		},
+		/** @Prototype */
+		{
 			/**
 			 * This is an initialization method for and decendent classes to use.
 			 */
