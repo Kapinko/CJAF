@@ -23,7 +23,7 @@
 		 */
 		Menu.Renderer	= function (menu) {
 			this.menu	= menu;
-		}
+		};
 		Menu.Renderer.prototype	= {
 			
 			/**
