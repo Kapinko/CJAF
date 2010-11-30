@@ -11,7 +11,7 @@
 		
 	],
 	function () {
-		var cjaf.Class	= function () {
+		cjaf.Class	= function () {
 			
 		};
 		/**
