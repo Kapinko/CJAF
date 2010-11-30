@@ -38,7 +38,7 @@
 			 * @type {function():boolean}
 			 */
 			this.is_allowed	= is_allowed;
-		}
+		};
 		Menu.Item.prototype	= {
 			/**
 			 * Get the title of this menu item.
@@ -58,7 +58,7 @@
 					is_allowed	= this.is_allowed();
 				}
 				
-				return is_allowed
+				return is_allowed;
 			}
 		};
 		
