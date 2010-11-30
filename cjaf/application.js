@@ -47,6 +47,7 @@ bitwise: true, regexp: true, newcap: true, immed: true, nomen: false */
 		'cjaf/object',
 		'cjaf/view',
 		'cjaf/model',
+		'cjaf/widget',
 		'cjaf/widget/dispatcher'
 	],
 
