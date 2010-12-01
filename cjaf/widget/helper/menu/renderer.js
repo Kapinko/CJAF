@@ -16,18 +16,16 @@
 	 * @return {cjaf.Widget.Helper.Menu.Renderer}
 	 */
 	function (Menu, MenuItem) {
-		Menu.Renderer	= cjaf.Class.extend(
 		/**
 		 * An abstract menu renderer.
 		 * @constructor
 		 * @param {cjaf.Widget.Helper.Menu} menu
 		 * @constructor
 		 */
-		function (menu) {
+		Menu.Renderer	= function (menu) {
 			this.menu	= menu;
-		},
-		/** @prototype */
-		{
+		};
+		$.extend(Menu.Renderer.prototype, {
 			/**
 			 * This function will render the menu container.
 			 * @return {Menu.Renderer}

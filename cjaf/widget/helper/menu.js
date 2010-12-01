@@ -24,13 +24,12 @@
 		}
 		
 		
-		Helper.Menu	= cjaf.Class.extend(
 		/**
 		 * An object to represent a menu (ie. a collection of menu items).
 		 * @param {string} title
 		 * @constructor
 		 */
-		function (title) {
+		Helper.Menu	= function (title) {
 			/**
 			 * this is the title of this menu.
 			 * @type {string}
@@ -42,9 +41,8 @@
 			 */
 			this.items	= new Collection();
 			
-		},
-		/** @prototype */
-		{
+		};
+		$.extend(Helper.Menu.prototype, {
 			/**
 			 * Get the title of this menu.
 			 */
