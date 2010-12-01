@@ -52,7 +52,7 @@
 				this.fields	= fields;
 			}
 		};
-		$.extend(Response.Parser.prototype, {
+		Response.Parser.prototype	= {
 			/**
 			 * This will ensure that the given response object contains the
 			 * proper data members to create a model object.  It will return
@@ -99,7 +99,7 @@
 				
 				return return_obj;
 			}
-		});
+		};
 		
 		return Response.Parser;
 	});

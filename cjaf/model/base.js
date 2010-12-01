@@ -33,7 +33,7 @@
 			 */
 			this.filters	= (filters) ? filters : {};
 		};
-		$.extend(Model.Base.prototype, {
+		Model.Base.prototype	= {
 			/**
 			 * This is an initialization method for and decendent classes to use.
 			 */
@@ -186,7 +186,7 @@
 				this.filters[name]	= filter;
 				return this;
 			}
-		});
+		};
 		
 		return Model.Base;
 	});
