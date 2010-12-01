@@ -55,7 +55,7 @@
 				};
 				for (x in events) {
 					if (events.hasOwnProperty(x)) {
-						bindEvent(events[x].name, events[x].handler);
+						bind_event(events[x].name, events[x].handler);
 					}
 				}
 				
