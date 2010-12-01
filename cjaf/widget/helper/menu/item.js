@@ -40,7 +40,7 @@
 			 */
 			this.is_allowed	= is_allowed;
 		};
-		$.extend(Menu.Item.prototype, {
+		Menu.Item.prototype	= {
 			/**
 			 * Get the title of this menu item.
 			 * @return {string}
@@ -61,7 +61,7 @@
 				
 				return is_allowed;
 			}
-		});
+		};
 		
 		return Menu.Item;
 	});

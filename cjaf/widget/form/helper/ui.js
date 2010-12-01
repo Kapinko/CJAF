@@ -36,7 +36,7 @@
 			 */
 			this.element_list	= [];
 		};
-		$.extend(FormHelper.UI.prototype, {
+		FormHelper.UI.prototype	= {
 			/**
 			 * Add an element to this form.
 			 * @param {jQuery} el
@@ -63,6 +63,6 @@
 					
 				return form;
 			}
-		});
+		};
 	});
 }(jQuery, cjaf));

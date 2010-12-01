@@ -42,7 +42,7 @@
 			this.items	= new Collection();
 			
 		};
-		$.extend(Helper.Menu.prototype, {
+		Helper.Menu.prototype	= {
 			/**
 			 * Get the title of this menu.
 			 */
@@ -65,7 +65,7 @@
 			"getItems": function () {
 				return this.collection;
 			}
-		});
+		};
 		
 		return Helper.Menu;
 	});

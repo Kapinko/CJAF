@@ -40,7 +40,7 @@
 			 */
 			this.form	= form;
 		};
-		$.extend(FormHelper.Trigger.prototype, {
+		FormHelper.Trigger.prototype	= {
 			/**
 			 * Bind the submit trigger click event to the submit function.
 			 * @param {jQuery} trigger
@@ -124,6 +124,6 @@
 				this.form.trigger(EventHelper.clear);
 				return this.form;
 			}
-		});
+		};
 	});
 }(jQuery, cjaf));

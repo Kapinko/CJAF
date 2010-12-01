@@ -25,7 +25,7 @@
 		Menu.Renderer	= function (menu) {
 			this.menu	= menu;
 		};
-		$.extend(Menu.Renderer.prototype, {
+		Menu.Renderer.prototype	= {
 			/**
 			 * This function will render the menu container.
 			 * @return {Menu.Renderer}
@@ -43,7 +43,7 @@
 			 * @return {Menu.Renderer}
 			 */
 			"renderMenuItem": function (menu_item) {}
-		});
+		};
 		return Menu.Renderer;
 	});
 }(jQuery, cjaf));

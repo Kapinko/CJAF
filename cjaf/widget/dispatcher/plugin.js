@@ -17,7 +17,7 @@
 			//Make sure we call init on plugin load.
 			this.init.apply(this, arguments);
 		};
-		$.extend(Plugin.prototype, {
+		Plugin.prototype	= {
 			/**
 			 * This is an initialization function that will be called upon 
 			 * object construction.
@@ -65,7 +65,7 @@
 			postRender: function (target_el, previous_page, current_page) {
 				return true;
 			}
-		});
+		};
 		
 		if (!cjaf.hasOwnProperty('Dispatcher')) {
 			cjaf.Dispatcher	= {};

@@ -38,7 +38,7 @@
 			form.bind(EventHelper.validation.failed, $.proxy(this, "handleValidationFailure"));
 			form.error_handler_http_form();
 		};
-		$.extend(FormHelper.Handler.prototype, {
+		FormHelper.Handler.prototype	= {
 			/**
 			 * This method is called upon a successful form validation.
 			 * @param {function():boolean} success
@@ -121,7 +121,7 @@
 				
 				return false;
 			}
-		});
+		};
 		
 		return FormHelper.Handler;
 	});

@@ -47,7 +47,7 @@
 								
 			this.init();
 		};
-		$.extend(cjaf.Collection.prototype, {
+		cjaf.Collection.prototype	= {
 			/**
 			 * An initialization method so that any decendent objects can
 			 * perform initialization tasks.
@@ -119,7 +119,7 @@
 				}
 				return this.iterator;
 			}
-		});
+		};
 		
 		return cjaf.Collection;
 	});
