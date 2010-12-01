@@ -8,16 +8,20 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/model/collection', [
+		'cjaf/Class',
 		'cjaf/collection',
 		'cjaf/model',
 		'cjaf/model/repsonse/parser'
 	],
 	/**
+	 * @param {cjaf.Class} Class
+	 * @param {cjaf.Collection} Collection
+	 * @param {cjaf.Model} Model
 	 * @param {cjaf.Model.Response.Parser} ResponseParser
 	 * @return {cjaf.Model.Collection}
 	 */
-	function (Collection, Model, ResponseParser) {
-		cjaf.Model.Collection	= Collection.extend({
+	function (Class, Collection, Model, ResponseParser) {
+		Model.Collection	= Class.extend(Collection, {
 			/**
 			 * Thses are the fields that should/must be in a server response
 			 * that claims to contain a collection.
@@ -91,7 +95,7 @@
 		 * @param {XMLHttpRequest} XMLHttpRequest
 		 * @return {cjaf.Model.Collection}
 		 */
-		cjaf.Model.Collection.wrap	= function (response, XMLHttpRequest) {
+		Model.Collection.wrap	= function (response, XMLHttpRequest) {
 			var collection	= new this(),
 				parser		= new ResponseParser(collection.fields);
 				
@@ -104,6 +108,6 @@
 			return collection;
 		};
 		
-		return cjaf.Model.Collection;
+		return Model.Collection;
 	});
 }(jQuery, cjaf));

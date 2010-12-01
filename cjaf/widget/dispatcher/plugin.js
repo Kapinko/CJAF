@@ -16,7 +16,7 @@
 		var Plugin	= function (element, widget_name, widget_options) {
 			//Make sure we call init on plugin load.
 			this.init.apply(this, arguments);
-		}
+		};
 		$.extend(Plugin.prototype, {
 			/**
 			 * This is an initialization function that will be called upon 

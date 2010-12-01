@@ -7,13 +7,13 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/model/response/field', [
-		
+		'cjaf/model/response'
 	],
 	/**
+	 * @param {cjaf.Model.Response} Response
 	 * @return {cjaf.Model.Response.Field}
 	 */
-	function () {
-		cjaf.Model.Response.Field	= cjaf.Class.extend(
+	function (Response) {
 		/**
 		 * This is a represenation of a service response field.
 		 * @param {string} name
@@ -21,7 +21,7 @@
 		 * @param {Array.<string>} alt_names 
 		 * @constructor 
 		 */
-		function (name, is_required, alt_names) {
+		Response.Field	= function (name, is_required, alt_names) {
 			/**
 			 * This is the field name that the CJAF model object will expect.
 			 * @type {string}
@@ -40,9 +40,8 @@
 			 * @type {Array.<string>}
 			 */
 			this.alt_names	= alt_names;
-		},
-		/** @prototype */
-		{
+		};
+		$.extend(Response.Field.prototype, {
 			/**
 			 * Get the name of this field.
 			 * @return {string}
@@ -66,6 +65,6 @@
 			}
 		});
 		
-		return cjaf.Model.Response.Field;
+		return Response.Field;
 	});
 }(jQuery, cjaf));

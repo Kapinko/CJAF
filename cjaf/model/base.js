@@ -7,12 +7,20 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/model/base', [
+		'cjaf/Model',
 		'lib/plugins/String/camelCaseToUnderscore'
 	],
-	function () {
-		cjaf.Model.Base	= cjaf.Class.extend(
-		/** @constructor */
-		function (id, filters) {
+	/**
+	 * @param {cjaf.Model} Model
+	 * @return {cjaf.Model.Base}
+	 */
+	function (Model) {
+		/**
+		 * @param {string} id
+		 * @param {Object.<string,function()>} filters
+		 * @return {cjaf.Model.Base}
+		 */
+		Model.Base	= function (id, filters) {
 			/**
 			 * @type {number}
 			 */
@@ -24,9 +32,8 @@
 			 * @type {Object.<string, function()>}
 			 */
 			this.filters	= (filters) ? filters : {};
-		},
-		/** @Prototype */
-		{
+		};
+		$.extend(Model.Base.prototype, {
 			/**
 			 * This is an initialization method for and decendent classes to use.
 			 */
@@ -181,6 +188,6 @@
 			}
 		});
 		
-		return cjaf.Model.Base;
+		return Model.Base;
 	});
 }(jQuery, cjaf));

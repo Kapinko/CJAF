@@ -8,28 +8,23 @@
 (function ($, cjaf) {
 	cjaf.define('cjaf/model/response/parser', [
 		'cjaf/collection',
-		'cjaf/model',
+		'cjaf/model/response',
 		'cjaf/model/response/field'
 	],
 	/**
 	 * @param {cjaf.Collection} Collection
-	 * @param {cjaf.Model} Model
+	 * @param {cjaf.Model.Response} Response
 	 * @param {cjaf.Model.Response.Field} Field
 	 * @return {cjaf.Response.Parser}
 	 */
 	function (Collection, Model, Field) {
-		if (!cjaf.Model.hasOwnProperty('Response')) {
-			cjaf.Model.Response	= {};
-		}
-		
-		cjaf.Model.Response.Parser	= cjaf.Class.extend(
 		/**
 		 * This is an object that is used to parse out
 		 * information from a service response.
 		 * @param {Array.<Object>} fields
 		 * @constructor
 		 */ 
-		function (fields) {
+		Response.Parser	= function (fields) {
 			var field_name, field_rec, field_obj, required, alts;
 			
 			this.fields	= null;
@@ -56,9 +51,8 @@
 			} else {
 				this.fields	= fields;
 			}
-		},
-		/** @prototype */
-		{
+		};
+		$.extend(Response.Parser.prototype, {
 			/**
 			 * This will ensure that the given response object contains the
 			 * proper data members to create a model object.  It will return
@@ -106,5 +100,7 @@
 				return return_obj;
 			}
 		});
+		
+		return Response.Parser;
 	});
 }(jQuery, cjaf));

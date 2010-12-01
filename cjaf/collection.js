@@ -13,9 +13,13 @@
 	 * @return {cjaf.Collection}
 	 */
 	function () {
-		cjaf.Collection	= cjaf.Class.extend(
-		/** @constructor */
-		function (item_filter) {
+		/**
+		 * This is an object to store an iterate through a collection of
+		 * items.
+		 * @param {function():boolean)} item_filter
+		 * @constructor
+		 */
+		cjaf.Collection	= function (item_filter) {
 			/**
 			 * This is the array of items that we're providing an interface to.
 			 * @type {Array.<*>}
@@ -42,9 +46,8 @@
 			}
 								
 			this.init();
-		},
-		/** @Prototype */
-		{
+		};
+		$.extend(cjaf.Collection.prototype, {
 			/**
 			 * An initialization method so that any decendent objects can
 			 * perform initialization tasks.

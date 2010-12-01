@@ -6,25 +6,22 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/model/factory/abstract', [
-		'cjaf/model',
+		'cjaf/model/factory',
 		'cjaf/model/response/parser',
 		'cjaf/model/collection',
 		'lib/plugins/String/camelCaseToUnderscore',
 	],
 	/**
-	 * @param {cjaf.Model} Model
+	 * @param {cjaf.Model.Factory} Factory
 	 * @param {cjaf.Model.Response.Parser} ResponseParser
 	 * @param {cjaf.Model.Collection} Collection
 	 * @return {cjaf.Model.Factory.Abstract}
 	 */
-	function (Model, ResponseParser, Collection) {
-		if (!cjaf.Model.hasOwnProperty('Factory')) {
-			cjaf.Model.Factory	= {};
-		}
-		
-		cjaf.Model.Factory.Abstract	= cjaf.Class.extend(
-		/** @Constructor */
-		function() {
+	function (Factory, ResponseParser, Collection) {
+		/**
+		 * @constructor
+		 */
+		Factory.Abstract	= function() {
 			//Call init on construction.
 			this.init();
 			
@@ -37,9 +34,8 @@
 			 * @type {ResponseParser}
 			 */
 			this.parser	= new ResponseParser(this.fields)
-		},
-		/** @Prototype */
-		{
+		};
+		$.extend(Factory.Abstract.prototype, {
 			"fields": {
 				'id': {
 					'required': true
@@ -149,7 +145,7 @@
 			}
 		});
 		
-		return cjaf.Model.Factory.Abstract;
+		return Factory.Abstract;
 	});
 	
 }(jQuery, cjaf));
