@@ -6,12 +6,14 @@
 
 (function ($, cjaf) {
 	cjaf.define("cjaf/widget/form", [
-		"cjaf/widget/form/helper/event"
+		"cjaf/widget/form/helper/event",
+		"cjaf/widget/helper/event"
 	],
 	/**
 	 * @param {cjaf.Widget.Form.Helper.Event} EventHelper
+	 * @param {cjaf.Widget.Helper.Event} WidgetEventHelper
 	 */
-	function (EventHelper) {
+	function (EventHelper, WidgetEventHelper) {
 		var DISABLE_CLIENT_SIDE_VALIDATION	= "cjaf.disableClientSideValidation";
 		
 		$.widget('cjaf.form', {
@@ -79,6 +81,13 @@
 			 */
 			"_initFormElements": function () {
 				throw "You must override the \"_initFormElements\" method.";
+			},
+			/**
+			 * Get the form associated with this form widget.
+			 * @return {jQuery}
+			 */
+			"getForm": function () {
+				return this.element;
 			},
 			/**
 			 * Add an element to this form.
@@ -260,7 +269,7 @@
 				 if (response_code > 399) {
 					 //@todo figure out a way to get this error, don't really like the 
 					 // event factory.
-					 this.getForm().trigger("cjaf_error_http", XMLHttpRequest);
+					 this.getForm().trigger(WidgetEventHelper.error.http, XMLHttpRequest);
 				 }
 				 this.handleError.apply(this, arguments);
 				 
