@@ -114,7 +114,7 @@
 			 * the "success" parameter of a jQuery.ajax() call.
 			 * 
 			 * @param {function(Object, XMLHttpRequest)} callback
-			 * @param {string} responsed_key - this is the response object
+			 * @param {string} response_key - this is the response object
 			 *					key where our data is located.
 			 * return {function(Object, string, XMLHttpRequest):Object}
 			 */
