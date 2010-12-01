@@ -9,14 +9,16 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/dispatcher/plugin/widget_loader', [
+		'cjaf/class',
 		'cjaf/widget/dispatcher/plugin'
 	],
 	/**
+	 * @param {$.cjaf.Class} Class
 	 * @param {DispatcherPlugin} DispatcherPlugin
 	 * @return {$.cjaf.Dispatcher.Plugin.WidgetLoader}
 	 */
-	function (DispatcherPlugin) {
-		var WidgetLoader	= DispatcherPlugin.extend({
+	function (Class, DispatcherPlugin) {
+		var WidgetLoader	=  Class.extend(DispatcherPlugin, {
 			/**
 			 * Has this widget already been loaded?
 			 * @type {boolean}
@@ -73,7 +75,7 @@
 			}
 		});
 		
-		$.cjaf.Dispatcher.Plugin.WidgetLoader	= WidgetLoader;
-		return $.cjaf.Dispatcher.Plugin.WidgetLoader;
+		cjaf.Dispatcher.Plugin.WidgetLoader	= WidgetLoader;
+		return cjaf.Dispatcher.Plugin.WidgetLoader;
 	});
 }(jQuery, cjaf));

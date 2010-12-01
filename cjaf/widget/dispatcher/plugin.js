@@ -11,11 +11,12 @@
 		 * @param {jQuery} element
 		 * @param {string} widget_name
 		 * @param {Object.<string,*>} widget_options
+		 * @constructor
 		 */
 		var Plugin	= function (element, widget_name, widget_options) {
 			//Make sure we call init on plugin load.
 			this.init.apply(this, arguments);
-		};
+		}
 		$.extend(Plugin.prototype, {
 			/**
 			 * This is an initialization function that will be called upon 
@@ -66,12 +67,12 @@
 			}
 		});
 		
-		if (!$.cjaf.hasOwnProperty('Dispatcher')) {
-			$.cjaf.Dispatcher	= {};
+		if (!cjaf.hasOwnProperty('Dispatcher')) {
+			cjaf.Dispatcher	= {};
 		}
 		
-		$.cjaf.Dispatcher.Plugin	= Plugin;
+		cjaf.Dispatcher.Plugin	= Plugin;
 		
-		return $.cjaf.Dispatcher.Plugin;
+		return cjaf.Dispatcher.Plugin;
 	});
 }(jQuery, cjaf));

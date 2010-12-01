@@ -106,7 +106,7 @@
 			 */
 			"_registerDispatcherPlugins": function (container, cornerstone) {
 				var options	= {"pageList": this._getNavigationPageMap()};
-				container.dispatcher('registerPlugin', new $.cjaf.Dispatcher.Plugin.WidgetLoader(cornerstone.find('#nav-primary'), 'test_navigation', options));
+				container.dispatcher('registerPlugin', new cjaf.Dispatcher.Plugin.WidgetLoader(cornerstone.find('#nav-primary'), 'test_navigation', options));
 			},
 			/**
 			 * This function should return your applications base URL.
