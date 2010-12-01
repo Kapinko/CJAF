@@ -41,7 +41,7 @@
 			 */
 			this.alt_names	= alt_names;
 		};
-		$.extend(Response.Field.prototype, {
+		Response.Field.prototype	= {
 			/**
 			 * Get the name of this field.
 			 * @return {string}
@@ -63,7 +63,7 @@
 			"getAlternateNames": function () {
 				return this.alt_names;
 			}
-		});
+		};
 		
 		return Response.Field;
 	});

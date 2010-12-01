@@ -35,7 +35,7 @@
 			 */
 			this.parser	= new ResponseParser(this.fields)
 		};
-		$.extend(Factory.Abstract.prototype, {
+		Factory.Abstract.prototype = {
 			"fields": {
 				'id': {
 					'required': true
@@ -143,7 +143,7 @@
 				var collection	= Collection.wrap(response, XMLHttpRequest);
 				return collection;
 			}
-		});
+		};
 		
 		return Factory.Abstract;
 	});
