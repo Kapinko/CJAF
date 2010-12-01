@@ -6,14 +6,16 @@
 
 (function ($, cjaf) {
 	cjaf.define("cjaf/widget/form", [
-		"cjaf/widget/form/helper/event",
-		"cjaf/widget/helper/event"
+		'cjaf/widget/form/helper/ui',
+		'cjaf/widget/form/helper/handler',
+		'cjaf/widget/form/helper/trigger'
 	],
 	/**
-	 * @param {cjaf.Widget.Form.Helper.Event} EventHelper
-	 * @param {cjaf.Widget.Helper.Event} WidgetEventHelper
+	 * @param {cjaf.Widget.Form.Helper.UI} UIHelper
+	 * @param {cjaf.Widget.Form.Helper.Handler} HandlerHelper
+	 * @param {cjaf.Widget.Form.Helper.Trigger} TriggerHelper
 	 */
-	function (EventHelper, WidgetEventHelper) {
+	function (UIHelper, HandlerHelper, TriggerHelper) {
 		var DISABLE_CLIENT_SIDE_VALIDATION	= "cjaf.disableClientSideValidation";
 		
 		$.widget('cjaf.form', {
@@ -28,6 +30,12 @@
 				 * @type {jQuery}
 				 */
 				"submitTrigger": null,
+				/**
+				 * This should be set to the jQuery object that will trigger a
+				 * form clear/reset
+				 * @type {jQuery}
+				 */
+				"clearTrigger": null,
 				/**
 				 * Should we only show one error per field?
 				 * @type {boolean}
@@ -44,254 +52,164 @@
 				 * programmatically.  Normally this is handled through a 
 				 * cookie.
 				 */
-				"disableClientSideValidation": true
+				"disableClientSideValidation": true,
+				/**
+				 * Get the UIHelper class for this form widget.
+				 * @type {cjaf.Widget.Form.Helper.UI}
+				 */
+				"ui": UIHelper,
+				/**
+				 * Get the event handler helper class for this form widget.
+				 * @type {cjaf.Widget.Form.Helper.Handler}
+				 */
+				"eventHandler": HandlerHelper,
+				/**
+				 * Get the event trigger helper class for this form widget.
+				 * @type {cjaf.Widget.Form.Helper.Trigger}
+				 */
+				"eventTrigger": TriggerHelper,
+				/**
+				 * This function should add all of the necessary elements 
+				 * to this form.
+				 * @type {function(cjaf.Widget.Form.Helper.UI)}
+				 */
+				"initFormElements": function (form_ui) {
+					throw "You must provide a initFormElements function.";
+				}
 			},
 			/**
 			 * Form widget initialization.
 			 */
 			"_create": function () {
-				var self	= this,
-					form, errorLocale;
-				/**
-				 * @type {Array.<jQuery>}
-				 */
-				this.element_list	= new Array();
-				
 				if (!this.element.is('form')) {
 					throw "You must attach this form widget to a HTML form element.";
 				}
 				
-				form	= this.getForm();
-				form.attr('action', 'javascript:;')
-					.attr('method', 'POST')
-					.addClass('ui-widget-content ui-corner-all')
-					
-				form.bind(EventHelper.validation.success, $.proxy(this, "_handleValidationSuccess"));
-				form.bind(EventHelper.validation.failed, $.proxy(this, "_handleValidationError"));
+				var el	= this.element,
+				o		= this.options;
 				
-				if (this.options.hasOwnProperty('errorLocale')) {
-					form.translate({"locale": this.options.errorLocale});
+				/**
+				 * This is the user interface helper for this form widget.
+				 * @type {cjaf.Widget.Form.Helper.UI}
+				 */
+				this.ui	= new o.ui(el);
+				
+				if (!(this.ui instanceof cjaf.Widget.Form.Helper.UI)) {
+					throw "Given form UI helper must be an instance of cjaf.Widget.Form.Helper.UI.";
 				}
 				
-				this._initFormElements();
+				/**
+				 * This is the event handler helper for this form widget.
+				 * @type {cjaf.Widget.Form.Helper.Handler}
+				 */
+				this.handler	= new o.eventHandler(el);
+				
+				if (!(this.handler instanceof cjaf.Widget.Form.Helper.Handler)) {
+					throw "Given form event handler must be an instance of cjaf.Widget.Form.Helper.Handler.";
+				}
+				
+				/**
+				 * This is the event trigger helper for this form widget.
+				 * @type {cjaf.Widget.Form.Helper.Trigger}
+				 */
+				this.trigger	= new o.eventTrigger(el);
+				
+				if (!(this.trigger instanceof cjaf.Widget.Form.Helper.Trigger)) {
+					throw "Given form event trigger helper must be an instance of cjaf.Widget.Form.Helper.Trigger.";
+				}
+				
+				if (o.hasOwnProperty('errorLocale')) {
+					el.translate({"locale": o.errorLocale});
+				}
+				
+				if (o.hasOwnProperty('submitTrigger')) {
+					this.trigger.bindSubmit($(o.submitTrigger));
+				}
+				
+				if (o.hasOwnProperty('clearTrigger')) {
+					this.trigger.bindClear($(o.clearTrigger));
+				}
+				
+				o.initFormElements(this.ui);
 			},
 			/**
-			 * Initialize the elements that are part of this form.
-			 * @return {Array.<jQuery>}
+			 * Submit this form
+			 * @return {boolean}
 			 */
-			"_initFormElements": function () {
-				throw "You must override the \"_initFormElements\" method.";
+			"submit": function () {
+				this.trigger.submitClient();
+
+				if (this._clientSideValidationDisabled() || this.isValid()) {
+					this.trigger.validationFailure();
+				} else {
+					this.trigger.validationSuccess();
+				}
+				return false;
 			},
 			/**
-			 * Get the form associated with this form widget.
+			 * Validate the information in this form.
+			 * @return {boolean}
+			 */
+			"isValid": function () {
+				var is_valid	= true, i;
+
+				for(i = 0; i < this.element_list.length; i += 1) {
+					is_valid	= this.element_list[i].form_element('isValid') ? is_valid : false;
+				}
+				return is_valid;
+			},
+			/**
+			 * Clear this form.
 			 * @return {jQuery}
 			 */
-			"getForm": function () {
-				return this.element;
+			"clear": function () {
+				return this.reset();
 			},
 			/**
-			 * Add an element to this form.
-			 * @param {jQuery} element
+			 * Reset this form (clear element values)
+			 * @return {jQuery}
 			 */
-			"addElement": function (element) {
-				element.form_element('setForm', this.getForm());
-				this.element.push(element);
-				
-				element.bind(EventHelper.validation.failed, $.proxy(this, "handleElementValidationFailure"));
-				element.bind(EventHelper.validation.success, $.proxy(this, "handleElementValidationSuccess"));
-				
-				return this;
+			"reset": function () {
+				return this.trigger.reset();
 			},
 			/**
-			 * Submit the form data to the server.
-			 * @param {function()} success
-			 * @param {function()} error
+			 * Get the user intface helper for this form widget.
+			 * @return {cjaf.Widget.Form.Helper.UI}
 			 */
-			"runAjaxCall": function (success, error) {},
+			"getUIHelper": function () {
+				return this.ui;
+			},
 			/**
-			 * Handle a successful form submission.
-			 * @param {Object} response
-			 * @param {string} status
-			 * @param {XMLHttpRequest} XMLHttpRequest
+			 * Get the event handler helper for this form widget.
+			 * @return {cjaf.Widget.Form.Helper.Handler}
 			 */
-			"handleSuccess": function (response, status, error) {},
+			"getEventHandler": function () {
+				return this.handler;
+			},
 			/**
-			 * Handle a failed form submission.
-			 * @param {XMLHttpRequest} XMLHttpRequest
-			 * @param {string}
-			 * @param {string}
+			 * Get the event trigger helper for this form widget.
+			 * @return {cjaf.Widget.Form.Helper.Trigger}
 			 */
-			"handleError": function (XMLHttpRequest, status, error) {},
-			 /**
-			  * Handler to handle when the form validation is successful.
-			  * @param {jQuery.Event} event
-			  */
-			 "handleValidationSuccess": function (event) {
-				 var self	= this,
-				 form		= this.getForm(),
-				 success, error;
-				 
-				 success	= function () {
-					 form.trigger(EventHelper.success);
-					 return self.handleSuccess.apply(self, arguments);
-				 };
-				 
-				 form.trigger(EventHelper.submit.server);
-				 
-				 this.runAjaxCall(success, error);
-				 return false;
-			 },
-			 /**
-			  * Handle the validation success event for an element of this form.
-			  * @param {jQuery.Event}
-			  * @return {boolean}
-			  */
-			 "handleElementValidationSuccess": function (event) {return false;},
-			 /**
-			  * Handle the validation failure event for an element of this form.
-			  * @param {jQuery.Event}
-			  * @return {boolean}
-			  */
-			 "handleElementValidationFailure": function (event) {return false;},
-			 /**
-			  * Handler to handle the form validation failure event.
-			  * @param {jQuery.Event} event
-			  * @return {boolean}
-			  */
-			 "handleValidationFailure": function (event) {return false;},
-			 /**
-			  * Submit this form
-			  * @return {boolean}
-			  */
-			 "submit": function () {
-				 var form	= this.getForm();
-				 
-				 form.trigger(EventHelper.submit.client);
-				 
-				 if (this._clientSideValidationDisabled() || this.isValid()) {
-					 form.trigger(EventHelper.validation.success);
-				 } else {
-					 form.trigger(EventHelper.validation.failed);
-				 }
-				 return false;
-			 },
-			 /**
-			  * Validate the information in this form.
-			  * @return {boolean}
-			  */
-			 "isValid": function () {
-				 var is_valid	= true, i;
-				 
-				 for(var i = 0; i < this.element_list.length; i += 1) {
-					 is_valid	= this.element_list[i].form_element('isValid') ? is_valid : false;
-				 }
-				 return is_valid;
-			 },
-			 /**
-			  * Clear this form.
-			  * @return {jQuery}
-			  */
-			 "clear": function () {
-				 return this.reset();
-			 },
-			 /**
-			  * Reset this form (clear element values)
-			  * @return {jQuery}
-			  */
-			 "reset": function () {
-				 var form	= this.getForm();
-				 form.trigger(EventHelper.clear);
-				 return form;
-			 },
-			 /**
-			  * Bind the submit trigger click event to the submit function.
-			  * @param {jQuery} trigger
-			  * @param {Object.<string, *>} options
-			  * @return {jQuery}
-			  */
-			 "bindSubmitTrigger": function (trigger, options) {
-				 var el			= this.element;
-				 
-				 if (trigger.is(':button, :input[type="submit"]')) {
-					 options	= $.extend(options, {form: el});
-					 trigger.submit_with_spinner(options);
-				 }
-				 
-				 trigger.click($.proxy(this, "submit"));
-				 
-				 return el;
-			 },
-			 /**
-			  * Bind a clear form trigger.
-			  * @param {jQuery} trigger
-			  * @param {Object.<string,*>}
-			  * @return {jQuery}
-			  */
-			 "bindClearTrigger": function (trigger, options) {
-				 var el		= this.element,
-				 primary	= null,
-				 secondary	= null, button_options;
-				 
-				 if (trigger.is(':button, :input[type="submit"]')) {
-					 options	= $.extend(options, {form: el});
-					 
-					 if (options.hasOwnProperty("iconPrimary")) {
-						 primary	= options.iconPrimary;
-					 }
-					 if (options.hasOwnProperty("iconSecondary")) {
-						 secondary	= options.iconSecondary;
-					 }
-					 
-					 button_options	= {
-						 "icons": {
-							 "primary": primary,
-							 "secondary": secondary
-						 }
-					 };
-					 trigger.button(button_options);
-				 }
-				 trigger.click($.proxy(this, "clear"));
-				 
-				 return el;
-			 },
-			 /**
-			  * This function will properly direct the handling of an error
-			  * being returned from the server.
-			  * @param {XMLHttpRequest} XMLHttpRequest
-			  * @param {string} textStatus
-			  * @param {Object} errorThrown
-			  * @return {boolean}
-			  */
-			 _internalErrorHandler: function (XMLHttpRequest, textStatus, errorThrown) {
-				 var response_code	= XMLHttpRequest.status;
-				 
-				 //If the response code is an HTTP Error
-				 if (response_code > 399) {
-					 //@todo figure out a way to get this error, don't really like the 
-					 // event factory.
-					 this.getForm().trigger(WidgetEventHelper.error.http, XMLHttpRequest);
-				 }
-				 this.handleError.apply(this, arguments);
-				 
-				 return false;
-			 },
-			 /**
-			  * Has the client side validation been disabled?
-			  * @return {boolean}
-			  */
-			 _isClientSideValidationDisabled: function () {
-				 var flag	= this.options.hasOwnProperty("disableClientSideValidation") ? this.options.disableClientSideValidation : null;
-				 
-				 if (typeof flag === null) {
-					 flag	= ($.cookie(DISABLE_CLIENT_SIDE_VALIDATION)) ? true : false;
-				 }
-				 
-				 if (flag) {
-					 $.logNotify('CLIENT SIDE VALIDATION HAS BEEN DISABLED');
-				 }
-				 
-				 return flag;
-			 }
+			"getTriggerHandler": function () {
+				return this.trigger;
+			},
+			/**
+			 * Has the client side validation been disabled?
+			 * @return {boolean}
+			 */
+			_isClientSideValidationDisabled: function () {
+				var flag	= this.options.hasOwnProperty("disableClientSideValidation") ? this.options.disableClientSideValidation : null;
+
+				if (typeof flag === null) {
+					flag	= ($.cookie(DISABLE_CLIENT_SIDE_VALIDATION)) ? true : false;
+				}
+
+				if (flag) {
+					$.logNotify('CLIENT SIDE VALIDATION HAS BEEN DISABLED');
+				}
+
+				return flag;
+			}
 		});
 	});
 }(jQuery, cjaf));
