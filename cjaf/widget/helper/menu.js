@@ -8,33 +8,36 @@
 (function($, cjaf) {
 	cjaf.define('cjaf/widget/helper/menu', [
 		'cjaf/collection',
-		'cjaf/widget/helper',
-		'cjaf/widget/helper/menu/item'
+		'cjaf/widget/helper'
 	], 
 	/**
 	 * @param {cjaf.Collection} Collection
 	 * @param {Object.<string,*>} Helper
-	 * @param {cjaf.Widget.Helper.MenuItem} MenuItem
 	 * @return {cjaf.Widget.Helper.Menu}
 	 */
-	function (Collection, Helper, MenuItem) {
+	function (Collection, Helper) {
+		var menu_counter	= 0;
+
 		//Make sure that the "Menu" namespace exists.
 		if (Helper.hasOwnProperty('Menu')) {
 			return Helper.Menu;
 		}
 		
-		
 		/**
 		 * An object to represent a menu (ie. a collection of menu items).
-		 * @param {string} title
 		 * @constructor
 		 */
-		Helper.Menu	= function (title) {
+		Helper.Menu	= function () {
+			/**
+			 * This is the identifier of this menu.
+			 * @type {string}
+			 */
+			this.id		= 'CJAF-Menu-' + menu_counter;
 			/**
 			 * this is the title of this menu.
 			 * @type {string}
 			 */
-			this.title	= title;
+			this.title	= null;
 			/**
 			 * This is the collection of menu items in this menu.
 			 * @type {Collection}
@@ -44,7 +47,33 @@
 		};
 		Helper.Menu.prototype	= {
 			/**
+			 * Set the identifier of this menu.
+			 * @param {string} id
+			 * @return {Menu}
+			 */
+			"setId": function (id) {
+				this.id	= id;
+				return this;
+			},
+			/**
+			 * Get the identifier of this menu.
+			 * @return {string}
+			 */
+			"getId": function () {
+				return this.id;
+			},
+			/**
+			 * Set the title of this menu.
+			 * @param {string} title
+			 * @return {Menu}
+			 */
+			"setTitle": function (title) {
+				this.title	= title;
+				return this;
+			},
+			/**
 			 * Get the title of this menu.
+			 * @return {string}
 			 */
 			"getTitle": function () {
 				return this.title;
@@ -55,7 +84,7 @@
 			 * @return {Helper.Menu}
 			 */
 			"addItem": function (menu_item) {
-				this.collection.add(menu_item);
+				this.items.add(menu_item);
 				return this;
 			},
 			/**
@@ -63,7 +92,7 @@
 			 * @return {Array.<MenuItem>}
 			 */
 			"getItems": function () {
-				return this.collection;
+				return this.items;
 			}
 		};
 		

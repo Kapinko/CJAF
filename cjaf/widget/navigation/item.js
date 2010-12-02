@@ -2,17 +2,19 @@
  * This is a base class for navigation item widgets.
  */
 /** JSLint declarations*/
-/*global jQuery: false, cjaf: false, document:false*/
+/*global jQuery: false, cjaf: false, window:false*/
 /*jslint nomen:false*/
 
-(function ($, cjaf) {
+(function ($, cjaf, document) {
 	cjaf.define('cjaf/widget/navigation/item', [
-		'lib/event/factory'
+		'cjaf/widget/helper/menu/item',
+		'cjaf/widget/helper/event'
 	],
 	/**
-	 * @param {EventFactory} EventFactory
+	 * @param {cjaf.Widget.Helper.Menu.Item} MenuItem
+	 * @param {cjaf.Widget.Helper.Event} EventHelper
 	 */
-	function (EventFactory) {
+	function (MenuItem, EventHelper) {
 		$.widget('cjaf.navigation_item', {
 			/**
 			 * These are the available options for this widget.
@@ -20,38 +22,11 @@
 			 */
 			options: {
 				/**
-				 * This function is run on initialization and whenever there is
-				 * an "auth change" event.  It must return true whenever the 
-				 * user is allowed to access this navigation item; and return
-				 * false when the user is blocked from accessing this item.
-				 * @type {function():boolean}
+				 * This is a menu item object that this widget will use to
+				 * control the attached element.
+				 * @type {MenuItem}
 				 */
-				"isAllowed": function () {
-					return true;
-				},
-				/**
-				 * This is the "page key" for this navigation item.
-				 * @type {string}
-				 */
-				"pageKey": null,
-				/**
-				 * This is the name for this navigation item.  It is what will 
-				 * be displayed on the screen.
-				 * @type {string}
-				 */
-				"pageName": null,
-				/**
-				 * This is the template that will be used to create this 
-				 * navigation item.
-				 * @type {string}
-				 */
-				"viewTemplate": null,
-				/**
-				 * This is the CSS class that will be added to this item's 
-				 * element to denote that it is a navigation item.
-				 * @type {string}
-				 */
-				"navClass": 'nav-item',
+				"menuItem": null,
 				/**
 				 * This is the CSS class that will be applied to this item when 
 				 * it is the currently selected item.
@@ -70,40 +45,27 @@
 			 * Initialize this navigation item.
 			 */
 			_create: function () {
-				var o	= this.options,
-				el		= this.element,
-				self	= this;
+				var el				= this.element,
+				page_change_handler	= $.proxy(this, "_handlePageChange"),
+				sub_pages			= this.options.subPages,
+				sub_menu_items		= this.options.menuItem.getItems();;
 				
-				el.addClass(o.navClass);
-				el.html(
-					cjaf.view(o.viewTemplate, {
-						"page_key": o.pageKey,
-						"page_name": o.pageName
-					})
-				);
 				if (!this._isAllowed()) {
 					el.css('display', 'none');
 				}
-				
-				EventFactory.bindToElement($(document), 'access_control', 'changed', function () {
-					self._handleAccessControlChange.apply(self, arguments);
-				});
-				
+
+				while (sub_menu_items.hasNext()) {
+					sub_pages.push(sub_menu_items.getNext().getRef());
+				}
+
+				//Listen for an access control environment change.
+				$(document).bind(EventHelper.access_control.changed, $.proxy(this, "_handleAccessControlChange"));
+
+				//Listen for a page event on the document, ie from the dispatcher
+				$(document).bind(EventHelper.dispatcher.content.render.complete, page_change_handler);
+
 				//Listen for a page event where someone is targeting us.
-				EventFactory.bindToElement(el, 'dispatcher', 'content.change', function (event, page) {
-					self._handlePageChange.apply(self, arguments);
-					if (event.stopPropagation) {
-						event.stopPropagation();
-					} else {
-						event.cancelable	= true;
-					}
-					return false; //stop the event bubble process.
-				});
-				
-				//Listen for a page event on the document, ie from the dispatcher.
-				EventFactory.bindToElement($(document), 'dispatcher', 'content.render.complete', function (event, page) {
-					self._handlePageChange.apply(self, arguments);
-				});
+				el.bind(EventHelper.dispatcher.content.change, page_change_handler);
 			},
 			/**
 			 * Handle the page being changed.
@@ -112,15 +74,27 @@
 			 * @return {boolean}
 			 */
 			_handlePageChange: function (event, page) {
-				var o		= this.options,
-				el			= this.element,
-				selected	= this.options.selectedClass;
-				
-				if (page.id === o.pageKey || $.inArray(page.id, o.subPages) >= 0) {
+				var menu_item	= this.options.menuItem,
+				selected		= this.options.selectedClass,
+				sub_pages		= this.options.subPages,
+				el				= this.element;
+
+				//@todo add in a check to see if a "sub page" is the current page.
+				if (page.id === menu_item.getRef() || $.inArray(page.id, sub_pages) > 0) {
 					el.addClass(selected);
 				} else {
 					el.removeClass(selected);
 				}
+
+				if (event.target !== document) {
+					//stop the event bubble process
+					if (event.stopPropagation) {
+						event.stopPropagation();
+					} else {
+						event.cancelable	= true;
+					}
+				}
+
 				return false;
 			},
 			/**
@@ -139,14 +113,9 @@
 			 * @return {boolean}
 			 */
 			_isAllowed: function () {
-				var is_allowed	= true;
-				
-				if (typeof this.options.isAllowed === 'function' && !this.options.isAllowed()) {
-					is_allowed	= false;
-				}
-				return is_allowed;
+				return this.options.menuItem.isAllowed();
 			}
 		});
 	});
-}(jQuery, cjaf));
+}(jQuery, cjaf, window.document));
 
