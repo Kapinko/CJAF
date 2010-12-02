@@ -7,10 +7,12 @@
 
 (function ($, cjaf) {
 	cjaf.define('test/widget/form/formulator', [
-		'cjaf/widget/form',
-		'cjaf/widget/form/helper/handler'
+		'i18n!test/nls/Base',
+		'cjaf/widget/form/helper/handler',
+		'cjaf/widget/form'
 	],
-	function (EventHandler) {
+	function (locale,EventHandler) {
+		locale=locale.form_test.form.information;
 		$.widget('cjaf.test_form_formulator', $.cjaf.form,  {
 			/**
 			 * These are the available options and their defaults for this
@@ -19,12 +21,13 @@
 			 */
 			options: {
 
+				'locale':locale,
 				/**
 				 * This is the full path to the initialization view for this
 				 * widget.
 				 * @type {string}
 				 */
-				'initViewPath': '/test/js/test/view/page/widget/init.ejs',
+				'initViewPath': '/test/js/test/view/form/formulator/init.ejs',
 
 				/**
 				 * This should be set to the jQuery object that will trigger a
@@ -48,7 +51,7 @@
 				 * object.
 				 * @type {Object.<string,*>}
 				 */
-				"errorLocale": null,
+				"errorLocale": locale.error,
 				/**
 				 * This can be used to disable the client side validation
 				 * programmatically.  Normally this is handled through a
@@ -76,8 +79,11 @@
 			 */
 			_create: function () {
 				var o	= this.options;
-				
-				this.element.html(cjaf.view(o.initViewPath, o.locale));
+
+
+
+
+				this.element.html(cjaf.view(o.initViewPath,{'locale':o.locale}));
 			}
 		});
 	});

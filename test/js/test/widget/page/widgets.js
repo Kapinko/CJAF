@@ -7,9 +7,11 @@
 
 (function ($, cjaf) {
 	cjaf.define('test/widget/page/widgets', [
+		'i18n!test/nls/Base',
+		'test/widget/form/formulator'
 		
 	],
-	function () {
+	function (locale) {
 		$.widget('cjaf.test_page_widgets', {
 			/**
 			 * These are the available options and their defaults for this
@@ -22,13 +24,13 @@
 				 * widget.
 				 * @type {string}
 				 */
-				'initViewPath': '/test/js/test/view/page/widget/init.ejs',
+				'initViewPath': '/test/js/test/view/page/widgets/init.ejs',
 				/**
 				 * This is the locale object that will be passed to the
 				 * initialization view.
 				 * @type {Object.<string,*>}
 				 */
-				'locale': {}
+				'locale': locale.form_test
 			},
 			/**
 			 * The initialization function for this widget.
@@ -37,6 +39,9 @@
 				var o	= this.options;
 				
 				this.element.html(cjaf.view(o.initViewPath, o.locale));
+
+				$("#test-form").test_form_formulator();
+				
 			}
 		});
 	});
