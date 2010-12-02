@@ -6,6 +6,13 @@
 /*global jQuery: false, cjaf: false*/
 
 (function ($, cjaf) {
+	cjaf.define('cjaf/submit_with_spinner', [
+		'cjaf/widget/form/listener'
+
+	],
+	function () {
+
+
 	$.widget('cjaf.submit_with_spinner', $.cjaf.form_listener, {
 		/**
 		 * These are the available options for this widget.
@@ -196,5 +203,6 @@
 				this.element.after(container);
 				return container;
 			}
+			});
 	});
 }(jQuery, cjaf));
