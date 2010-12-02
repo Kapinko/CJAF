@@ -7,13 +7,19 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/navigation', [
-		'lib/event/factory',
+		'cjaf/widget/helper/menu/renderer',
+		'cjaf/widget/helper/menu',
+		'cjaf/widget/helper/menu/item',
+		'cjaf/widget/helper/event',
 		'cjaf/widget/navigation/item'
 	],
 	/**
-	 * @param {EventFactory} EventFactory
+	 * @param {cjaf.Widget.Helper.Menu.Renderer} Renderer
+	 * @param {cjaf.Widget.Helper.Menu} Menu
+	 * @param {cjaf.Widget.Helper.Menu.Item} MenuItem
+	 * @param {cjaf.Widget.Helper.Event} EventHelper
 	 */
-	function (EventFactory) {
+	function (Renderer, Menu, MenuItem, EventHelper) {
 		$.widget('cjaf.navigation', {
 			/**
 			 * These are the available options for this widget and
@@ -22,30 +28,11 @@
 			 */
 			options: {
 				/**
-				 * This is the full path to the initialization view for this
-				 * widget.  In this base class it is not set because it is
-				 * assumed that the user will want to provide their own.
-				 * @type {string}
-				 */
-				"initViewPath": null,
-				/**
 				 * This is the locale object that will be passed to the
 				 * initialization view template for this widget.
 				 * @type {Object.<string,*>}
 				 */
 				"locale": {},
-				/**
-				 * This is the jQuery object that will be used as a template 
-				 * for the individual navigation items.
-				 * @type {jQuery}
-				 */
-				"itemTemplate": $('<li></li>'),
-				/**
-				 * This is the view template that will be used to create
-				 * each navigation item.
-				 * @type {string}
-				 */
-				"itemViewTemplate": null,
 				/**
 				 * This is the list of pages that will be included in the 
 				 * navigation menu.  You should provide the page url key (minus
@@ -67,17 +54,22 @@
 					}
 				},
 				/**
-				 * This is the selector that will be used to locate the link
-				 * list container within the navigation menu skeleton.
+				 * This is the class that will be applied to the menu
+				 * container.
 				 * @type {string}
 				 */
-				"listContainerSelector": '#cjaf-navigation',
+				"menuContainerClass": 'cjaf-navigation',
 				/**
 				 *This is the class that should be applied to a navigation item
 				 *to denote that it is the currently selected option.
 				 * @type {string}
 				 */
-				"selectedClass": 'current-page'
+				"selectedClass": 'current-page',
+				/**
+				 * This is the renderer that we will use to render this menu.
+				 * @type {cjaf.Widget.Helper.Menu.Renderer}
+				 */
+				"renderer": Renderer
 			},
 			/**
 			 * Has this menu been initialized?
@@ -89,18 +81,15 @@
 			 */
 			_create: function () {
 				var o	= this.options,
-				el		= this.element;
+				renderer	= new (o.renderer)(),
+				menu		= this._getMenuFromPageList(o.pageList);
 				
-				el.hide();
-				el.html(
-					cjaf.view(o.initViewPath, {locale: o.locale})
-				);
-				this._initItems(o.pageList);
+				this.element.hide();
 				
-				if (o.page.hasOwnProperty('id') && o.page.id) {
-					this.setPage(o.page);
-				}
-				el.slideDown();
+				renderer.setMenuItemCallback($.proxy(this, "_initMenuItem"))
+						.setMenuCompleteCallback($.proxy(this, "_menuRenderComplete"))
+						.setContainerClass(o.menuContainerClass)
+						.render(menu);
 				
 				this.initialized	= true;
 			},
@@ -112,7 +101,7 @@
 			"setPage": function (page) {
 				var items	= this.getItems();
 				items.each(function () {
-					EventFactory.triggerOnElement($(this), 'dispatcher', 'content.change', [page]);
+					$(this).trigger(EventHelper.dispatcher.content.change, [page]);
 				});
 				return this.element;
 			},
@@ -121,35 +110,74 @@
 			 * @return {jQuery}
 			 */
 			"getItems": function () {
-				return this.element.find(this.options.listContainerSelector).find('li');
+				return this.element.find('.'+this.options.menuContainerClass).find('li');
 			},
 			/**
-			 * Set up the links.
-			 * @param {Object.<string,Object>}
+			 * This function is called when the menu rendering is complete.
+			 * @param {jQuery} container
+			 * @param {cjaf.Widget.Helper.Menu} menu
+			 * @return {boolean}
 			 */
-			_initItems: function (page_list) {
+			"_menuRenderComplete": function (container, menu) {
 				var o	= this.options,
-				list	= this.element.find(o.listContainerSelector),
-				key, options, locale_key, item;
+					el	= this.element;
+
+				el.html(container);
 				
-				for (key in page_list) {
-					if (page_list.hasOwnProperty(key)) {
-						options		= page_list[key];
-						locale_key	= options.hasOwnProperty('localeKey') ? options.localeKey : key;
-						
-						item		= o.itemTemplate.clone();
-						list.append(item);
-						
-						item.navigation_item({
-							"viewTemplate":		o.itemViewTemplate,
-							"pageKey":			key,
-							"pageName":			o.locale.links[locale_key],
-							"isAllowed":		options.hasOwnProperty('isAllowed') ? options.isAllowed : null,
-							"subPages":			options.hasOwnProperty('subPages') ? options.subPages : null,
-							"selectedClass":	o.selectedClass
-						});
+				if (o.page.hasOwnProperty('id') && o.page.id) {
+					this.setPage(o.page);
+				}
+				
+				el.slideDown();
+				return false;
+			},
+			/**
+			 * This function is called when a menu item has been rendered.
+			 * @param {jQuery} el
+			 * @param {cjaf.Widget.Helper.Menu.Item} menu_item
+			 * @return {boolean}
+			 */
+			"_initMenuItem": function (el, menu_item) {
+				el.navigation_item({
+					"menuItem": menu_item,
+					"selectedClass": this.options.selectedClass
+				});
+				return false;
+			},
+			/**
+			 * Get a menu object from the given page list.
+			 * @param {Object.<string,*>} page_list
+			 * @return {cjaf.Widget.Helper.Menu}
+			 */
+			_getMenuFromPageList: function (page_list) {
+				var menu, menu_item, page, page_opts, locale_key, action,
+				locale	= this.options.locale.links;
+
+				menu	= new Menu();
+
+				for (page in page_list) {
+					if (page_list.hasOwnProperty(page)) {
+						page_opts	= page_list[page];
+						locale_key	= page_opts.hasOwnProperty('localeKey') ? page_opts.localeKey : page;
+
+						menu_item	= new MenuItem();
+						menu_item.setTitle(locale[locale_key])
+								.setRef(page);
+
+						if (page_opts.hasOwnProperty('isAllowed')) {
+							menu_item.setAuthFunction(page_opts.isAllowed);
+						}
+						if (page_opts.hasOwnProperty('image')) {
+							menu_item.setImageUrl(page_opts.image);
+						}
+						if (page_opts.hasOwnProperty('subPages')) {
+							//@todo Add sub pages here.
+						}
+						menu.addItem(menu_item);
 					}
 				}
+
+				return menu;
 			}
 		});
 	});

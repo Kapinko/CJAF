@@ -152,7 +152,7 @@ cjaf.define({
 
 		"navigation": {
 			"links": {
-				"home": "Home",
+				"index": "Home",
 				"base": "Base Objects",
 				"model": "Models",
 				"widget": "Widgets" 

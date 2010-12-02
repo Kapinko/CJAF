@@ -3,16 +3,37 @@
 /*jslint white:true, browser:true, onevar: false, undef: true, eqeqeq:true, plusplus: true,
 bitwise: true, regexp: true, newcap: true, immed: true */
 
-(function ($, cjaf) {
+(function ($, cjaf, document) {
 	cjaf.define('cjaf/widget/dispatcher', [
-		'lib/event/factory',
+		'cjaf/widget/helper/event',
 		'cjaf/widget/pluggable',
 		'jQuery/jquery.ba-bbq'
 	],
 	/**
-	 * @param {EventFactory} EventFactory
+	 * @param {cjaf.Widget.Helper.Event} EventHelper
 	 */
-	function (EventFactory) {
+	function (EventHelper) {
+		/**
+		 * This is an object map of all the content events.
+		 * @type {Object.<string,*>}
+		 */
+		var content_events	= EventHelper.dispatcher.content;
+		/**
+		 * This is an object map of the content events to their handlers.
+		 * @type {Array.<Object>}
+		 */
+		var content_event_map	= [
+			{"event": content_events.change, "handler": "_handleContentChange"},
+			{"event": content_events.render.start, "handler": "_handleRenderStart"},
+			{"event": content_events.transition.hide.complete, "handler": "_handleTransitionOutComplete"},
+			{"event": content_events.clear.complete, "handler": "_handleContentClearComplete"},
+			{"event": content_events.widget.preload.complete, "handler": "_handleContentPreloadComplete"},
+			{"event": content_events.widget.load.complete, "handler": "_handleContentLoadComplete"},
+			{"event": content_events.widget.postload.complete, "handler": "_handleContentPostLoadComplete"},
+			{"event": content_events.transition.show.complete, "handler": "_handleTransitionInComplete"},
+			{"event": content_events.render.complete, "handler": "_handleContentRenderComplete"}
+		];
+		
 		$.widget('cjaf.dispatcher', $.cjaf.pluggable, {
 			/**
 			 * @type {Object}
@@ -33,22 +54,11 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 				 */
 				defaultOverrideCacheEvent: null,
 				/**
-				 * This is a list of the content events we listen to and
+				 * This is a list of the content events that we listen to and
 				 * the associated handling function.
-				 *
-				 * @type {Object}
+				 * @type {Object.<string,string>}
 				 */
-				contentEventBindings: {
-					'change': '_handleContentChange',
-					'render.start': '_handleRenderStart',
-					'transition.out.complete': '_handleTransitionOutComplete',
-					'clear.complete': '_handleContentClearComplete',
-					'widget.preload.complete': '_handleContentPreloadComplete',
-					'widget.load.complete': '_handleContentLoadComplete',
-					'widget.postload.complete': '_handleContentPostLoadComplete',
-					'transition.in.complete': '_handleTransitionInComplete',
-					'render.complete': '_handleContentRenderComplete'
-				},
+				"contentEventBindings": content_event_map,
 				/**
 				 * This is the content container element.
 				 * @type {jQuery}
@@ -85,28 +95,25 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 			 *
 			 */
 			_create: function () {
-				var self	= this,
-					o		= this.options;
-
-				//attach all of the content event listeners.
-				var bind	= function (event_type) {
-					var handler	= o.contentEventBindings[event_type];
-
-					if (typeof self[handler] !== 'function') {
-						throw "Event handler for the " + event_type + " event is not valid. handler=" + handler;
+				var event_map		= this.options.contentEventBindings,
+					content_element	= this.options.contentElement,
+					handler			= function (handler, context) {
+						return $.proxy(context, handler)
+					},
+					index, binding;
+					
+				for (index = 0; index < event_map.length; index += 1) {
+					binding	= event_map[index];
+					
+					if (typeof this[binding.handler] !== 'function') {
+						throw "Event handler for the " + binding.event + " event is not valid. [handler=" + binding.handler + "]";
 					}
-					EventFactory.bindToElement($(document), 'dispatcher', 'content.' + event_type, function () {
-						return self[handler].apply(self, arguments);
-					});
-				};
-				for (var event_name in o.contentEventBindings) {
-					if (o.contentEventBindings.hasOwnProperty(event_name)) {
-						bind(event_name);
-					}
+					
+					$(document).bind(binding.event, handler(binding.handler, this));
 				}
-
-				if (o.contentElement) {
-					this.setContentElement(o.contentElement);
+				
+				if (content_element) {
+					this.setContentElement(content_element);
 				}
 
 				this._bindToHistoryPlugin();
@@ -132,7 +139,7 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 						};
 					}
 				}
-				this._triggerPageEvent('content.change', page);
+				this._triggerPageEvent(content_events.change, page);
 			},
 
 			/**
@@ -179,7 +186,7 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 							event.page	= page;
 							self.options.defaultOverrideCacheEvent	= event;
 						} else {
-							self._triggerPageEvent('content.change', page);
+							self._triggerPageEvent(content_events.change, page);
 						}
 					}
 				});
@@ -187,7 +194,7 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 				//override the publish page change event.
 				self.publishPageChangeEvent	= function () {
 					var page	= self.getCurrentPage();
-					self._triggerPageChangeEvent('content.change', page);
+					self._triggerPageChangeEvent(content_events.change, page);
 				};
 			},
 			/**
@@ -199,7 +206,7 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 			 */
 			_handleContentChange: function (event, page) {
 				if (this._preRender(page)) {
-					this._triggerPageEvent('content.render.start', page);
+					this._triggerPageEvent(content_events.render.start, page);
 				}
 				return false;
 			},
@@ -215,7 +222,7 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 				
 				self		= this;
 				callback	= function () {
-					return self._triggerPageEvent('content.transition.out.complete', page);
+					return self._triggerPageEvent(content_events.transition.hide.complete, page);
 				};
 				this._transitionOut(callback);
 				return false;
@@ -228,11 +235,11 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 			 * @return {boolean}
 			 */
 			_handleTransitionOutComplete: function (event, page) {
-				this._triggerPageEvent('content.clear.start', page);
+				this._triggerPageEvent(content_events.clear.start, page);
 
 				this._clear();
 
-				return this._triggerPageEvent('content.clear.complete', page);
+				return this._triggerPageEvent(content_events.clear.complete, page);
 			},
 			/**
 			 * Handle the page content clear complete event.
@@ -243,7 +250,7 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 			 */
 			_handleContentClearComplete: function (event, page) {
 				if (this._preWidgetLoad(page)) {
-					this._triggerPageEvent('content.widget.preload.complete', page);
+					this._triggerPageEvent(content_events.widget.preload.complete, page);
 				}
 				return false;
 			},
@@ -255,14 +262,14 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 			 * @return {boolean}
 			 */
 			_handleContentPreloadComplete: function (event, page) {
-				this._triggerPageEvent('content.widget.load.start', page);
+				this._triggerPageEvent(content_events.widget.load.start, page);
 
 				if (!page) {
-					page	= { id: this.getDefaultPage() };
+					page	= {id: this.getDefaultPage()};
 				}
 				this._load(page);
 
-				return this._triggerPageEvent('content.widget.load.complete', page);
+				return this._triggerPageEvent(content_events.widget.load.complete, page);
 			},
 			/**
 			 * Handle the page content load complete event.
@@ -273,7 +280,7 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 			 */
 			_handleContentLoadComplete: function (event, page) {
 				if (this._postWidgetLoad(page)) {
-					this._triggerPageEvent('content.widget.postload.complete', page);
+					this._triggerPageEvent(content_events.widget.postload.complete, page);
 				}
 				return false;
 			},
@@ -289,7 +296,7 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 				
 				self		= this;
 				callback	= function () {
-					return self._triggerPageEvent('content.transition.in.complete', page);
+					return self._triggerPageEvent(content_events.transition.show.complete, page);
 				};
 				this._transitionIn(callback);
 				return false;
@@ -303,7 +310,7 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 			 */
 			_handleTransitionInComplete: function (event, page) {
 				if (this._postRender(page)) {
-					this._triggerPageEvent('content.render.complete', page);
+					this._triggerPageEvent(content_events.render.complete, page);
 				}
 				return false;
 			},
@@ -325,7 +332,7 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 			 * @return {boolean}
 			 */
 			_triggerPageEvent: function (event_name, page) {
-				EventFactory.triggerOnElement($(document), 'dispatcher', event_name, [page]);
+				$(document).trigger(event_name, [page]);
 				return false;
 			},
 			/**
@@ -624,4 +631,4 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 			}
 		};
 	});
-}(jQuery, cjaf));
+}(jQuery, cjaf, window.document));
