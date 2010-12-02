@@ -110,7 +110,7 @@
 			 */
 			"_registerDispatcherPlugins": function (container, cornerstone) {
 				var options	= {
-					"pageList": this._getNavigationPageMap(), 
+					"pageList": this._getNavigationPageMap(),
 					"renderer": cjaf.Widget.Helper.Menu.Renderer.Dock
 				};
 				container.dispatcher('registerPlugin', new cjaf.Dispatcher.Plugin.WidgetLoader(cornerstone.find('#nav-primary'), 'test_navigation', options));
