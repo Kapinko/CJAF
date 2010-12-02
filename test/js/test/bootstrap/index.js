@@ -34,7 +34,9 @@
 					'test/widget/template',
 					'test/widget/page/index',
 					'test/widget/page/widgets',
-					'test/widget/navigation'
+					'test/widget/navigation',
+					
+					'cjaf/widget/helper/menu/renderer/dock'
 				];
 			},
 			/**
@@ -107,7 +109,10 @@
 			 * @param {jQuery} cornerstone the site container element.
 			 */
 			"_registerDispatcherPlugins": function (container, cornerstone) {
-				var options	= {"pageList": this._getNavigationPageMap()};
+				var options	= {
+					"pageList": this._getNavigationPageMap(), 
+					"renderer": cjaf.Widget.Helper.Menu.Renderer.Dock
+				};
 				container.dispatcher('registerPlugin', new cjaf.Dispatcher.Plugin.WidgetLoader(cornerstone.find('#nav-primary'), 'test_navigation', options));
 			},
 			/**
@@ -123,10 +128,18 @@
 			 */
 			_getNavigationPageMap: function () {
 				return {
-					"home": {},
-					"model": {},
-					"widget": {},
-					"base": {}
+					"home": {
+						"image": 'img/crystal_clear_icons/png/128x128/apps/home.png'
+					},
+					"model": {
+						"image": 'img/crystal_clear_icons/png/128x128/apps/database.png'
+					},
+					"widget": {
+						"image": 'img/crystal_clear_icons/png/128x128/apps/warehause.png'
+					},
+					"base": {
+						"image": 'img/crystal_clear_icons/png/128x128/apps/ksirtet.png'
+					}
 				};
 			}
 		});

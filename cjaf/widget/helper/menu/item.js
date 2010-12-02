@@ -40,6 +40,12 @@
 			 */
 			this.ref	= null;
 			/**
+			 * This is a reference URL for an image that the user wants to associate
+			 * with this menu item.
+			 * @type {string}
+			 */
+			this.image_url	= null;
+			/**
 			 * This is the function that will be executed when this action is 
 			 * selected.
 			 */
@@ -104,6 +110,21 @@
 			 */
 			"getRef": function () {
 				return this.ref;
+			},
+			/**
+			 * Set the icon image url for this menu item.
+			 * @param {string} url
+			 * @return {MenuItem}
+			 */
+			"setImageUrl": function (url) {
+				this.image_url	= url;
+				return this;
+			},
+			/** Get the icon image url for this menu item.
+			 * @return {string}
+			 */
+			"getImageUrl": function () {
+				return this.image_url;
 			},
 			/**
 			 * Set the action of this menu item.

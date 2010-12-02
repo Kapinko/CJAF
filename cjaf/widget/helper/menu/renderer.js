@@ -59,6 +59,50 @@
 			 */
 			"init": function () {},
 			/**
+			 * This function will render the menu container.
+			 * @param {Menu} menu
+			 * @return {jQuery}
+			 */
+			"renderContainer": function (menu) {
+				return $('<div>').addClass(this.container_class).attr('id', 'container-' + menu.getId());
+			},
+			/**
+			 * This function will render the menu itself.
+			 * @param {Menu} menu
+			 * @return {jQuery}
+			 */
+			"renderMenu": function (menu) {
+				var ul	= $('<ul>');
+				ul.addClass(this.menu_class)
+					.attr('id', menu.getId());
+				return ul;
+			},
+			/**
+			 * This function will render a given menu item.  Menu items will be
+			 * placed into the menu in the order which they are given.
+			 * @param {MenuItem} menu_item
+			 * @return {jQuery}
+			 */
+			"renderMenuItem": function (menu_item) {
+				var title	= menu_item.getTitle(),
+				ref			= menu_item.getRef(), li;
+
+				if (!title) {
+					title	= menu_item.getId();
+				}
+				
+				li	= $('<li>').addClass(this.menu_item_class)
+					.attr('id', menu_item.getId())
+					.click(menu_item.getAction());
+
+				if(ref) {
+					li.html('<a href="#' + ref + '">' + title + '</a>');
+				} else {
+					li.text(title);
+				}
+				return li;
+			},
+			/**
 			 * Set the menu complete callback
 			 * @param {function(jQuery, cjaf.Widget.Helper.Menu):boolean} callback
 			 * @return {Menu.Renderer}
@@ -137,54 +181,21 @@
 
 				container	= this.renderContainer(menu);
 				menu_html.appendTo(container);
+				this.postRenderHook(container, menu_html, menu);
 				this.menuCompleteCallback(container, menu);
 				
 				return container;
 			},
 			/**
-			 * This function will render the menu container.
+			 * This is a hook so that child classes can do any necessary 
+			 * configuration after the menu has been created but before
+			 * we pass the menu of to the user.
+			 * @param {jQuery} container
+			 * @param {jQuery} menu_html
 			 * @param {Menu} menu
-			 * @return {jQuery}
+			 * @return {Renderer}
 			 */
-			"renderContainer": function (menu) {
-				return $('<div>').addClass(this.container_class).attr('id', 'container-' + menu.getId());
-			},
-			/**
-			 * This function will render the menu itself.
-			 * @param {Menu} menu
-			 * @return {jQuery}
-			 */
-			"renderMenu": function (menu) {
-				var ul	= $('<ul>');
-				ul.addClass(this.menu_class)
-					.attr('id', menu.getId());
-				return ul;
-			},
-			/**
-			 * This function will render a given menu item.  Menu items will be
-			 * placed into the menu in the order which they are given.
-			 * @param {MenuItem} menu_item
-			 * @return {jQuery}
-			 */
-			"renderMenuItem": function (menu_item) {
-				var title	= menu_item.getTitle(),
-				ref			= menu_item.getRef(), li;
-
-				if (!title) {
-					title	= menu_item.getId();
-				}
-				
-				li	= $('<li>').addClass(this.menu_item_class)
-					.attr('id', menu_item.getId())
-					.click(menu_item.getAction());
-
-				if(ref) {
-					li.html('<a href="#' + ref + '">' + title + '</a>');
-				} else {
-					li.text(title);
-				}
-				return li;
-			}
+			"postRenderHook": function (container, menu_html, menu) {return this;}
 		};
 		return Menu.Renderer;
 	});

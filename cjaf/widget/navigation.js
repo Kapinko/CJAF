@@ -28,30 +28,11 @@
 			 */
 			options: {
 				/**
-				 * This is the full path to the initialization view for this
-				 * widget.  In this base class it is not set because it is
-				 * assumed that the user will want to provide their own.
-				 * @type {string}
-				 */
-				"initViewPath": null,
-				/**
 				 * This is the locale object that will be passed to the
 				 * initialization view template for this widget.
 				 * @type {Object.<string,*>}
 				 */
 				"locale": {},
-				/**
-				 * This is the jQuery object that will be used as a template 
-				 * for the individual navigation items.
-				 * @type {jQuery}
-				 */
-				"itemTemplate": $('<li></li>'),
-				/**
-				 * This is the view template that will be used to create
-				 * each navigation item.
-				 * @type {string}
-				 */
-				"itemViewTemplate": null,
 				/**
 				 * This is the list of pages that will be included in the 
 				 * navigation menu.  You should provide the page url key (minus
@@ -185,6 +166,9 @@
 
 						if (page_opts.hasOwnProperty('isAllowed')) {
 							menu_item.setAuthFunction(page_opts.isAllowed);
+						}
+						if (page_opts.hasOwnProperty('image')) {
+							menu_item.setImageUrl(page_opts.image);
 						}
 						if (page_opts.hasOwnProperty('subPages')) {
 							//@todo Add sub pages here.

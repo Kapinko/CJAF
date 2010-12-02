@@ -21,11 +21,10 @@
 		 * @return {Object}
 		 */
 		cjaf.Class.extend	= function (parent, child_proto) {
-			function child () {
+			var child = function () {
 				parent.apply(this,arguments);
 			}
-			child.prototype	= parent.prototype;
-			$.extend(child.prototype, child_proto);
+			$.extend(child.prototype, parent.prototype, child_proto);
 			
 			return child;
 		}
