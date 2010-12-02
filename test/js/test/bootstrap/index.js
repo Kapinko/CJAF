@@ -33,6 +33,7 @@
 					
 					'test/widget/template',
 					'test/widget/page/index',
+					'test/widget/page/widgets',
 					'test/widget/navigation'
 				];
 			},
@@ -82,7 +83,8 @@
 			 */
 			"_getPageMap": function () {
 				return {
-					'home': 'test_page_index'
+					'home': 'test_page_index',
+					'widget': 'test_page_widgets'
 				};
 			},
 			/**

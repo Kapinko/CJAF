@@ -46,6 +46,7 @@
 						} else {
 							this._notifyWidgetOfPageChange(element, widget_name, target_page);
 						}
+						return true;
 					};
 				}
 			},
