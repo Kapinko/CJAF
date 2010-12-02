@@ -56,10 +56,11 @@
 							"complete": "page_content_render_complete"
 						},
 						"transition": {
-							"out": {
+							"hide": {
+								"start": "page_content_transition_out_start",
 								"complete": "page_content_transition_out_complete"
 							},
-							"in": {
+							"show": {
 								"complete": "page_content_transition_in_complete"
 							}
 						},
