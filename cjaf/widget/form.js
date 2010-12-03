@@ -3,6 +3,7 @@
  */
 /** JSLint Declarations */
 /*global jQuery:false, cjaf:false*/
+/*jslint nomen: false */
 
 (function ($, cjaf) {
 	cjaf.define("cjaf/widget/form", [
@@ -153,7 +154,7 @@
 			"isValid": function () {
 				var is_valid	= true, i;
 
-				for(i = 0; i < this.element_list.length; i += 1) {
+				for (i = 0; i < this.element_list.length; i += 1) {
 					is_valid	= this.element_list[i].form_element('isValid') ? is_valid : false;
 				}
 				return is_valid;

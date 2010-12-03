@@ -3,7 +3,7 @@
  * to a handler function which then can be overridden.
  */
 /** JSLint Declarations */
-/*global jQuery: false, cjaf: false */
+/*global jQuery: false, cjaf: false, alert: false */
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/error/handler/http', [

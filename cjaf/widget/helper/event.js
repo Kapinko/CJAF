@@ -16,7 +16,7 @@
 		/**
 		 * This is a helper object to assist in event handling.
 		 */
-		Helper.Event	= function() {
+		Helper.Event	= (function () {
 			return {
 				/**
 				 * Events related to errors.
@@ -99,7 +99,7 @@
 					}
 				}
 			};
-		}();
+		}());
 
 		return Helper.Event;
 	});

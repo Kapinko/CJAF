@@ -110,7 +110,7 @@
 			 * @return {jQuery}
 			 */
 			"getItems": function () {
-				return this.element.find('.'+this.options.menuContainerClass).find('li');
+				return this.element.find('.' + this.options.menuContainerClass).find('li');
 			},
 			/**
 			 * This function is called when the menu rendering is complete.
@@ -170,9 +170,8 @@
 						if (page_opts.hasOwnProperty('image')) {
 							menu_item.setImageUrl(page_opts.image);
 						}
-						if (page_opts.hasOwnProperty('subPages')) {
-							//@todo Add sub pages here.
-						}
+						//@todo Add sub pages here.
+//						if (page_opts.hasOwnProperty('subPages')) {}
 						menu.addItem(menu_item);
 					}
 				}
