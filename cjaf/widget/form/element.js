@@ -3,13 +3,13 @@
  */
 /** JSLint Declarations */
 /*global jQuery: false, cjaf: false */
+/*jslint nomen: false*/
 
 (function ($, cjaf) {
 	cjaf.define("cjaf/widget/form/element", [
 		"cjaf/widget/form/helper/event",
 		'cjaf/widget/form/element/listener/error_styling',
 		"jQuery/jquery.translate"
-
 	],
 	/**
 	 * @param {cjaf.Widget.Form.Helper.Event} EventHelper
@@ -149,7 +149,7 @@
 			"addValidator": function (validator, options) {
 				var el		= this.element,
 				elements	= el.find(':input'),
-				validators	= cjaf.Validator, i;
+				validators	= cjaf.Validator, i, val_class;
 				
 				if (el.is('input')) {
 					elements.push(el);
@@ -160,7 +160,7 @@
 				
 				for (i = 0; i < elements.length; i += 1) {
 					if (typeof validators[validator] === 'function') {
-						new validators[validator]($(elements[i]), options);
+						val_class	= new validators[validator]($(elements[i]), options);
 					}
 				}
 				return el;
@@ -204,7 +204,7 @@
 			 * @param {Object.<string,*>} options
 			 */
 			_applyErrorListenersToChildren: function (options) {
-				var el	= this.element;
+				var el	= this.element,
 				o		= this.options;
 				
 				options.fieldList	= [ el ];
@@ -259,7 +259,7 @@
 				element_name	= error.hasOwnProperty('element_name') ? error.element_name : null;
 				
 				if (element_name && $.inArray(element_name, this.options.element_names)) {
-					this.element.trigger(EventHandler.error, {"error": error});
+					this.element.trigger(EventHelper.error, {"error": error});
 				}
 				return false;
 			},

@@ -8,13 +8,15 @@
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/form/helper/trigger', [
 		'cjaf/widget/form/helper',
+		'cjaf/widget/form/helper/event',
 		'cjaf/widget/form/listener/submit_with_spinner'
 	],
 	/**
 	 * @param {cjaf.Widget.Form.Helper} FormHelper
+	 * @param {cjaf.Widget.Form.Helper.Event} EventHelper
 	 * @return {cjaf.Widget.Form.Helper.Handler}
 	 */
-	function (FormHelper) {
+	function (FormHelper, EventHelper) {
 		/**
 		 * Is the given element a button?
 		 * @param {jQuery} el

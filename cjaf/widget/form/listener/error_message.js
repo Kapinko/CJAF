@@ -2,9 +2,10 @@
  * This is a form listener that will display a message upon an error.
  */
 /** JSLint Declarations */
-/*global jQuery: false, cjaf: false*/
+/*global jQuery: false, cjaf: false, window: false*/
+/*jslint nomen: false */
 
-(function ($, cjaf) {
+(function ($, cjaf, document) {
 	cjaf.define('cjaf/widget/form/listener/error_message', [
 		'cjaf/widget/form/listener'
 	],
@@ -16,7 +17,7 @@
 		 */
 		var newEl	= function (tag) {
 			return $(document.createElement(tag));
-		}
+		};
 		
 		$.widget('cjaf.form_listener_error_message', $.cjaf.form_listener, {
 			/**
@@ -87,7 +88,7 @@
 				"createErrorListItemFunction": function (message, item_class) {
 					var error_li	= newEl('li')
 									.addClass(item_class)
-									.html(message)
+									.html(message);
 					return error_li;
 				},
 				/**
@@ -217,4 +218,4 @@
 			}
 		});
 	});
-}(jQuery, cjaf));
+}(jQuery, cjaf, window.document));
