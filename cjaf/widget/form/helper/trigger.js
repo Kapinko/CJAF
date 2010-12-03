@@ -31,7 +31,7 @@
 		 * @constructor
 		 */
 		FormHelper.Trigger	= function (form) {
-			if (!this.element.is('form')) {
+			if (!form.is('form')) {
 				throw "You must provide a form widget to the form UI helper.";
 			}
 			/**
@@ -125,5 +125,7 @@
 				return this.form;
 			}
 		};
+
+		return FormHelper.Trigger;
 	});
 }(jQuery, cjaf));
