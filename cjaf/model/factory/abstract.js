@@ -9,7 +9,7 @@
 		'cjaf/model/factory',
 		'cjaf/model/response/parser',
 		'cjaf/model/collection',
-		'lib/plugins/String/camelCaseToUnderscore',
+		'lib/plugins/String/camelCaseToUnderscore'
 	],
 	/**
 	 * @param {cjaf.Model.Factory} Factory
@@ -21,7 +21,7 @@
 		/**
 		 * @constructor
 		 */
-		Factory.Abstract	= function() {
+		Factory.Abstract	= function () {
 			//Call init on construction.
 			this.init();
 			
@@ -33,7 +33,7 @@
 			 * have added in some fields.
 			 * @type {ResponseParser}
 			 */
-			this.parser	= new ResponseParser(this.fields)
+			this.parser	= new ResponseParser(this.fields);
 		};
 		Factory.Abstract.prototype = {
 			"fields": {
