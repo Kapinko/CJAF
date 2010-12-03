@@ -130,7 +130,7 @@
 					this.trigger.bindClear($(o.clearTrigger));
 				}
 				
-				o.initFormElements(this.ui);
+				o.initFormElements.apply(this, [this.ui]);
 			},
 			/**
 			 * Submit this form
