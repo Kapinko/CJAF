@@ -149,7 +149,7 @@
 			"addValidator": function (validator, options) {
 				var el		= this.element,
 				elements	= el.find(':input'),
-				validators	= cjaf.Validator, i, jQuery;
+				validators	= cjaf.Validator, i;
 				
 				if (el.is('input')) {
 					elements.push(el);

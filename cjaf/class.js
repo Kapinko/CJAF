@@ -28,7 +28,7 @@
 
 			var child = function () {};
 			child.prototype	= new F();
-			$.extend(child.prototype, child_proto);
+			child.prototype	= $.extend(true, child.prototype, child_proto);
 			child.prototype.constructor	= child;
 			
 			return child;
