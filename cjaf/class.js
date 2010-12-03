@@ -32,7 +32,7 @@
 			child.prototype.constructor	= child;
 			
 			return child;
-		}
+		};
 		
 		return cjaf.Class;
 	});
