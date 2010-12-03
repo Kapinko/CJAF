@@ -36,8 +36,8 @@ bitwise: true, regexp: true, newcap: true, immed: true, nomen: false */
 		DEFAULT_PATHS		= {
 		"cjaf": "cjaf",
 		"lib": "lib",
-		"jQuery": "ext/jquery",
-		"jQueryUI": "ext/jquery/ui"
+		"jQuery": "lib/jquery",
+		"jQueryUI": "lib/jquery/ui"
 	},
 	/**
 	 * Thes are the default dependencies common to every cjaf application.
