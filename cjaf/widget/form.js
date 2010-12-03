@@ -130,7 +130,11 @@
 					this.trigger.bindClear($(o.clearTrigger));
 				}
 				
+<<<<<<< HEAD
 				o.initFormElements.apply(this,[this.ui]);
+=======
+				o.initFormElements.apply(this, [this.ui]);
+>>>>>>> f54432f02795a502ecc9fb380090461a110e76f5
 			},
 			/**
 			 * Submit this form
