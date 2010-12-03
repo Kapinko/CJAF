@@ -1,5 +1,5 @@
 (function($){
-	var PROP_NAME	= 'stax_translator';
+	var PROP_NAME	= 'cjaf_translator';
 	/**
 	 * This is the configuration object. This is where all the translation
 	 * settings will be stored.

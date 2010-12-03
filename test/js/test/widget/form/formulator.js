@@ -9,7 +9,21 @@
 	cjaf.define('test/widget/form/formulator', [
 		'i18n!test/nls/Base',
 		'cjaf/widget/form/helper/handler',
-		'cjaf/widget/form'
+		'cjaf/widget/form',
+		'cjaf/widget/form/listener/element_error_proxy',
+		'cjaf/widget/form/element',
+		'lib/validator/not_empty',
+		'lib/validator/length',
+		'lib/validator/integer',
+		'lib/validator/length',
+		'lib/validator/match',
+		'lib/validator/maximum_length',
+		'lib/validator/name',
+		'lib/validator/not_equal',
+		'lib/validator/number',
+		'lib/validator/regex',
+		'lib/validator/minimum_length',
+		'lib/validator/email',
 	],
 	function (locale,EventHandler) {
 		locale=locale.form_test.form.information;
@@ -34,7 +48,7 @@
 				 * form submit.
 				 * @type {jQuery}
 				 */
-				"submitTrigger": null,
+				"submitTrigger":null,
 				/**
 				 * This should be set to the jQuery object that will trigger a
 				 * form clear/reset
@@ -42,27 +56,16 @@
 				 */
 				"clearTrigger": null,
 				/**
-				 * Should we only show one error per field?
-				 * @type {boolean}
-				 */
-				"singleErrorPerField": true,
-				/**
 				 * This object will be used as the error locale string lookup
 				 * object.
 				 * @type {Object.<string,*>}
 				 */
 				"errorLocale": locale.error,
 				/**
-				 * This can be used to disable the client side validation
-				 * programmatically.  Normally this is handled through a
-				 * cookie.
-				 */
-				"disableClientSideValidation": true,
-				/**
 				 * Get the event handler helper class for this form widget.
 				 * @type {cjaf.Widget.Form.Helper.Handler}
 				 */
-				"eventHandler": cjaf.Class.extend(EventHandler,{
+				"eventHandler": cjaf.Class.extend(EventHandler, {
 
 				}),
 				/**
@@ -71,7 +74,104 @@
 				 * @type {function(cjaf.Widget.Form.Helper.UI)}
 				 */
 				"initFormElements": function (form_ui) {
-					throw "You must provide a initFormElements function.";
+				
+
+					var addr1	= this._getAddressLine1(),
+					addr2	= this._getAddressLine2(),
+					city	= this._getCity(),
+					state	= this._getState(),
+					zip		= this._getZip(),
+					email	= this._getEmail(),
+					homep	= this._getPhoneHome(),
+					mobile	= this._getPhoneCell();
+
+				addr1.form_element({
+					validators: [
+						{type: 'NotEmpty', options: {}}
+					],
+					errorLocale: locale.address1.error,
+					errorListVisible: false
+				});
+				this.addElement(addr1);
+
+				addr2.form_element({
+					validators: [
+
+					],
+					errorLocale: locale.address2.error,
+					errorListVisible: false
+				});
+				this.addElement(addr2);
+
+				city.form_element({
+					validators: [
+						{type: 'NotEmpty', options: {}},
+						{type: 'Length', options: {maximumLength: 26}},
+						{type: 'Regex', options:{regex: /^[A-Za-z][A-Za-z \-\']*[A-Za-z]$/}}
+					],
+					errorLocale: locale.city.error,
+					errorListVisible: false
+				});
+				this.addElement(city);
+
+				state.selectmenu({width:60, style:'dropdown', maxHeight: 100});
+
+				state.form_element({
+					validators: [
+						{type: 'NotEmpty', options: {}}
+					],
+					errorLocale: locale.state.error,
+					errorListVisible: false
+				});
+				this.addElement(state);
+
+
+				zip.form_element({
+					validators: [
+						{type: 'NotEmpty', options: {}},
+						{type: 'MinimumLength',options:{'minimumLength':5}},
+						{type: 'Number', options:{}}
+					],
+					errorLocale: locale.zip.error,
+					errorListVisible: false
+				});
+				this.addElement(zip);
+
+				email.form_element({
+					validators: [
+						{type: 'NotEmpty', options: {}},
+						{type: 'Email',options: {}}
+					],
+					errorLocale: locale.email.error,
+					errorListVisible: false
+				});
+				this.addElement(email);
+
+				homep.form_element({
+					validators: [
+						{'type': 'Length', 'options': {'minimumLength': 10, 'allowEmpty': true}}
+
+					],
+					errorLocale: locale.homephone.error,
+					errorListVisible: false
+				});
+				//homep.mask('(999) 999-9999', {placeholder:" "});
+				this.addElement(homep);
+
+				mobile.form_element({
+					validators: [
+						{'type': 'Length', 'options': {'minimumLength': 10, 'allowEmpty': true}}
+					],
+					errorLocale: locale.cellphone.error,
+					errorListVisible: false
+				});
+				//mobile.mask('(999) 999-9999', {placeholder:" "});
+				this.addElement(mobile);
+
+
+				this.element.find('.container-form-error-message').form_listener_element_error_proxy({
+					//form: this.element,
+					fieldList: [addr1,addr2,city,state,zip,email,homep,mobile]});
 				}
 			},
 			/**
@@ -84,7 +184,64 @@
 
 
 				this.element.html(cjaf.view(o.initViewPath,{'locale':o.locale}));
+
+				o.submitTrigger	= this._getSubmitButton();
+
+				$.cjaf.form.prototype._create.apply(this, arguments);
+			},
+			
+			_getAddressLine1: function(){
+				return this.element.find('#address-1');
+			},
+			/**
+			 * @return {jQuery}
+			 */
+			_getAddressLine2:function(){
+				return this.element.find('#address-2');
+			},
+			/**
+			 * @return {jQuery}
+			 */
+			_getCity: function(){
+				return this.element.find('#city');
+			},
+			/**
+			 * @return {jQuery}
+			 */
+			_getState: function(){
+				return this.element.find('#state');
+			},
+			/**
+			 * @return {jQuery}
+			 */
+			_getZip: function(){
+				return this.element.find('#zip');
+			},
+			/**
+			 * @return {jQuery}
+			 */
+			_getEmail: function(){
+				return this.element.find('#email');
+			},
+			/**
+			 * @return {jQuery}
+			 */
+			_getPhoneHome: function(){
+				return this.element.find('#phone-home');
+			},
+			/**
+			 * @return {jQuery}
+			 */
+			_getPhoneCell: function(){
+				return this.element.find('#phone-cell');
+			},
+			/**
+			 * @return {jQuery}
+			 */
+			_getSubmitButton: function(){
+				return this.element.find('#information-submit');
 			}
+
 		});
 	});
 }(jQuery, cjaf));

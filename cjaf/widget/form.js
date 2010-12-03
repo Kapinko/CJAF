@@ -52,7 +52,7 @@
 				 * programmatically.  Normally this is handled through a 
 				 * cookie.
 				 */
-				"disableClientSideValidation": true,
+				"disableClientSideValidation": false,
 				/**
 				 * Get the UIHelper class for this form widget.
 				 * @type {cjaf.Widget.Form.Helper.UI}
@@ -94,7 +94,7 @@
 				 */
 				this.ui	= new o.ui(el);
 				
-				if (!(this.ui instanceof cjaf.Widget.Form.Helper.UI)) {
+				if (!(this.ui instanceof UIHelper)) {
 					throw "Given form UI helper must be an instance of cjaf.Widget.Form.Helper.UI.";
 				}
 				
@@ -104,7 +104,7 @@
 				 */
 				this.handler	= new o.eventHandler(el);
 				
-				if (!(this.handler instanceof cjaf.Widget.Form.Helper.Handler)) {
+				if (!(this.handler instanceof HandlerHelper)) {
 					throw "Given form event handler must be an instance of cjaf.Widget.Form.Helper.Handler.";
 				}
 				
@@ -114,7 +114,7 @@
 				 */
 				this.trigger	= new o.eventTrigger(el);
 				
-				if (!(this.trigger instanceof cjaf.Widget.Form.Helper.Trigger)) {
+				if (!(this.trigger instanceof TriggerHelper)) {
 					throw "Given form event trigger helper must be an instance of cjaf.Widget.Form.Helper.Trigger.";
 				}
 				
@@ -130,7 +130,7 @@
 					this.trigger.bindClear($(o.clearTrigger));
 				}
 				
-				o.initFormElements(this.ui);
+				o.initFormElements.apply(this,[this.ui]);
 			},
 			/**
 			 * Submit this form

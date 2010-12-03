@@ -6,7 +6,10 @@
 
 (function ($, cjaf) {
 	cjaf.define("cjaf/widget/form/element", [
-		"cjaf/widget/form/helper/event"
+		"cjaf/widget/form/helper/event",
+		'cjaf/widget/form/element/listener/error_styling',
+		"jQuery/jquery.translate"
+
 	],
 	/**
 	 * @param {cjaf.Widget.Form.Helper.Event} EventHelper
@@ -183,7 +186,7 @@
 				var el	= this.element;
 				
 				if (this.elementId) {
-					$('label[for="' + this.elementId + '"]').form_element_listener_styling({
+					$('label[for="' + this.elementId + '"]').form_element_listener_error_styling({
 						"fieldList": [ el ]
 					});
 				}

@@ -11,6 +11,9 @@
 		
 	],
 	function () {
+		//Temporary constructor function.
+		var F	= function () {};
+
 		cjaf.Class	= function () {
 			
 		};
@@ -21,10 +24,12 @@
 		 * @return {Object}
 		 */
 		cjaf.Class.extend	= function (parent, child_proto) {
-			var child = function () {
-				parent.apply(this,arguments);
-			}
-			$.extend(child.prototype, parent.prototype, child_proto);
+			F.prototype	= parent.prototype;
+
+			var child = function () {};
+			child.prototype	= new F();
+			$.extend(child.prototype, child_proto);
+			child.prototype.constructor	= child;
 			
 			return child;
 		}

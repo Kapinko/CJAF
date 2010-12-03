@@ -76,7 +76,7 @@
 				throw "You must attach the submit_with_spinner widget to a button."
 			}
 			
-			$.cjaf.form_listener.prototype.apply(this, arguments);
+			$.cjaf.form_listener.prototype._create.apply(this, arguments);
 			
 			//Make the element we're attached to a button.
 			this.element.button({
