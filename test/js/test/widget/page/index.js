@@ -7,7 +7,7 @@
 
 (function ($, cjaf) {
 	cjaf.define('test/widget/page/index', [
-		
+		'cjaf/widget/form'
 	],
 	function () {
 		$.widget('cjaf.test_page_index', {

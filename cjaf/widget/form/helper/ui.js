@@ -18,9 +18,10 @@
 		/**
 		 * This is a form helper object that handles all of the form UI elments.
 		 * @param {jQuery} form
+		 * @param {string} widget_name
 		 * @constructor
 		 */
-		FormHelper.UI	= function (form) {
+		FormHelper.UI	= function (form, widget_name) {
 			if (!form.is('form')) {
 				throw "You must provide a form widget to the form UI helper.";
 			}
@@ -30,6 +31,11 @@
 			 * @type {jQuery}
 			 */
 			this.form	= form;
+			/**
+			 * This is the name of the form widget name
+			 * @type {string}
+			 */
+			this.widget_name	= widget_name;
 			/**
 			 * This is a list of all the elements in this form.
 			 * @type {Array.<jQuery>}
@@ -43,11 +49,12 @@
 			 * @return {FormHelper.UI}
 			 */
 			"addElement": function (el) {
-				var handler	= this.form('getEventHandler');
+				var handler	= this.form[this.widget_name]('getEventHandler');
 				
 				el.form_element('setForm', this.form);
 				el.bind(EventHelper.validation.failed, $.proxy(handler, "handleElementValidationFailure"));
 				el.bind(EventHelper.validation.success, $.proxy(handler, "handleElementValidationSuccess"));
+				this.element_list.push(el);
 				
 				return this;
 			},

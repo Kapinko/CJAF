@@ -21,9 +21,10 @@
 		/**
 		 * This is an object that handles all of the form events.
 		 * @param {jQuery} form
+		 * @param {string} widget_name
 		 * @constructor
 		 */
-		FormHelper.Handler	= function (form) {
+		FormHelper.Handler	= function (form, widget_name) {
 			if (!form.is('form')) {
 				throw "You must provide a form widget to the form UI helper.";
 			}
@@ -33,6 +34,10 @@
 			 * @type {jQuery}
 			 */
 			this.form	= form;
+			/**
+			 * @type {string}
+			 */
+			this.widget_name	= widget_name;
 			
 			form.bind(EventHelper.validation.success, $.proxy(this, "handleValidationSuccess"));
 			form.bind(EventHelper.validation.failed, $.proxy(this, "handleValidationFailure"));

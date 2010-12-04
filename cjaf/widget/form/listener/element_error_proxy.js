@@ -32,8 +32,9 @@
 				var o		= this.options,
 				handler		= $.proxy(this,"handleValidationFailedEvent"),
 				input, el;
-				
-				for (input in o.fieldList) {
+
+				for (var x=0; x<o.fieldList.length; x++)
+				{
 					if (o.fieldList.hasOwnProperty(input)) {
 						el	= o.fieldList[input];
 						el.bind(EventHelper.validation.failed, handler);

@@ -7,7 +7,7 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/form/helper/trigger', [
-		'cjaf/widget/form/helper',
+		'cjaf/widget/form/helper/event',
 		'cjaf/widget/form/listener/submit_with_spinner'
 	],
 	/**
@@ -28,9 +28,10 @@
 		 * This is an object that handles all of the form event triggering
 		 * and trigger binding.
 		 * @param {jQuery} form
+		 * @param {string} widget_name
 		 * @constructor
 		 */
-		FormHelper.Trigger	= function (form) {
+		FormHelper.Trigger	= function (form, widget_name) {
 			if (!form.is('form')) {
 				throw "You must provide a form widget to the form UI helper.";
 			}
@@ -39,6 +40,10 @@
 			 * @param {jQuery} form
 			 */
 			this.form	= form;
+			/**
+			 * @type {string}
+			 */
+			this.widget_name	= widget_name;
 		};
 		FormHelper.Trigger.prototype	= {
 			/**
@@ -48,15 +53,18 @@
 			 * @return {jQuery}
 			 */
 			"bindSubmit": function (trigger, options) {
-				var form	= this.form;
+				var form	= this.form,
+				widget	= this.widget_name;
 				
 				if (is_button(trigger)) {
 					options = $.extend({"form": form});
 					trigger.submit_with_spinner(options);
 				}
 				
-				trigger.click(function () {
-					form.form("submit");
+				trigger.click(function (event) {
+					form[widget]("submit");
+					event.preventDefault();
+					
 				});
 				return form;
 			},
@@ -68,6 +76,7 @@
 			 */
 			"bindClear": function (trigger, options) {
 				var form	= this.form,
+				widget	= this.widget_name,
 				primary		= null,
 				secondary	= null;
 				
@@ -87,7 +96,7 @@
 				}
 				
 				trigger.click(function () {
-					form.form("clear");
+					form[widget]("clear");
 				});
 				
 				return form;
@@ -97,7 +106,7 @@
 			 * @return {jQuery}
 			 */
 			"submitClient": function () {
-				this.form.trigger(EventHelper.submit.client);
+				this.form.trigger(FormHelper.submit.client);
 				return this.form;
 			},
 			/**
@@ -105,7 +114,7 @@
 			 * @return {jQuery}
 			 */
 			"validationSuccess": function () {
-				this.form.trigger(EventHelper.validation.success);
+				this.form.trigger(FormHelper.validation.success);
 				return this.form;
 			},
 			/**
@@ -113,7 +122,7 @@
 			 * @return {jQuery}
 			 */
 			"validationFailure": function () {
-				this.form.trigger(EventHelper.validation.failed);
+				this.form.trigger(FormHelper.validation.failed);
 				return this.form;
 			},
 			/**
@@ -121,7 +130,7 @@
 			 * @return {jQuery}
 			 */
 			"reset": function () {
-				this.form.trigger(EventHelper.clear);
+				this.form.trigger(FormHelper.clear);
 				return this.form;
 			}
 		};
