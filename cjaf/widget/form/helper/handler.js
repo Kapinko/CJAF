@@ -52,7 +52,6 @@
 			 * @return {boolean}
 			 */
 			"runAjaxCall": function (success, error) { 
-				success();
 				return  false;
 			},
 			/**

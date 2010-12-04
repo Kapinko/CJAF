@@ -31,6 +31,7 @@
 					parent.apply(this, arguments);
 				}
 			};
+			
 			child.prototype	= new F();
 			child.prototype	= $.extend(true, child.prototype, child_proto);
 			child.prototype.constructor	= child;
