@@ -30,16 +30,12 @@
 			 * Initialize this error proxy
 			 */
 			"_create": function () {
-				var o		= this.options,
-				handler		= $.proxy(this, "handleValidationFailedEvent"),
-				input, el;
-
-				for (var x=0; x<o.fieldList.length; x++)
-				{
-					if (o.fieldList.hasOwnProperty(input)) {
-						el	= o.fieldList[input];
-						el.bind(EventHelper.validation.failed, handler);
-					}
+				var field_list	= this.options.fieldList,
+				handler			= $.proxy(this, "handleElementValidationFailedEvent"),
+				index;
+				
+				for (index = 0; index < field_list.length; index += 1) {
+					field_list[index].bind(EventHelper.validation.failed, handler);
 				}
 				$.cjaf.form_listener_error_message.prototype._create.apply(this, arguments);
 			},
