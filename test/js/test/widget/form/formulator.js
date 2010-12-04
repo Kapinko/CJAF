@@ -23,7 +23,7 @@
 		'lib/validator/number',
 		'lib/validator/regex',
 		'lib/validator/minimum_length',
-		'lib/validator/email',
+		'lib/validator/email'
 	],
 	function (locale,EventHandler) {
 		locale=locale.form_test.form.information;

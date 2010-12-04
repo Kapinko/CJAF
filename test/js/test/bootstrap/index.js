@@ -4,6 +4,7 @@
 
 /** JSLint Declarations */
 /*global jQuery: false, cjaf: false */
+/*jslint nomen: false*/
 
 (function ($, cjaf) {
 	cjaf.define('test/bootstrap/index', [
