@@ -257,7 +257,7 @@
 			 * @return {jQuery}
 			 */
 			_getTextProcessingElement: function () {
-				if(!this.processingImage) {
+				if (!this.processingImage) {
 					var el	= $('<span>');
 					el.addClass('container-image-in-progress');
 					

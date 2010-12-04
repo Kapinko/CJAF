@@ -59,7 +59,7 @@
 				return this;
 			},
 
-			"getElementList": function(){
+			"getElementList": function () {
 				return this.element_list;
 			},
 
