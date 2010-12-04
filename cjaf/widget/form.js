@@ -141,9 +141,9 @@
 				this.trigger.submitClient();
 
 				if (this._isClientSideValidationDisabled() || this.isValid()) {
-					this.trigger.validationFailure();
-				} else {
 					this.trigger.validationSuccess();
+				} else {
+					this.trigger.validationFailure();
 				}
 				return false;
 			},
@@ -152,8 +152,8 @@
 			 * @return {boolean}
 			 */
 			"isValid": function () {
-				var is_valid	= true, i,element_list;
-				element_list=this.ui.getElementList();
+				var is_valid	= true,
+				element_list	= this.ui.getElementList(), i;
 
 
 				for (i = 0; i < element_list.length; i += 1) {

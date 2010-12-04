@@ -47,7 +47,7 @@
 			 * @param {jQuery} element
 			 */
 			_bindValidationFailedEvent: function (element) {
-				element.bind(FormEvents.validation.start, $.proxy(this, "handleValidationFailedEvent"));
+				element.bind(FormEvents.validation.failed, $.proxy(this, "handleValidationFailedEvent"));
 			},
 			/**
 			 * Bind the clear event handler for the given jQuery element.
