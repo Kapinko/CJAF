@@ -92,7 +92,7 @@
 					errorLocale: locale.address1.error,
 					errorListVisible: false
 				});
-				this.addElement(addr1);
+				form_ui.addElement(addr1);
 
 				addr2.form_element({
 					validators: [
@@ -101,7 +101,7 @@
 					errorLocale: locale.address2.error,
 					errorListVisible: false
 				});
-				this.addElement(addr2);
+				form_ui.addElement(addr2);
 
 				city.form_element({
 					validators: [
@@ -112,9 +112,9 @@
 					errorLocale: locale.city.error,
 					errorListVisible: false
 				});
-				this.addElement(city);
+				form_ui.addElement(city);
 
-				state.selectmenu({width:60, style:'dropdown', maxHeight: 100});
+				//state.selectmenu({width:60, style:'dropdown', maxHeight: 100});
 
 				state.form_element({
 					validators: [
@@ -123,7 +123,7 @@
 					errorLocale: locale.state.error,
 					errorListVisible: false
 				});
-				this.addElement(state);
+				form_ui.addElement(state);
 
 
 				zip.form_element({
@@ -135,7 +135,7 @@
 					errorLocale: locale.zip.error,
 					errorListVisible: false
 				});
-				this.addElement(zip);
+				form_ui.addElement(zip);
 
 				email.form_element({
 					validators: [
@@ -145,7 +145,7 @@
 					errorLocale: locale.email.error,
 					errorListVisible: false
 				});
-				this.addElement(email);
+				form_ui.addElement(email);
 
 				homep.form_element({
 					validators: [
@@ -156,7 +156,7 @@
 					errorListVisible: false
 				});
 				//homep.mask('(999) 999-9999', {placeholder:" "});
-				this.addElement(homep);
+				form_ui.addElement(homep);
 
 				mobile.form_element({
 					validators: [
@@ -166,11 +166,11 @@
 					errorListVisible: false
 				});
 				//mobile.mask('(999) 999-9999', {placeholder:" "});
-				this.addElement(mobile);
+				form_ui.addElement(mobile);
 
 
 				this.element.find('.container-form-error-message').form_listener_element_error_proxy({
-					//form: this.element,
+					form: this.element,
 					fieldList: [addr1,addr2,city,state,zip,email,homep,mobile]});
 				}
 			},
@@ -179,10 +179,7 @@
 			 */
 			_create: function () {
 				var o	= this.options;
-
-
-
-
+				
 				this.element.html(cjaf.view(o.initViewPath,{'locale':o.locale}));
 
 				o.submitTrigger	= this._getSubmitButton();

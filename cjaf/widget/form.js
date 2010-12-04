@@ -75,7 +75,7 @@
 				 * @type {function(cjaf.Widget.Form.Helper.UI)}
 				 */
 				"initFormElements": function (form_ui) {
-					throw "You must provide a initFormElements function.";
+//					throw "You must provide a initFormElements function.";
 				}
 			},
 			/**
@@ -93,40 +93,40 @@
 				 * This is the user interface helper for this form widget.
 				 * @type {cjaf.Widget.Form.Helper.UI}
 				 */
-				this.ui	= new o.ui(el);
-				
+				this.ui	= new o.ui(el, this.widgetName);
+
 				if (!(this.ui instanceof UIHelper)) {
 					throw "Given form UI helper must be an instance of cjaf.Widget.Form.Helper.UI.";
 				}
-				
+
 				/**
 				 * This is the event handler helper for this form widget.
 				 * @type {cjaf.Widget.Form.Helper.Handler}
 				 */
-				this.handler	= new o.eventHandler(el);
-				
+				this.handler	= new o.eventHandler(el, this.widgetName);
+
 				if (!(this.handler instanceof HandlerHelper)) {
 					throw "Given form event handler must be an instance of cjaf.Widget.Form.Helper.Handler.";
 				}
-				
+
 				/**
 				 * This is the event trigger helper for this form widget.
 				 * @type {cjaf.Widget.Form.Helper.Trigger}
 				 */
-				this.trigger	= new o.eventTrigger(el);
-				
+				this.trigger	= new o.eventTrigger(el, this.widgetName);
+
 				if (!(this.trigger instanceof TriggerHelper)) {
 					throw "Given form event trigger helper must be an instance of cjaf.Widget.Form.Helper.Trigger.";
 				}
-				
+
 				if (o.hasOwnProperty('errorLocale')) {
 					el.translate({"locale": o.errorLocale});
 				}
-				
+
 				if (o.hasOwnProperty('submitTrigger')) {
 					this.trigger.bindSubmit($(o.submitTrigger));
 				}
-				
+
 				if (o.hasOwnProperty('clearTrigger')) {
 					this.trigger.bindClear($(o.clearTrigger));
 				}
@@ -140,7 +140,7 @@
 			"submit": function () {
 				this.trigger.submitClient();
 
-				if (this._clientSideValidationDisabled() || this.isValid()) {
+				if (this._isClientSideValidationDisabled() || this.isValid()) {
 					this.trigger.validationFailure();
 				} else {
 					this.trigger.validationSuccess();

@@ -8,7 +8,8 @@
 (function ($, cjaf) {
 	cjaf.define('test/widget/page/widgets', [
 		'i18n!test/nls/Base',
-		'test/widget/form/formulator'
+		'test/widget/form/formulator',
+		'cjaf/widget/pluggable'
 		
 	],
 	function (locale) {
@@ -41,7 +42,6 @@
 				this.element.html(cjaf.view(o.initViewPath, o.locale));
 
 				$("#test-form").test_form_formulator();
-				
 			}
 		});
 	});
