@@ -58,6 +58,12 @@
 				
 				return this;
 			},
+
+			"getElementList": function(){
+				return this.element_list;
+			},
+
+
 			/**
 			 * Set up this form to conform the the jQueryUI framework.
 			 * @param {jQuery} form

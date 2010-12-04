@@ -152,7 +152,7 @@
 				validators	= cjaf.Validator, i, val_class;
 				
 				if (el.is('input')) {
-					elements.push(el);
+					elements.push(el[0]);
 				}
 				if (typeof options === 'undefined') {
 					options	= {};

@@ -152,10 +152,12 @@
 			 * @return {boolean}
 			 */
 			"isValid": function () {
-				var is_valid	= true, i;
+				var is_valid	= true, i,element_list;
+				element_list=this.ui.getElementList();
 
-				for (i = 0; i < this.element_list.length; i += 1) {
-					is_valid	= this.element_list[i].form_element('isValid') ? is_valid : false;
+
+				for (i = 0; i < element_list.length; i += 1) {
+					is_valid	= element_list[i].form_element('isValid') ? is_valid : false;
 				}
 				return is_valid;
 			},

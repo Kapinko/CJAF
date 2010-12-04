@@ -108,7 +108,7 @@
 			 * @return {jQuery}
 			 */
 			"submitClient": function () {
-				this.form.trigger(FormHelper.submit.client);
+				this.form.trigger(EventHelper.submit.client);
 				return this.form;
 			},
 			/**
@@ -116,7 +116,7 @@
 			 * @return {jQuery}
 			 */
 			"validationSuccess": function () {
-				this.form.trigger(FormHelper.validation.success);
+				this.form.trigger(EventHelper.validation.success);
 				return this.form;
 			},
 			/**
@@ -124,7 +124,7 @@
 			 * @return {jQuery}
 			 */
 			"validationFailure": function () {
-				this.form.trigger(FormHelper.validation.failed);
+				this.form.trigger(EventHelper.validation.failed);
 				return this.form;
 			},
 			/**
@@ -132,7 +132,7 @@
 			 * @return {jQuery}
 			 */
 			"reset": function () {
-				this.form.trigger(FormHelper.clear);
+				this.form.trigger(EventHelper.clear);
 				return this.form;
 			}
 		};
