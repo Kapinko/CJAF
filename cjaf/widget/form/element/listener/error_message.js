@@ -1,10 +1,16 @@
-(function($, cjaf){
+/**
+ * This is a listener that will display an error message on a form error.
+ */
+/** JSLint Declarations */
+/*global jQuery: false, cjaf: false, window: false */
+/*jslint nomen: false*/
+(function ($, cjaf, document) {
 	cjaf.define('cjaf/widget/form/element/listener/error_message', [
 		'cjaf/widget/form/element/listener',
 		'jQuery/jquery.decorator',
 		'jQueryUI/jquery.ui.tooltip'
 	],
-	function(){
+	function () {
 		$.widget('cjaf.form_element_listener_error_message', $.cjaf.form_element_listener, {
 			options: {
 				/**
@@ -42,16 +48,15 @@
 				 * This function will create the error list.
 				 * @type {function(string, jQuery, Object): jQuery}
 				 */
-				createErrorListFunction: function(list_class, target, decorator_options){
-					var error_ul	= $(document.createElement('ul'));
+				createErrorListFunction: function (list_class, target, decorator_options) {
+					var error_ul	= $(document.createElement('ul')),
+					container	= $(document.createElement('div')),
+					icon_span	= $(document.createElement('span'));
 
-					var container	= $(document.createElement('div'));
 					container.addClass(list_class);
-
-					var icon_span	= $(document.createElement('span'))
-									.addClass('ui-icon ui-icon-alert')
-									.css('float', 'left')
-					;
+					icon_span.addClass('ui-icon ui-icon-alert')
+									.css('float', 'left');
+									
 					container.append(icon_span);
 					container.append(error_ul);
 
@@ -62,11 +67,10 @@
 				 * This function will be used to create the error list items.
 				 * @type {function(string, string): jQuery}
 				 */
-				createErrorListItemFunction: function(message, item_class){
+				createErrorListItemFunction: function (message, item_class) {
 					var error_li	= $(document.createElement('li'))
 									.addClass(item_class)
-									.html(message)
-					;
+									.html(message);
 					return error_li;
 				}
 			},
@@ -78,13 +82,13 @@
 			 * @param {jQuery.Event} event
 			 * @return {boolean}
 			 */
-			handleErrorEvent: function(event){},
+			handleErrorEvent: function (event) {},
 			/**
 			 * Function to react to the form.clear event.
 			 *
 			 * @param {Object} event - event string
 			 */
-			handleClearEvent: function(event){
+			handleClearEvent: function (event) {
 				this.clearErrors();
 			},
 			/**
@@ -93,10 +97,10 @@
 			 * @param {jQuery.Event} event
 			 * @param {jQuery.Event} errorCode
 			 */
-			handleValidationFailedEvent: function(event, errorCode){
+			handleValidationFailedEvent: function (event, errorCode) {
 				var element	= $(event.target);
 
-				if(typeof element['translate'] == 'function'){
+				if (element.hasOwnProperty('translate') && typeof element.translate  === 'function') {
 					errorCode	= element.translate(errorCode);
 				}
 
@@ -106,7 +110,7 @@
 			 * @param {jQuery.Event} event
 			 * @return {boolean}
 			 */
-			handleValidationStartEvent: function(event){
+			handleValidationStartEvent: function (event) {
 				this.clearErrors();
 			},
 			/**
@@ -115,11 +119,11 @@
 			 * @param {string} error
 			 * @return {jQuery}
 			 */
-			addError: function(error){
-				if(error && !this._alreadyDisplayed(error)){
+			addError: function (error) {
+				if (error && !this._alreadyDisplayed(error)) {
 					var list_item	= this._getErrorListItem(error),
 						list		= this._getErrorList();
-					if(!list.is('ul')){
+					if (!list.is('ul')) {
 						list		= list.find('ul:first');
 					}
 					list.append(list_item);
@@ -131,8 +135,8 @@
 			 *
 			 * @return {jQuery}
 			 */
-			clearErrors: function(){
-				if(this.errorList){
+			clearErrors: function () {
+				if (this.errorList) {
 					this.errorList.remove();
 					this.errorList	= null;
 				}
@@ -141,15 +145,14 @@
 			/**
 			 * @return {jQuery}
 			 */
-			_getErrorList: function(){
-				var o	=this.options;
+			_getErrorList: function () {
+				var o	= this.options, target;
 
-				if(this.errorList == null){
-					var target		= this.element;
+				if (this.errorList === null) {
+					target		= this.element;
 
-					switch(o.target){
-						case 'parent':
-							target	= this.element.parent();
+					if (o.target === 'parent') {
+						target	= this.element.parent();
 					}
 					this.errorList	= o.createErrorListFunction(this._getListClass(), target, o.decoratorOptions);
 				}
@@ -159,19 +162,19 @@
 			 * @param {string} message
 			 * @return {jQuery}
 			 */
-			_getErrorListItem: function(message){
+			_getErrorListItem: function (message) {
 				return this.options.createErrorListItemFunction(message, this._getListItemClass());
 			},
 			/**
 			 * @return {string}
 			 */
-			_getListClass: function(){
+			_getListClass: function () {
 				return this.options.listClass;
 			},
 			/**
 			 * @return {string}
 			 */
-			_getListItemClass: function(){
+			_getListItemClass: function () {
 				return this.options.listItemClass;
 			},
 			/**
@@ -179,14 +182,14 @@
 			 * @param {string} message
 			 * @return {boolean}
 			 */
-			_alreadyDisplayed: function(message){
+			_alreadyDisplayed: function (message) {
 				var has_message	= false,
 					error_list	= this._getErrorList();
 
-				has_message	= error_list.has(':contains("'+message+'")');
+				has_message	= error_list.has(':contains("' + message + '")');
 
 				return has_message.length > 0;
 			}
 		});
 	});
-})(jQuery, cjaf);
+}(jQuery, cjaf, window.document));
