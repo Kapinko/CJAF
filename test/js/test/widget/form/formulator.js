@@ -23,7 +23,8 @@
 		'lib/validator/number',
 		'lib/validator/regex',
 		'lib/validator/minimum_length',
-		'lib/validator/email'
+		'lib/validator/email',
+		'jQuery/jquery.maskedinput'
 	],
 	function (locale,EventHandler) {
 		locale=locale.form_test.form.information;
@@ -155,7 +156,7 @@
 					errorLocale: locale.homephone.error,
 					errorListVisible: false
 				});
-				//homep.mask('(999) 999-9999', {placeholder:" "});
+				homep.mask('(999) 999-9999', {placeholder:" "});
 				form_ui.addElement(homep);
 
 				mobile.form_element({
@@ -165,7 +166,7 @@
 					errorLocale: locale.cellphone.error,
 					errorListVisible: false
 				});
-				//mobile.mask('(999) 999-9999', {placeholder:" "});
+				mobile.mask('(999) 999-9999', {placeholder:" "});
 				form_ui.addElement(mobile);
 
 
