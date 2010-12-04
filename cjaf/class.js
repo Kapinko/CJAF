@@ -26,7 +26,11 @@
 		cjaf.Class.extend	= function (parent, child_proto) {
 			F.prototype	= parent.prototype;
 
-			var child = function () {};
+			var child = function () {
+				if ($.isFunction(parent)) {
+					parent.apply(this, arguments);
+				}
+			};
 			child.prototype	= new F();
 			child.prototype	= $.extend(true, child.prototype, child_proto);
 			child.prototype.constructor	= child;
