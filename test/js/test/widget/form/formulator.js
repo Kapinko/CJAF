@@ -62,12 +62,16 @@
 				 * @type {Object.<string,*>}
 				 */
 				"errorLocale": locale.error,
+				disableClientSideValidation: true,
 				/**
 				 * Get the event handler helper class for this form widget.
 				 * @type {cjaf.Widget.Form.Helper.Handler}
 				 */
 				"eventHandler": cjaf.Class.extend(EventHandler, {
-
+					"runAjaxCall": function (success, error) {
+						window.setTimeout(success, 1000);
+						return false;
+					}
 				}),
 				/**
 				 * This function should add all of the necessary elements

@@ -40,12 +40,26 @@
 				 * during the time that the form is processing.
 				 * @type {Array.<string>}
 				 */
-				"processingIcons": [
-					'ui-icon-arrowrefresh-1-w',
-					'ui-icon-arrowrefresh-1-n',
-					'ui-icon-arrowrefresh-1-e',
-					'ui-icon-arrowrefresh-1-s'
-				],
+				"processingIcons": function (icon_index, text) {
+					var fish_left	= '>))\'>',
+						fish_right	= '<\'((<',
+						fish;
+					text	= "" + text;
+						
+					if (icon_index > 100) {
+						fish	= false;
+					} else if (icon_index === 0) {
+						fish	= fish_left;
+					} else if (icon_index === 50) {
+						fish	= text.slice(0, -6) + fish_right;
+					} else if (text.slice(-5) === fish_left) {
+						fish	= '&nbsp;' + text;
+					} else {
+						fish	= text.slice(6);
+					}
+					
+					return fish;
+				},
 				/**
 				 * This is the refresh rate of the processing animation.
 				 * @type {number}
@@ -55,7 +69,7 @@
 				 * This is the URL to the processing image file.
 				 * @type {string}
 				 */
-				"processingImageUrl": '/images/loading/ajax-arrows.gif'
+				"processingImageUrl": null
 			},
 			/**
 			 * This is the timeout ID for the processing animation.
@@ -161,6 +175,9 @@
 			 * @type {number} icon_index
 			 */
 			_showProcessing: function () {
+				if (!this.options.processingImageUrl) {
+					this._processingAnimation(0);
+				}
 				var image	= this._getProcessingImage();
 				image.fadeIn();
 			},
@@ -168,9 +185,13 @@
 			 * Stop the in-progress animation.
 			 */
 			_stopProcessingAnimation: function () {
-				var image	= this._getProcessingImage();
-				image.fadeOut('normal', function () {
-					$(this).css('display', 'none'); //make sure we're hidden
+				var el	= this._getProcessingImage();
+				
+				if (this.animationTimeoutId) {
+					window.clearTimeout(this.animationTimeoutId);
+				}
+				el.fadeOut('normal', function () {
+					$(this).css('display', 'none');
 				});
 			},
 			/**
@@ -201,7 +222,51 @@
 
 				this.element.after(container);
 				return container;
+			},
+			/**
+			 * Text "In Progress" animation function.
+			 * @type {number} icon_index
+			 * @type {string} last_text
+			 */
+			_processingAnimation: function (icon_index, last_text) {
+				var icons	= this.options.processingIcons, text;
+				
+				
+				if ($.isFunction(icons)) {
+					text	= icons(icon_index, last_text);
+					
+					if (!text) {
+						text	= icons((icon_index = 0));
+					}
+					
+				} else {
+					if (!icon_index || icon_index >= icons.length) {
+						icon_index	= 0;
+					}
+					text	= icons[icon_index];
+				}
+				
+				this._getTextProcessingElement().html(text);
+				
+				this.animationTimeoutId	= window.setTimeout($.proxy(function () {
+					this._processingAnimation((icon_index += 1), text);
+				}, this), this.options.processingAnimationSpeed);
+			},
+			/**
+			 * Create the text animation processing element.
+			 * @return {jQuery}
+			 */
+			_getTextProcessingElement: function () {
+				if(!this.processingImage) {
+					var el	= $('<span>');
+					el.addClass('container-image-in-progress');
+					
+					this.element.after(el);
+					this.processingImage	= el;
+				}
+				return this.processingImage;
 			}
+			
 		});
 	});
 }(jQuery, cjaf, window.document));
