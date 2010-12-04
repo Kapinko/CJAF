@@ -4,6 +4,7 @@
  */
 /** JSlint Declarations */
 /*global jQuery: false, cjaf: false */
+/*jslint nomen: false*/
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/form/listener/element_error_proxy', [
@@ -30,7 +31,7 @@
 			 */
 			"_create": function () {
 				var o		= this.options,
-				handler		= $.proxy(this,"handleValidationFailedEvent"),
+				handler		= $.proxy(this, "handleValidationFailedEvent"),
 				input, el;
 
 				for (var x=0; x<o.fieldList.length; x++)
@@ -57,5 +58,5 @@
 				this.addError(error_code);
 			}
 		});
-	})
+	});
 }(jQuery, cjaf));

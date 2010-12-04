@@ -48,7 +48,7 @@
 				var el				= this.element,
 				page_change_handler	= $.proxy(this, "_handlePageChange"),
 				sub_pages			= this.options.subPages,
-				sub_menu_items		= this.options.menuItem.getItems();;
+				sub_menu_items		= this.options.menuItem.getItems();
 				
 				if (!this._isAllowed()) {
 					el.css('display', 'none');

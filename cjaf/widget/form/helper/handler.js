@@ -3,6 +3,7 @@
  */
 /** JSLint Declarations */
 /*global jQuery: false, cjaf: false*/
+/*jslint nomen: false */
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/form/helper/handler', [
@@ -50,7 +51,9 @@
 			 * @param {function():boolean} error
 			 * @return {boolean}
 			 */
-			"runAjaxCall": function (success, error) { return  false; },
+			"runAjaxCall": function (success, error) { 
+				return  false;
+			},
 			/**
 			 * Handle a successful form submission.
 			 * @param {Object.<string,*>} status
@@ -58,7 +61,9 @@
 			 * @param {XMLHttpRequest} XMLHttpRequest
 			 * @return {boolean}
 			 */
-			"handleSuccess": function (response, status, XMLHttpRequest) { return false; },
+			"handleSuccess": function (response, status, XMLHttpRequest) { 
+				return false;
+			},
 			/**
 			 * Handle a failed form submission
 			 * @param {XMLHttpRequest} XMLHttpRequest
@@ -66,7 +71,9 @@
 			 * @param {string} error
 			 * @return {boolean}
 			 */
-			"handleError": function (XMLHttpRequest, status, error) { return false; },
+			"handleError": function (XMLHttpRequest, status, error) { 
+				return false;
+			},
 			/**
 			 * Handler to handle when the form validation is successful.
 			 * @param {jQuery.Event} event
@@ -83,7 +90,7 @@
 				};
 				error	= function () {
 					return self._internalErrorHandler.apply(self, arguments);
-				}
+				};
 				
 				form.trigger(EventHelper.submit.server);
 				
@@ -95,19 +102,25 @@
 			 * @param {jQuery.Event} event
 			 * @return {boolean}
 			 */
-			"handleValidationFailure": function (event) { return false; },
+			"handleValidationFailure": function (event) { 
+				return false;
+			},
 			/**
 			 * Handle the validation success event for an element of this form.
 			 * @param {jQuery.Event} event
 			 * @return {boolean}
 			 */
-			"handleElementValidationSuccess": function (event) { return false; },
+			"handleElementValidationSuccess": function (event) { 
+				return false;
+			},
 			/**
 			 * Handle the validation failure event for an element of this form.
 			 * @param {jQuery.Event} event
 			 * @return {boolean}
 			 */
-			"handleElementValidationFailure": function (event) { return false; },
+			"handleElementValidationFailure": function (event) { 
+				return false;
+			},
 			/**
 			 * This function will properly direct the handling of an error from
 			 * the server.

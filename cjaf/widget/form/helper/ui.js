@@ -64,7 +64,7 @@
 			 * @return {FormHelper.UI}
 			 */
 			"setUpForm": function (form) {
-				form.attr('action', 'javascript:;')
+				form.attr('action', '#')
 					.attr('method', 'POST')
 					.addClass('ui-widget-content ui-corner-all');
 					

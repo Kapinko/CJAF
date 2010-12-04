@@ -7,7 +7,7 @@
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/helper/menu/item', [
 		'cjaf/collection',
-		'cjaf/widget/helper/menu',
+		'cjaf/widget/helper/menu'
 	],
 	/**
 	 * @param {cjaf.Collection} Collection
@@ -55,7 +55,9 @@
 			 * "authorization.change" event occurs.
 			 * @type {function():boolean}
 			 */
-			this.is_allowed	= function () { return true; };
+			this.is_allowed	= function () { 
+				return true;
+			};
 			/**
 			 * This is a collection of sub menu items.
 			 * @type {Collection}
@@ -132,7 +134,7 @@
 			 * @return {MenuItem}
 			 */
 			"setAction": function (action) {
-				this.action	= action
+				this.action	= action;
 				return this;
 			},
 			/**

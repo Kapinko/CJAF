@@ -17,7 +17,7 @@
 	 * @param {cjaf.Model.Response.Field} Field
 	 * @return {cjaf.Response.Parser}
 	 */
-	function (Collection, Model, Field) {
+	function (Collection, Response, Field) {
 		/**
 		 * This is an object that is used to parse out
 		 * information from a service response.

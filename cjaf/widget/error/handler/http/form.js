@@ -12,7 +12,7 @@
 	/**
 	 * @param {cjaf.Widget.Form.Helper.Event} EventHelper
 	 */
-	function(EventHelper) {
+	function (EventHelper) {
 		$.widget('cjaf.error_handler_http_form', $.cjaf.error_handler_http, {
 			/**
 			 * This is the default error handler.
@@ -21,7 +21,7 @@
 			 * @return {boolean}
 			 */
 			"defaultHandler": function (event, XMLHttpRequest) {
-				var response_code	= XMLHttpRequest.status
+				var response_code	= XMLHttpRequest.status;
 				$.error('Form Error Received: ' + response_code + ' - ' + XMLHttpRequest.statusText);
 				$.error(arguments);
 				this.element.trigger(EventHelper.error, ['unknown_error']);

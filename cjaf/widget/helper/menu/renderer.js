@@ -95,7 +95,7 @@
 					.attr('id', menu_item.getId())
 					.click(menu_item.getAction());
 
-				if(ref) {
+				if (ref) {
 					li.html('<a href="#' + ref + '">' + title + '</a>');
 				} else {
 					li.text(title);
@@ -167,7 +167,7 @@
 			 * @param {Menu} menu
 			 * @return {jQuery}
 			 */
-			"render": function(menu) {
+			"render": function (menu) {
 				var menu_html	= this.renderMenu(menu),
 				menu_item_list	= menu.getItems(),
 				menu_item, container;
@@ -195,7 +195,9 @@
 			 * @param {Menu} menu
 			 * @return {Renderer}
 			 */
-			"postRenderHook": function (container, menu_html, menu) {return this;}
+			"postRenderHook": function (container, menu_html, menu) {
+				return this;
+			}
 		};
 		return Menu.Renderer;
 	});

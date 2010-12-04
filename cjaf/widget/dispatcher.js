@@ -1,7 +1,6 @@
 /** JSLint Declarations */
 /*global window: false, document: false, jQuery: false, cjaf: false, alert: false */
-/*jslint white:true, browser:true, onevar: false, undef: true, eqeqeq:true, plusplus: true,
-bitwise: true, regexp: true, newcap: true, immed: true */
+/*jslint nomen: false */
 
 (function ($, cjaf, document) {
 	cjaf.define('cjaf/widget/dispatcher', [
@@ -17,12 +16,12 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 		 * This is an object map of all the content events.
 		 * @type {Object.<string,*>}
 		 */
-		var content_events	= EventHelper.dispatcher.content;
+		var content_events	= EventHelper.dispatcher.content,
 		/**
 		 * This is an object map of the content events to their handlers.
 		 * @type {Array.<Object>}
 		 */
-		var content_event_map	= [
+		content_event_map	= [
 			{"event": content_events.change, "handler": "_handleContentChange"},
 			{"event": content_events.render.start, "handler": "_handleRenderStart"},
 			{"event": content_events.transition.hide.complete, "handler": "_handleTransitionOutComplete"},
@@ -98,7 +97,7 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 				var event_map		= this.options.contentEventBindings,
 					content_element	= this.options.contentElement,
 					handler			= function (handler, context) {
-						return $.proxy(context, handler)
+						return $.proxy(context, handler);
 					},
 					index, binding;
 					
@@ -590,7 +589,7 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 			 */
 			_getPageWidget: function (page_id) {
 				var page_list	= this.options.pages,
-					page_widget	= page_list[page_id];
+					page_widget	= page_list[page_id], content_el;
 
 				if (!page_widget) {
 					page_widget	= page_list[this.options.defaultPage];
@@ -598,7 +597,7 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 				if (!page_widget) {
 					throw "Default page widget could not be found. Listed as: " + this.options;
 				}
-				var content_el	= this.getContentElement();
+				content_el	= this.getContentElement();
 
 				if (typeof content_el[page_widget] !== 'function') {
 					throw 'Page widget: ' + page_widget + ', is not a valid jQueryUI widget.';

@@ -5,7 +5,7 @@
 /** JSLint Declarations */
 /*global jQuery: false, cjaf: false*/
 
-(function($, cjaf) {
+(function ($, cjaf) {
 	cjaf.define('cjaf/widget/helper/menu', [
 		'cjaf/collection',
 		'cjaf/widget/helper'

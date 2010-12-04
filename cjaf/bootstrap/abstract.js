@@ -5,8 +5,7 @@
 
 /** JSLint Declarations */
 /*global document: false, jQuery: false, cjaf: false, alert: false */
-/*jslint white:true, browser:true, onevar: false, undef: true, eqeqeq:true, plusplus: true,
-bitwise: true, regexp: true, newcap: true, immed: true */
+/*jslint nomen: false */
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/bootstrap/abstract', [
@@ -178,12 +177,12 @@ bitwise: true, regexp: true, newcap: true, immed: true */
 			"_handleBootstrapException": function (exception) {
 				(function () {
 					var display	= '',
-						type	= typeof exception;
+						type	= typeof exception, x;
 						
 					if (type === "string") {
 						display = exception;
 					} else {
-						for (var x in exception) {
+						for (x in exception) {
 							if (exception.hasOwnProperty(x)) {
 								display += exception[x] + "\n";
 							}

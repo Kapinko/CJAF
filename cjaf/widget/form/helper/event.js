@@ -14,7 +14,7 @@
 	 */
 	function (Helper) {
 		if (!Helper.hasOwnProperty('Event')) {
-			Helper.Event	= function () {
+			Helper.Event	= (function () {
 				
 				return {
 					/**
@@ -71,7 +71,7 @@
 						"clear": "form_element_clear"
 					}
 				};
-			}();
+			}());
 		}
 		
 		return Helper.Event;
