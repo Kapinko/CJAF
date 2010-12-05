@@ -7,34 +7,27 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/helper/menu', [
-		'cjaf/collection',
-		'cjaf/widget/helper'
+		'cjaf/collection'
 	], 
 	/**
 	 * @param {cjaf.Collection} Collection
-	 * @param {Object.<string,*>} Helper
 	 * @return {cjaf.Widget.Helper.Menu}
 	 */
-	function (Collection, Helper) {
-		var menu_counter	= 0;
-
-		//Make sure that the "Menu" namespace exists.
-		if (Helper.hasOwnProperty('Menu')) {
-			return Helper.Menu;
-		}
-		
+	function (Collection) {
+		var menu_counter	= 0,
+		Menu	= cjaf.namespace("Widget.Helper.Menu", 
 		/**
 		 * An object to represent a menu (ie. a collection of menu items).
 		 * @constructor
 		 */
-		Helper.Menu	= function () {
+		function () {
 			/**
 			 * This is the identifier of this menu.
 			 * @type {string}
 			 */
-			this.id		= 'CJAF-Menu-' + menu_counter;
+			this.id	= 'CJAF-Menu-' + (menu_counter += 1);
 			/**
-			 * this is the title of this menu.
+			 * This is the title of this menu.
 			 * @type {string}
 			 */
 			this.title	= null;
@@ -43,9 +36,8 @@
 			 * @type {Collection}
 			 */
 			this.items	= new Collection();
-			
-		};
-		Helper.Menu.prototype	= {
+		});
+		Menu.prototype	= {
 			/**
 			 * Set the identifier of this menu.
 			 * @param {string} id
@@ -80,7 +72,7 @@
 			},
 			/**
 			 * Add a menu item to this menu.
-			 * @param {MenuItem} menu_item
+			 * @param {cjaf.Widget.Helper.Menu.Item} menu_item
 			 * @return {Helper.Menu}
 			 */
 			"addItem": function (menu_item) {
@@ -89,13 +81,13 @@
 			},
 			/**
 			 * Get all the menu items in this menu.
-			 * @return {Array.<MenuItem>}
+			 * @return {Collection}
 			 */
 			"getItems": function () {
 				return this.items;
 			}
 		};
 		
-		return Helper.Menu;
+		return Menu;
 	});
 }(jQuery, cjaf));

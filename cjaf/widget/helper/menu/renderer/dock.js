@@ -6,15 +6,18 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/helper/menu/renderer/dock', [
+		'cjaf/class',
 		'cjaf/widget/helper/menu/renderer',
 		'jQuery/jquery.jqDock'
 	],
 	/**
+	 * @param {cjaf.Class} Class
 	 * @param {cjaf.Widget.Helper.Menu.Renderer} Renderer
 	 * @return {cjaf.Widget.Helper.Menu.Renderer.Dock}
 	 */
-	function (Renderer) {
-		Renderer.Dock	= cjaf.Class.extend(Renderer, {
+	function (Class, Renderer) {
+		var Dock	= cjaf.namespace("Widget.Helper.Menu.Renderer.Dock", 
+		Class.extend(Renderer, {
 			/**
 			 * This function will render the menu itself.
 			 * @param {Menu} menu
@@ -75,8 +78,8 @@
 				};
 				menu_html.jqDock(dockOptions);
 			}
-		});
+		}));
 		
-		return Renderer.Dock;
+		return Dock;
 	});
 }(jQuery, cjaf));

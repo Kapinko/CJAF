@@ -5,18 +5,12 @@
 /*global jQuery: false, cjaf: false */
 
 (function ($, cjaf) {
-	cjaf.define('cjaf/widget/helper/event', [
-		'cjaf/widget/helper'
-	],
+	cjaf.define('cjaf/widget/helper/event', [],
 	/**
-	 * @param {cjaf.Widget.Helper} Helper
 	 * @return {cjaf.Widget.Helper.Event}
 	 */
-	function (Helper) {
-		/**
-		 * This is a helper object to assist in event handling.
-		 */
-		Helper.Event	= (function () {
+	function () {
+		var Event	= cjaf.namespace("Widget.Helper.Event", (function () {
 			return {
 				/**
 				 * Events related to errors.
@@ -99,8 +93,8 @@
 					}
 				}
 			};
-		}());
+		}()));
 
-		return Helper.Event;
+		return Event;
 	});
 }(jQuery, cjaf));

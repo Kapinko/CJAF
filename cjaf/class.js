@@ -14,9 +14,7 @@
 		//Temporary constructor function.
 		var F	= function () {};
 
-		cjaf.Class	= function () {
-			
-		};
+		cjaf.Class	= function () {};
 		/**
 		 * This function allows the user to create a base object
 		 * @param {function()} parent

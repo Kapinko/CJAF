@@ -14,11 +14,6 @@
 	 * @return {Object.<string, Object>}
 	 */
 	function () {
-		cjaf.Model	= {
-			Factory: {},
-			Response: {}
-		};
-		
-		return cjaf.Model;
+		return cjaf.namespace('Model', {});
 	});
 }(jQuery, cjaf));

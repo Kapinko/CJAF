@@ -6,22 +6,21 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/helper/menu/item', [
-		'cjaf/collection',
-		'cjaf/widget/helper/menu'
+		'cjaf/collection'
 	],
 	/**
 	 * @param {cjaf.Collection} Collection
-	 * @param {cjaf.Widget.Helper.Menu} Menu
 	 * @return {cjaf.Widget.Helper.Menu.Item}
 	 */
-	function (Collection, Menu) {
-		var menu_item_counter	= 0;
+	function (Collection) {
+		var menu_item_counter	= 0,
+		Item	= cjaf.namespace("Widget.Helper.Menu.Item", 
 		/**
 		 * This is an object that is meant to represent a discrete item that
 		 * is contained within a menu.
 		 * @constructor
 		 */
-		Menu.Item	= function () {
+		function () {
 			menu_item_counter += 1;
 			/**
 			 * This is the identifier of this menu item.
@@ -63,8 +62,8 @@
 			 * @type {Collection}
 			 */
 			this.sub_menu_items	= new Collection();
-		};
-		Menu.Item.prototype	= {
+		});
+		Item.prototype	= {
 			/**
 			 * Set the identifier of this menu item.
 			 * @param {string} id
@@ -184,6 +183,6 @@
 			}
 		};
 		
-		return Menu.Item;
+		return Item;
 	});
 }(jQuery, cjaf));

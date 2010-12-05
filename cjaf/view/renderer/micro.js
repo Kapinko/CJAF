@@ -6,15 +6,10 @@
 /*global jQuery: false, cjaf: false*/
 /*jslint evil: true, regexp: false*/
 (function ($, cjaf) {
-	cjaf.define('cjaf/view/renderer/micro', [
-		'cjaf/view/renderer'
-	],
-	/**
-	 * @param {cjaf.View.Renderer} ViewRenderer
-	 */
-	function (ViewRenderer) {
-		ViewRenderer.Micro	= function () {};
-		ViewRenderer.Micro.prototype	= {
+	cjaf.define('cjaf/view/renderer/micro', [],
+	function () {
+		var Micro	= cjaf.namespace('View.Renderer.Micro', function () {});
+		Micro.prototype	= {
 			/**
 			 * Compile the given string to a view object.
 			 * @param {string} view
@@ -46,6 +41,6 @@
 				return data ? template(data) : template;
 			}
 		};
-		return ViewRenderer.Micro;
+		return Micro;
 	});
 }(jQuery, cjaf));

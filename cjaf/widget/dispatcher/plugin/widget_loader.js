@@ -18,7 +18,8 @@
 	 * @return {$.cjaf.Dispatcher.Plugin.WidgetLoader}
 	 */
 	function (Class, DispatcherPlugin) {
-		var WidgetLoader	=  Class.extend(DispatcherPlugin, {
+		var WidgetLoader	= cjaf.namespace("Dispatcher.Plugin.WidgetLoader", 
+		Class.extend(DispatcherPlugin, {
 			/**
 			 * Has this widget already been loaded?
 			 * @type {boolean}
@@ -74,9 +75,7 @@
 			_notifyWidgetOfPageChange: function (target_element, widget_name, page) {
 				target_element[widget_name]('setPage', page);
 			}
-		});
-		
-		cjaf.Dispatcher.Plugin.WidgetLoader	= WidgetLoader;
-		return cjaf.Dispatcher.Plugin.WidgetLoader;
+		}));
+		return WidgetLoader;
 	});
 }(jQuery, cjaf));

@@ -2,9 +2,9 @@
 /*global jQuery: false, cjaf: false*/
 
 (function ($, cjaf) {
-	cjaf.define('cjaf/widget/dispatcher/plugin', [
-	],
+	cjaf.define('cjaf/widget/dispatcher/plugin', [],
 	function () {
+		var Plugin	= cjaf.namespace("Dispatcher.Plugin", 
 		/**
 		 * This is the constructor for all Dispatcher plugins.
 		 * 
@@ -13,10 +13,10 @@
 		 * @param {Object.<string,*>} widget_options
 		 * @constructor
 		 */
-		var Plugin	= function (element, widget_name, widget_options) {
+		function (element, widget_name, widget_options) {
 			//Make sure we call init on plugin load.
 			this.init.apply(this, arguments);
-		};
+		});
 		Plugin.prototype	= {
 			/**
 			 * This is an initialization function that will be called upon 
@@ -66,13 +66,6 @@
 				return true;
 			}
 		};
-		
-		if (!cjaf.hasOwnProperty('Dispatcher')) {
-			cjaf.Dispatcher	= {};
-		}
-		
-		cjaf.Dispatcher.Plugin	= Plugin;
-		
-		return cjaf.Dispatcher.Plugin;
+		return Plugin;
 	});
 }(jQuery, cjaf));

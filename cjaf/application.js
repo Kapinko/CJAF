@@ -6,10 +6,10 @@
 /** JSLint Declarations */
 /*global window: false, document: false, unescape: false, ActiveXObject: false, 
 XMLHttpRequest: false, jQuery: false, require: false*/
-/*jslint white:true, browser:true, onevar: false, undef: true, eqeqeq:true, plusplus: true,
-bitwise: true, regexp: true, newcap: true, immed: true, nomen: false */
- 
-(function ($, require) {
+/*jslint nomen: false */
+
+//Explicitly declare the cjaf global
+window.cjaf	= (function ($, require, window, document) {
 	if (!require) {
 		throw "The CJAF Application framework must have RequireJS available (http://requirejs.org)";
 	}
@@ -45,9 +45,9 @@ bitwise: true, regexp: true, newcap: true, immed: true, nomen: false */
 	 */
 	DEFAULT_DEPENDENCIES	= [
 		'cjaf/class',
+		'cjaf/namespace',
 		'cjaf/view',
 		'cjaf/model',
-		'cjaf/widget',
 		'cjaf/view/renderer',
 		'cjaf/widget/dispatcher'
 	],
@@ -329,7 +329,6 @@ bitwise: true, regexp: true, newcap: true, immed: true, nomen: false */
 				}
 			};
 		}());
-	
-	window.cjaf	= cjaf;
+		
 	return cjaf;
-}(jQuery, require));
+}(jQuery, require, window, window.document));

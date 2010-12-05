@@ -22,7 +22,7 @@
 				 * widget.
 				 * @type {string}
 				 */
-				'initViewPath': '/test/js/test/view/page/index/init.ejs',
+				'initView': 'page/index',
 				/**
 				 * This is the locale object that will be passed to the
 				 * initialization view.
@@ -35,7 +35,7 @@
 			 */
 			_create: function () {
 				var o	= this.options;
-				this.element.html(cjaf.view("page/index", o.locale));
+				this.element.html(cjaf.view(o.initView, o.locale));
 			}
 		});
 	});

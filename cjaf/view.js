@@ -8,9 +8,7 @@
 	 * @return {cjaf.View}
 	 */
 	function () {
-		cjaf.View	= function (base_path, renderer, options) {
-			options		= $.extend(true, cjaf.View.defaults, options);
-
+		var View	= cjaf.namespace('View', function (base_path, renderer, options) {
 			var cache		= {},
 			localCache		= ($.hasOwnProperty('sTc') && $.sTc) ? $.sTc : {}, //local template cache.
 			load_template, make_path;
@@ -60,12 +58,11 @@
 				//if obj is not provided return the template.
 				return renderer.render(template, data);
 			};
-		};
-		cjaf.View.defaults	= {
-			"widget_dir": "widget",
+		});
+		View.defaults	= {
 			"default_view": "init.phtml"
 		};
-
-		return cjaf.View;
+		
+		return View;
 	});
 }(jQuery, cjaf));

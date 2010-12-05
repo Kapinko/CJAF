@@ -16,11 +16,7 @@
 	 * @return {cjaf.Widget.Helper.Menu.Renderer}
 	 */
 	function (Menu, MenuItem) {
-		/**
-		 * An abstract menu renderer.
-		 * @constructor
-		 */
-		Menu.Renderer	= function () {
+		var Renderer	= cjaf.namespace("Widget.Helper.Menu.Renderer", function () {
 			/**
 			 * This is a callback that will be called when we have rendered
 			 * a menu item and that menu item will be passed as a jQuery object.
@@ -52,8 +48,8 @@
 			this.menu_item_class	= 'ui-menu-item';
 
 			this.init();
-		};
-		Menu.Renderer.prototype	= {
+		});
+		Renderer.prototype	= {
 			/**
 			 * this is a constructor hook.
 			 */
@@ -199,6 +195,6 @@
 				return this;
 			}
 		};
-		return Menu.Renderer;
+		return Renderer;
 	});
 }(jQuery, cjaf));

@@ -11,15 +11,11 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/view/renderer/jquery.tmpl', [
-		'cjaf/view/renderer',
 		'jQuery/jquery.tmplPlus'
 	],
-	/**
-	 * @param {ViewRenderer} ViewRenderer
-	 */
-	function (ViewRenderer) {
-		ViewRenderer.jQueryTmpl	= function () {};
-		ViewRenderer.jQueryTmpl.prototype	= {
+	function () {
+		var jQueryTmpl	= cjaf.namespace('View.Renderer.jQueryTmpl', function () {});
+		jQueryTmpl.prototype	= {
 			/**
 			 * Compile the given string to a view object.
 			 * @param {string} view
@@ -38,6 +34,6 @@
 				return $.tmpl(template, data);
 			}
 		};
-		return ViewRenderer.jQueryTmpl;
+		return jQueryTmpl;
 	});
 }(jQuery, cjaf));

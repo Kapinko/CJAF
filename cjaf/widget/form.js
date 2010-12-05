@@ -9,7 +9,8 @@
 	cjaf.define("cjaf/widget/form", [
 		'cjaf/widget/form/helper/ui',
 		'cjaf/widget/form/helper/handler',
-		'cjaf/widget/form/helper/trigger'
+		'cjaf/widget/form/helper/trigger',
+		'jQuery/jquery.log'
 	],
 	/**
 	 * @param {cjaf.Widget.Form.Helper.UI} UIHelper
