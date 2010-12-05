@@ -124,19 +124,13 @@
 					 * not provide a file name to the cjaf.view function.
 					 * @type {string}
 					 */
-					"base_file": 'init.phtml',
+					"default_view": 'init.phtml',
 					/**
 					 * This is the absolute path that will be used as the base path
 					 * for all view template retrievals.
 					 * @type {string}
 					 */
 					"base_path": '/js/view',
-					/**
-					 * This is the path for all widget/module views relative to the
-					 * "base_path"
-					 * @type {string}
-					 */
-					"widget_path": 'widget',
 					/**
 					 * This is the view renderer object we will use to render view
 					 * templates.

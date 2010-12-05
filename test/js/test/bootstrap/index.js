@@ -53,7 +53,7 @@
 					 * for all view template retrievals.
 					 * @type {string}
 					 */
-					"base_path": '/js/test/view',
+					"base_path": '/test/js/test/view',
 					/**
 					 * This is the view renderer object we will use to render view
 					 * templates.

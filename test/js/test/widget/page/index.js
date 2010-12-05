@@ -35,8 +35,7 @@
 			 */
 			_create: function () {
 				var o	= this.options;
-				
-				this.element.html(cjaf.view(o.initViewPath, o.locale));
+				this.element.html(cjaf.view("page/index", o.locale));
 			}
 		});
 	});

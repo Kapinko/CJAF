@@ -28,7 +28,7 @@
 				if (widget.charAt(0) === '/') {
 					path	= widget;
 				} else {
-					path	= [base_path, options.widget_dir, widget, view].join('/');
+					path	= [base_path, widget, view].join('/');
 				}
 
 				return path;
@@ -63,7 +63,7 @@
 		};
 		cjaf.View.defaults	= {
 			"widget_dir": "widget",
-			"default_view": "init.ejs"
+			"default_view": "init.phtml"
 		};
 
 		return cjaf.View;
