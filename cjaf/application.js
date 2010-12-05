@@ -23,17 +23,17 @@ bitwise: true, regexp: true, newcap: true, immed: true, nomen: false */
 	 * where the locale is stored.
 	 * @type {string}
 	 */
-		COOKIE_LOCALE		= 'cjaf.locale',
+	COOKIE_LOCALE		= 'cjaf.locale',
 	/**
 	 * This is the URL that will be used as the default requireJS "baseUrl".
 	 * @type {string}
 	 */
-		DEFAULT_BASE_URL	= '/js',
+	DEFAULT_BASE_URL	= '/js',
 	/**
 	 * These are the default paths that are set up for your application.
 	 * @type {Object.<string, string>}
 	 */
-		DEFAULT_PATHS		= {
+	DEFAULT_PATHS		= {
 		"cjaf": "cjaf",
 		"lib": "lib",
 		"jQuery": "lib/jquery",
@@ -43,11 +43,12 @@ bitwise: true, regexp: true, newcap: true, immed: true, nomen: false */
 	 * Thes are the default dependencies common to every cjaf application.
 	 * @type {Array.<string>}
 	 */
-		DEFAULT_DEPENDENCIES	= [
+	DEFAULT_DEPENDENCIES	= [
 		'cjaf/class',
 		'cjaf/view',
 		'cjaf/model',
 		'cjaf/widget',
+		'cjaf/view/renderer',
 		'cjaf/widget/dispatcher'
 	],
 
@@ -270,19 +271,20 @@ bitwise: true, regexp: true, newcap: true, immed: true, nomen: false */
 				 *
 				 * @type {string} bootstrap_path - this must be the full path to your
 				 *				application's bootstrap file.
-				 * @type {jQuery} cornerstone - this is the element that the base layout
-				 *				will be attached to. This could possibly be the "body"
-				 *				tag.
-				 * @type {jQuery} elements_to_clear - this jQuery wrapped element list
-				 *				contains all of the elements we will clear when we're
-				 *				ready to display the application.
+				 * @type {jQuery} cornerstone - This is the jQuery wrapped element 
+				 *				that the base layout will be attached to.
+				 * @type {jQuery} elements_to_clear - This is the jQuery wrapped list
+				 *				of elements that we will clear when we're ready to
+				 *				display the application.
 				 * @type {string} base_url - this is the base URL for all requirejs requests.
 				 */
 				"start": function (bootstrap_path, cornerstone, elements_to_clear, base_url) {
 					if (!base_url) {
 						base_url	= DEFAULT_BASE_URL;
 					}
-					require({baseUrl: base_url}, [
+					require({baseUrl: base_url});
+					
+					require([
 						bootstrap_path
 					],
 					/**

@@ -8,9 +8,7 @@
 /*jslint nomen: false */
 
 (function ($, cjaf) {
-	cjaf.define('cjaf/bootstrap/abstract', [
-
-	],
+	cjaf.define('cjaf/bootstrap/abstract', [],
 	function () {
 		var AbstractBootstrap		= function () {};
 		AbstractBootstrap.prototype	= new cjaf.Bootstrap();
@@ -23,6 +21,8 @@
 			 */
 			"run": function (cornerstone) {
 				try {
+					this._initView();
+					
 					this._initLayout(cornerstone);
 
 					this._initDispatcher(cornerstone);
@@ -32,6 +32,17 @@
 				} catch (exception) {
 					this._handleBootstrapException(exception);
 				}
+			},
+			/**
+			 * Here we initialize the view renderer.
+			 */
+			"_initView": function () {
+				var config	= this.getViewConfig(), path, renderer;
+				
+				path		= config.base_path;
+				renderer	= new config.renderer();
+				
+				cjaf.view	= cjaf.View(path, renderer, config);
 			},
 			/**
 			 * Here we initialize the site layout.
@@ -101,6 +112,38 @@
 			 */
 			"getDependencies": function () {
 				throw "getDependencies is an abstract function that must be overridden.";
+			},
+			/**
+			 * This function must return the configuration for the cjaf.view object.
+			 * @return {Object.<string,*>}
+			 */
+			"getViewConfig": function () {
+				return {
+					/**
+					 * This is the file that will be retrieved when the user does
+					 * not provide a file name to the cjaf.view function.
+					 * @type {string}
+					 */
+					"base_file": 'init.phtml',
+					/**
+					 * This is the absolute path that will be used as the base path
+					 * for all view template retrievals.
+					 * @type {string}
+					 */
+					"base_path": '/js/view',
+					/**
+					 * This is the path for all widget/module views relative to the
+					 * "base_path"
+					 * @type {string}
+					 */
+					"widget_path": 'widget',
+					/**
+					 * This is the view renderer object we will use to render view
+					 * templates.
+					 * @type {ViewRenderer}
+					 */
+					"renderer": cjaf.View.Renderer
+				};
 			},
 			/**
 			 * Do any necessary pre-layout work here. This should be where you

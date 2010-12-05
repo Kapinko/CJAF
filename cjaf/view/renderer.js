@@ -13,9 +13,9 @@
 		var IsAbstractException	= {
 			"name": 'IsAbstractException',
 			'message': "Cannot use the abstract renderer as a concrete instance."
-		},
-		ViewRenderer	= function () {}
-		ViewRenderer.prototype	= {
+		};
+		cjaf.View.Renderer	= function () {};
+		cjaf.View.Renderer.prototype	= {
 			/**
 			 * Convert a given string into a view template.
 			 * @param {string} view
@@ -35,6 +35,6 @@
 			}
 		};
 
-		return ViewRenderer;
+		return cjaf.View.Renderer;
 	});
 }(jQuery, cjaf));

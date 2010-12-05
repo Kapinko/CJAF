@@ -30,6 +30,7 @@
 			 */
 			"getDependencies": function () {
 				return [
+					'cjaf/view/renderer/micro',
 					'cjaf/widget/dispatcher/plugin/widget_loader',
 					
 					'test/widget/template',
@@ -39,6 +40,29 @@
 					
 					'cjaf/widget/helper/menu/renderer/dock'
 				];
+			},
+			/**
+			 * This function must return the configuration for the cjaf.view object.
+			 * @return {Object.<string,*>}
+			 */
+			"getViewConfig": function () {
+				var config	= AbstractBootstrap.prototype.getViewConfig.apply(this, arguments);
+				config		= $.extend(true, config, {
+					/**
+					 * This is the absolute path that will be used as the base path
+					 * for all view template retrievals.
+					 * @type {string}
+					 */
+					"base_path": '/js/test/view',
+					/**
+					 * This is the view renderer object we will use to render view
+					 * templates.
+					 * @type {ViewRenderer}
+					 */
+					"renderer": cjaf.View.Renderer.Micro
+				});
+				
+				return config;
 			},
 			/**
 			 * Do any necessary pre-layout work here. This should be where you
