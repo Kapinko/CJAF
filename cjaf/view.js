@@ -4,51 +4,63 @@
  plusplus: true, bitwise: true, regexp: false, newcap: true, immed: true, nomen: false */
 
 (function ($, cjaf) {
-	var cache		= {},
-		localCache	= ($.hasOwnProperty('sTc') && $.sTc) ? $.sTc : {}, //local template cache.
-		loadTemplate, getRenderingJsFromString;
-		
-	getRenderingJsFromString	= function (str) {
-		var blah =
-			"var p=[],print=function(){p.push.apply(p,arguments);};" +
-			"with(obj){p.push('" +
-			str
-			  .replace(/[\r\t\n]/g, " ")
-			  .split("<%").join("\t")
-			  .replace(/((^|%>)[^\t]*)'/g, "$1\r")
-			  .replace(/\t=(.*?)%>/g, "',$1,'")
-			  .split("\t").join("');")
-			  .split("%>").join(";p.push('")
-			  .split("\r").join("\\'") +
-			"');}return p.join('');";
-		return blah;
-	};
-		
-	loadTemplate	= function (path) {
-		if (cache[path]) {
-			return cache[path];
-		}
-		
-		if (localCache[path]) {
-			return localCache[path];
-		}
-		
-		$.ajax({
-			url: path,
-			method: 'GET',
-			async: false,
-			success: function (response, textStatus, XMLHttpRequest) {
-				cache[path]	= new Function("obj", getRenderingJsFromString(response));
+	cjaf.define('cjaf/view', [],
+	/**
+	 * @return {View}
+	 */
+	function () {
+		var View	= function (base_path, renderer, options) {
+			options	= $.extend(true, View.defaults, options);
+
+			var cache		= {},
+			localCache		= ($.hasOwnProperty('sTc') && $.sTc) ? $.sTc : {}, //local template cache.
+			load_template, make_path;
+
+			make_path	= function (widget) {
+				var view;
+				if (typeof view === 'string') {
+					view	= options.default_view;
+
+				} else {
+					view	= widget.view;
+					widget	= widget.name;
+				}
+
+				return [base_path, options.widget_dir, widget, view].join('/');
+			};
+			load_template	= function (path) {
+				if (cache[path]) {
+					return cache[path];
+				}
+
+				if (localCache[path]) {
+					return localCache[path];
+				}
+
+				$.ajax({
+					url: path,
+					method: 'GET',
+					async: false,
+					success: function (response, textStatus, XMLHttpRequest) {
+						cache[path]	= renderer.compile(response);
+					}
+				});
+
+				return cache[path];
+			};
+
+			return function(path, data) {
+				path			= make_path(path);
+				var template	= load_template(path);
+				//if obj is not provided return the template.
+				return renderer.render(template, data);
 			}
-		});
-		
-		return cache[path];
-	};
-	
-	cjaf.view	= function (path, obj) {
-		var template	= loadTemplate(path);
-		//if obj is not provided return the template;
-		return obj ? template(obj) : template;
-	};
-	
+		};
+		View.defaults	= {
+			"widget_dir": "widget",
+			"default_view": "init.ejs"
+		};
+
+		return View;
+	});
 }(jQuery, cjaf));
