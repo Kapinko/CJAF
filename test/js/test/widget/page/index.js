@@ -18,12 +18,6 @@
 			 */
 			options: {
 				/**
-				 * This is the full path to the initialization view for this
-				 * widget.
-				 * @type {string}
-				 */
-				'initView': 'page/index',
-				/**
 				 * This is the locale object that will be passed to the
 				 * initialization view.
 				 * @type {Object.<string,*>}
@@ -35,7 +29,7 @@
 			 */
 			_create: function () {
 				var o	= this.options;
-				this.element.html(cjaf.view(o.initView, o.locale));
+				this.element.html(this._view(o.locale));
 			}
 		});
 	});
