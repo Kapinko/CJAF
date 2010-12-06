@@ -11,7 +11,7 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/view/renderer/jquery.tmpl', [
-		'jQuery/jquery.tmplPlus'
+		'jQuery/jquery.tmpl'
 	],
 	function () {
 		var jQueryTmpl	= cjaf.namespace('View.Renderer.jQueryTmpl', function () {});

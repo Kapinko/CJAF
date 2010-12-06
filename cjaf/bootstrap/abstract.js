@@ -150,7 +150,7 @@
 			 * widget to be used for this site.
 			 */
 			"_getLayoutWidgetName": function () {
-				throw "_getLayoutWidgetName is an abstract function that must be overridden.";
+				return 'template';
 			},
 			/**
 			 * This function must return an object suitable to be passed to the

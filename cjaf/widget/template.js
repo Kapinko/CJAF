@@ -9,7 +9,7 @@
 	function () {
 		$.widget('cjaf.template', {
 			options: {
-				initViewPath: null,
+				initViewPath: 'template',
 				locale: {}
 			},
 			_create: function () {
