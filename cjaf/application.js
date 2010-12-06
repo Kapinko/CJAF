@@ -49,6 +49,7 @@ window.cjaf	= (function ($, require, window, document) {
 		'cjaf/view',
 		'cjaf/model',
 		'cjaf/view/renderer',
+		'cjaf/widget',
 		'cjaf/widget/dispatcher',
 		'cjaf/widget/template'
 	],

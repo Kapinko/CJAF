@@ -9,14 +9,24 @@
 	 */
 	function () {
 		var View	= cjaf.namespace('View', function (base_path, renderer, options) {
+			options = $.extend(true, View.defaults, options);
+
 			var cache		= {},
 			localCache		= ($.hasOwnProperty('sTc') && $.sTc) ? $.sTc : {}, //local template cache.
 			load_template, make_path;
 
+			/**
+			 * A function to retrieve the currently set default View.
+			 * @return {string}
+			 */
+			View.getDefault	= function () {
+				return options.default_view;
+			};
+
 			make_path	= function (widget) {
 				var view, path;
 				if (typeof widget === 'string') {
-					view	= options.default_view;
+					view	= View.getDefault();
 
 				} else {
 					view	= widget.view;
