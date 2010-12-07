@@ -30,7 +30,7 @@
 			 */
 			"getDependencies": function () {
 				return [
-					'cjaf/view/renderer/micro',
+					'cjaf/view/renderer/mustache',
 					'cjaf/widget/dispatcher/plugin/widget_loader',
 					
 					'test/widget/template',
@@ -59,7 +59,7 @@
 					 * templates.
 					 * @type {ViewRenderer}
 					 */
-					"renderer": cjaf.View.Renderer.Micro
+					"renderer": cjaf.View.Renderer.Mustache
 				});
 				
 				return config;
