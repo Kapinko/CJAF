@@ -13,7 +13,7 @@
 
 			var cache		= {},
 			localCache		= ($.hasOwnProperty('sTc') && $.sTc) ? $.sTc : {}, //local template cache.
-			load_template, make_path;
+			load_compiled, load_partials, make_path, load;
 
 			/**
 			 * A function to retrieve the currently set default View.
@@ -41,7 +41,8 @@
 
 				return path;
 			};
-			load_template	= function (path) {
+
+			load	= function (path, success) {
 				if (cache[path]) {
 					return cache[path];
 				}
@@ -55,18 +56,45 @@
 					method: 'GET',
 					async: false,
 					success: function (response, textStatus, XMLHttpRequest) {
-						cache[path]	= renderer.compile(response);
+						cache[path]	= success(response);
 					}
 				});
 
 				return cache[path];
 			};
 
-			return function (path, data) {
+			load_compiled	= function (path) {
+				return load(path, function (template) {
+					return renderer.compile(template);
+				});
+			};
+
+			load_partials	= function (partials) {
+				var path, loaded,
+				loader	= function (template) {
+					return template;
+				};
+
+				if (partials) {
+					for (path in partials) {
+						if (partials.hasOwnProperty(path)) {
+							loaded[path]	= load(partials[path], loader);
+						}
+					}
+				}
+				return loaded;
+			};
+			
+			return function (path, data, partials) {
 				path			= make_path(path);
-				var template	= load_template(path);
+				var template	= load_compiled(path);
 				//if obj is not provided return the template.
-				return renderer.render(template, data);
+
+				if (partials) {
+					partials	= load_partials(partials);
+				}
+
+				return renderer.render(template, data, partials);
 			};
 		});
 		View.defaults	= {

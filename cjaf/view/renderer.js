@@ -28,9 +28,10 @@
 			 * Render a given template into a view string.
 			 * @param {*} template,
 			 * @param {*} data
+			 * @param {Object.<string,string>} partials
 			 * @return {string}
 			 */
-			"render": function (template, data) {
+			"render": function (template, data, partials) {
 				throw IsAbstractException;
 			}
 		};

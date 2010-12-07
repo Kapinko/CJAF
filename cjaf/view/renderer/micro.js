@@ -34,9 +34,17 @@
 			 * Render the given template using the given data.
 			 * @param {*} template
 			 * @param {*} data
+			 * @param {Object.<string,string>} partials
 			 * @return {string}
 			 */
-			"render": function (template, data) {
+			"render": function (template, data, partials) {
+				if (partials) {
+					for (var partial in partials) {
+						if (partials.hasOwnProperty(partial)) {
+							data[partials]	= this.compile(partial);
+						}
+					}
+				}
 				//if data is not provided then just return the template.
 				return data ? template(data) : template;
 			}
