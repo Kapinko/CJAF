@@ -61,9 +61,6 @@
 				//Listen for an access control environment change.
 				$(document).bind(EventHelper.access_control.changed, $.proxy(this, "_handleAccessControlChange"));
 
-				//Listen for a page event on the document, ie from the dispatcher
-				$(document).bind(EventHelper.dispatcher.content.render.complete, page_change_handler);
-
 				//Listen for a page event where someone is targeting us.
 				el.bind(EventHelper.dispatcher.content.change, page_change_handler);
 			},

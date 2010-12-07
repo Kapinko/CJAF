@@ -4,13 +4,18 @@
  */
 
 /** JSLint Declarations */
-/*global document: false, jQuery: false, cjaf: false, alert: false */
+/*global window: false, jQuery: false, cjaf: false, alert: false */
 /*jslint nomen: false */
 
-(function ($, cjaf) {
+(function ($, cjaf, window) {
 	cjaf.define('cjaf/bootstrap/abstract', [],
-	function () {
-		var AbstractBootstrap		= function () {};
+	/**
+	 * @param {cjaf.Widget.Helper.Event} EventHelper
+	 * @return {AbstractBootstrap}
+	 */
+	function (EventHelper) {
+		var document		= window.document,
+		AbstractBootstrap	= function () {};
 		AbstractBootstrap.prototype	= new cjaf.Bootstrap();
 		$.extend(AbstractBootstrap.prototype, {
 			/**
@@ -68,7 +73,7 @@
 			 * @param {jQuery} cornerstone
 			 */
 			"_initDispatcher": function (cornerstone) {
-				var page, map, el;
+				var page, map, el, notifier;
 				page	= this._getDefaultPageId();
 
 				if (!page) {
@@ -86,6 +91,8 @@
 				if (!el || !el.selector || el.length < 1) {
 					throw "You must provide a valid jQuery wrapped element via the _getContentElement function.";
 				}
+				
+				notifier	= new cjaf.Dispatcher.Page.Notifier($(document));
 
 				$(document).dispatcher({
 					defaultPage:	page,
@@ -232,4 +239,4 @@
 		});
 		return AbstractBootstrap;
 	});
-}(jQuery, cjaf));
+}(jQuery, cjaf, window));

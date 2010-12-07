@@ -1,0 +1,59 @@
+/*
+Original design: Variant Portal (v1.0 - Jun 26, 2010) - A free xhtml/css website template by Andreas Viklund.
+For more information, see http://andreasviklund.com/templates/variant-portal/
+*/
+
+*{margin:0;padding:0;}
+body{background:#eee url(../img/variant/body-bg.gif) top center repeat-y;color:#555;font:76% tahoma, verdana, sans-serif;}
+
+a{color:#286ea0;text-decoration:none;}
+a:hover{text-decoration:underline;}
+a img{border:0;}
+h1{font-size:2.2em;letter-spacing:-1px;margin:0 0 5px; padding:0;}
+h2{font-size:1.6em;margin:0 0 12px; padding:0;}
+h3{font-size:1.3em;margin:0 0 10px; padding:0;}
+p, ul{line-height:1.5em;margin:0 0 18px;text-align:left;}
+ul,ol {list-style:square; margin:0 0 15px 20px;}
+hr {clear:both; visibility:hidden;}
+table {}
+
+#container{background:#fff;margin:15px auto 0 auto;width:980px;}
+#toplinks {width:400px; float:right;margin:0 15px 0 0;}
+#toplinks p {text-align:right;}
+#logo{width: 950px; margin: 0 auto; padding:10px 0 0 25px;}
+#logo h1 a{color:#777;padding:0;}
+#logo h1 a:hover{text-decoration:none;}
+#logo p{color:#555;font-size:1.4em;}
+#desc{background:#555;clear:both;color:#eee;margin:0 0 15px;padding:15px 15px 2px 15px;}
+#desc a{color:#eee;text-decoration:underline;}
+
+#main{float:left;padding:0; margin:0 0 10px 15px; width:650px;}
+
+#sidebar{float:right;width:280px;margin:0 15px 10px 0;}
+#sidebar h2 {font-size:1.2em; padding:0 0 2px 0; margin:0 0 6px 0;border-bottom: 1px solid #ccc;}
+#sidebar ul {margin:0 0 18px 0; padding:0;}
+#sidebar ul li {list-style:none; margin:0 0 8px 0; padding:0;}
+
+#footer{clear:both;background:#555; color:#eee ;margin:10px 0 0;padding:15px;text-align:left;}
+#footer a{color:#eee;}
+#footer p{margin:0; font-size:0.9em; font-weight:700;}
+
+ul#navitab{margin:0;padding:0;}
+ul#navitab li{display:block;float:left;margin:0;padding:0;}
+ul#navitab li a{background:url(../img/variant/corner.gif) no-repeat top right #eee;border-left:1px solid #ccc;border-right:2px solid #fff;color:#555;display:block;height:1.2em;padding:5px 16px 7px;text-align:center;text-decoration:none;text-transform:uppercase;white-space:nowrap;}
+ul#navitab li a:hover{background:#777 url(../img/variant/corner.gif) no-repeat top right;border-left:1px solid #aaa;color:#eee;}
+ul#navitab li a.current{background:#555 url(../img/variant/corner.gif) no-repeat top right;border-left:1px solid #555;color:#eee;}
+
+#sidebar ul.sidelink {margin:0 0 18px 0;}
+#sidebar ul.sidelink li{list-style:none; margin:0;}
+#sidebar ul.sidelink li a{background:url(../img/variant/corner.gif) no-repeat top right #eee;border-bottom:1px solid #ccc;border-left:1px solid #ccc;color:#555;display:block;margin:0 0 3px;padding:3px 0 2px 5px;text-align:left;text-decoration:none;text-transform:uppercase;}
+#sidebar ul.sidelink li a:hover{background:url(../img/variant/corner.gif) no-repeat top right #777;border-bottom:1px solid #333;border-left:1px solid #333;color:#eee;text-decoration:none;}
+#sidebar ul.sidelink ul{font-size:0.9em;margin:0;padding:0;}
+#sidebar ul.sidelink ul li a{margin:0 0 2px 10px; padding: 2px 0 1px 5px}
+
+.splitleft {width:48%;float:left;}
+.splitright {margin-left:52%;}
+
+.right{text-align:right;}
+.block{background:#eee url(../img/variant/corner.gif) no-repeat top right;padding:15px;border-bottom:1px solid #ccc;border-left:1px solid #ccc;}
+.hide{display:none;}

@@ -138,7 +138,7 @@
 					"pageList": this._getNavigationPageMap(),
 					"renderer": cjaf.Widget.Helper.Menu.Renderer.Dock
 				};
-				container.dispatcher('registerPlugin', new cjaf.Dispatcher.Plugin.WidgetLoader(cornerstone.find('#nav-primary'), 'test_navigation', options));
+				container.dispatcher('registerPlugin', new cjaf.Dispatcher.Plugin.WidgetLoader(cornerstone.find('.nav-primary'), 'test_navigation', options));
 			},
 			/**
 			 * This function should return your applications base URL.

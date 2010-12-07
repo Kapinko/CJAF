@@ -73,7 +73,7 @@
 			 */
 			"postRenderHook": function (container, menu_html, menu) {
 				var dockOptions	= {
-					"align": 'left',
+					"align": 'top',
 					"labels": true
 				};
 				menu_html.jqDock(dockOptions);

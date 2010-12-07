@@ -14,13 +14,7 @@
 			/**
 			 * These are the widget options.
 			 */
-			options: {
-				/**
-				 * This is the absolute path to this widget's view.
-				 * @type {string}
-				 */
-				'initViewPath': '/test/js/test/view/template/init.ejs'
-			}
+			options: {}
 		});
 	});
 }(jQuery, cjaf));

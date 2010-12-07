@@ -5,13 +5,14 @@
 (function ($, cjaf, document) {
 	cjaf.define('cjaf/widget/dispatcher', [
 		'cjaf/widget/helper/event',
-		'cjaf/widget/pluggable',
-		'jQuery/jquery.ba-bbq'
+		'cjaf/widget/dispatcher/page/map',
+		'cjaf/widget/pluggable'
 	],
 	/**
 	 * @param {cjaf.Widget.Helper.Event} EventHelper
+	 * @param {cjaf.Dispatcher.Page.Map} PageMap
 	 */
-	function (EventHelper) {
+	function (EventHelper, PageMap) {
 		/**
 		 * This is an object map of all the content events.
 		 * @type {Object.<string,*>}
@@ -65,17 +66,14 @@
 				contentElement: null
 			},
 			/**
-			 * This is the page that is currently being displayed.
-			 * 
-			 * @type {Object}
+			 *  @type {Object}
 			 */
-			currentPage: null,
+			defaultOverrideCacheEvent: null,
 			/**
-			 * This is the page that was previously displayed.
-			 * 
-			 * @type {Object}
+			 * This is the page map object that we're currently using.
+			 * @type {PageMap}
 			 */
-			previousPage: null,
+			page_map: null,
 			/**
 			 * The template for the content container.
 			 *
@@ -94,7 +92,8 @@
 			 *
 			 */
 			_create: function () {
-				var event_map		= this.options.contentEventBindings,
+				var o				= this.options,
+					event_map		= this.options.contentEventBindings,
 					content_element	= this.options.contentElement,
 					handler			= function (handler, context) {
 						return $.proxy(context, handler);
@@ -108,14 +107,17 @@
 						throw "Event handler for the " + binding.event + " event is not valid. [handler=" + binding.handler + "]";
 					}
 					
-					$(document).bind(binding.event, handler(binding.handler, this));
+					this.element.bind(binding.event, handler(binding.handler, this));
 				}
 				
 				if (content_element) {
 					this.setContentElement(content_element);
 				}
-
-				this._bindToHistoryPlugin();
+				
+				this.page_map	= new PageMap(o.pages);
+				this.page_map.setDefault(o.defaultPage);
+				
+				this.defaultOverrideCacheEvent	= o.defaultOverrideCacheEvent;
 			},
 			/**
 			 * Render a given page.
@@ -125,76 +127,42 @@
 			 */
 			render: function (page) {
 				if (!page) {
-					var event	= this.getCachedEvent();
+					var event	= this.getCachedEvent(),
+					map			= this.page_map;
 					if (event) {
 						page	= event.page;
 					}
 					if (!page) {
-						page	= this.getCurrentPage();
+						page	= map.getCurrent();
 					}
 					if (!page) {
 						page	= {
-							id: this.getDefaultPage()
+							id: map.getDefault()
 						};
 					}
 				}
 				this._triggerPageEvent(content_events.change, page);
 			},
-
 			/**
-			 * Integration into the jQuery.ba-bbq plugin.
-			 *
+			 * Are we ready to handle a content change request?
+			 * @return {boolean}
 			 */
-			_bindToHistoryPlugin: function () {
-				var self			= this;
-
-				//Override the default behavior of all <a> elements so that,
-				//when clicked, their `href` value is pushed onto the history
-				//has instead of being navigated to directly.
-				self.overridePageLinks	= function () {
-					$('a').click(function () {
-						var href	= $(this).attr('href');
-						$.bbq.pushState({url: href});
-
-						return false;
-					});
-				};
-
-				/**
-				 * Get the page represented by the current URL.
-				 *
-				 * @return {Object}
-				 */
-				self.getCurrentPage	= function () {
-					var page	= {
-						id: $.param.fragment(),
-						options: $.deparam.querystring()
-					};
-					if (!page.id) {
-						page.id	= self.getDefaultPage();
-					}
-					return page;
-				};
-
-				//Bind a callback that executes when the document.location.hash changes.
-				$(window).bind('hashchange', function (event) {
-					var page	= self.getCurrentPage();
-
-					if (page.id && page.id !== 'index') {
-						if (!self.getContentElement()) {
-							event.page	= page;
-							self.options.defaultOverrideCacheEvent	= event;
-						} else {
-							self._triggerPageEvent(content_events.change, page);
-						}
-					}
-				});
-
-				//override the publish page change event.
-				self.publishPageChangeEvent	= function () {
-					var page	= self.getCurrentPage();
-					self._triggerPageChangeEvent(content_events.change, page);
-				};
+			isReady: function () {
+				return this.getContentElement() ? true : false;
+			},
+			/**
+			 * Get the cached event.
+			 * @return {jQuery.Event}
+			 */
+			getCachedEvent: function () {
+				return this.defaultOverrideCacheEvent;
+			},
+			/**
+			 * Set the cached event.
+			 * @param {jQuery.Event} event
+			 */
+			setCachedEvent: function (event) {
+				this.defaultOverrideCacheEvent	= event;
 			},
 			/**
 			 * Handle the page content change event.
@@ -204,6 +172,10 @@
 			 * @return {boolean}
 			 */
 			_handleContentChange: function (event, page) {
+				if (!this.isReady()) {
+					event.page	= page;
+					this.setCachedEvent(event);
+				}
 				if (this._preRender(page)) {
 					this._triggerPageEvent(content_events.render.start, page);
 				}
@@ -264,7 +236,7 @@
 				this._triggerPageEvent(content_events.widget.load.start, page);
 
 				if (!page) {
-					page	= {id: this.getDefaultPage()};
+					page	= {id: this.page_map.getDefault()};
 				}
 				this._load(page);
 
@@ -331,33 +303,8 @@
 			 * @return {boolean}
 			 */
 			_triggerPageEvent: function (event_name, page) {
-				$(document).trigger(event_name, [page]);
+				this.element.trigger(event_name, [page]);
 				return false;
-			},
-			/**
-			 * Fire off the page change event.
-			 */
-			publishPageChangeEvent: function () {
-				throw "This must be overridden inside the _bindToHistoryPlugin implementation.";
-			},
-			/**
-			 * Bind all of the links (anchors) on the page to the history plugin.
-			 */
-			overridePageLinks: function () {
-				throw "This must be overridden inside the _bindToHistoryPlugin implementation.";
-			},
-			/**
-			 * Get the last cached page change event.
-			 *
-			 * @return {jQuery.Event}
-			 */
-			getCachedEvent: function () {
-				var defaultEvent	= this.options.defaultOverrideCacheEvent;
-
-				if (!defaultEvent || !defaultEvent.event) {
-					this.options.defaultOverrideCacheEvent = null;
-				}
-				return defaultEvent;
 			},
 			/**
 			 * Set the element that is the content container.
@@ -395,77 +342,6 @@
 				return this.options.contentElement;
 			},
 			/**
-			 * Get the currently rendered page.
-			 * 
-			 * @return {Object}
-			 */
-			getCurrentPage: function () {
-				return this.currentPage;
-			},
-			/**
-			 * Get the previously rendered
-             *
-			 * @return {Object}
-			 */
-			getPreviousPage: function () {
-				return this.previousPage;
-			},
-			/**
-			 * Get the default page to render.
-			 *
-			 * @return {string}
-			 */
-
-			getDefaultPage: function () {
-				return this.options.defaultPage;
-			},
-			/**
-			 * Set the default page to render.
-			 *
-			 * @param {string} page_id - page key/identifier.
-			 * @return {jQuery}
-			 */
-			setDefaultPage: function (page_id) {
-				this.options.defaultPage	= page_id;
-				return this;
-			},
-			/**
-			 * Add the given page to th page map.
-			 *
-			 * @param {string} id - the page key/identifier for the page map.
-			 * @param {string} widget_name - the widget to laod for the page.
-			 * @return {jQuery}
-			 */
-			addPage: function (id, widget_name) {
-				this.options.pages[id]	= widget_name;
-				return this;
-			},
-			/**
-			 * Remove the given page from the page map.
-			 *
-			 * @param {string} id - the page/key identifier for the page map.
-			 * @return {bool}
-			 */
-			removePage: function (id) {
-				var removed	= false;
-
-				if (this.options.pages.id) {
-					this.options.pages.id	= null;
-					removed	= true;
-				}
-				return removed;
-			},
-			/**
-			 * Replace the page map entirely.
-			 *
-			 * @param {Object} map - a new page mapping.
-			 * @return {jQuery}
-			 */
-			setPageMap: function (map) {
-				this.options.pages	= map;
-				return this.element;
-			},
-			/**
 			 * Call the pre render function on the registered plugins.
 			 * 
 			 * @param {Object} target_page - the page we are attempting to load.
@@ -475,7 +351,7 @@
 				return this.callMethodOnPlugins(
 					'preRender',
 					this.getContentElement(),
-					this.getCurrentPage(),
+					this.page_map.getCurrent(),
 					target_page
 				);
 			},
@@ -518,7 +394,7 @@
 				return this.callMethodOnPlugins(
 					'preWidgetLoad',
 					this.getContentElement(),
-					this.getCurrentPage(),
+					this.page_map.getCurrent(),
 					target_page
 				);
 			},
@@ -529,10 +405,14 @@
 			 * @return {bool}
 			 */
 			_load: function (target_page) {
-				var page_widget	= this._getPageWidget(target_page.id);
-				this.getContentElement()[page_widget](target_page.options);
-
-				this._setCurrentPage(target_page);
+				var content_el	= this.getContentElement(),
+				map				= this.page_map, page_widget;
+				
+				page_widget	= map.getWidget(target_page.id, content_el);
+				
+				content_el[page_widget](target_page.options);
+				
+				map.setCurrent(target_page);
 				return true;
 			},
 			/**
@@ -544,8 +424,8 @@
 				return this.callMethodOnPlugins(
 					'postWidgetLoad',
 					this.getContentElement(),
-					this.getPreviousPage(),
-					this.getCurrentPage()
+					this.page_map.getPrevious(),
+					this.page_map.getCurrent()
 				);
 			},
 			/**
@@ -566,43 +446,9 @@
 				return this.callMethodOnPlugins(
 					'postRender',
 					this.getContentElement(),
-					this.getPreviousPage(),
-					this.getCurrentPage()
+					this.page_map.getPrevious(),
+					this.page_map.getCurrent()
 				);
-			},
-			/**
-			 * Set the current page
-			 *
-			 * @param {string} page_id
-			 * @return {jQuery}
-			 */
-			_setCurrentPage: function (page_id) {
-				this.previousPage	= this.currentPage;
-				this.currentPage	= page_id;
-				return this.element;
-			},
-			/**
-			 * Get the controller widget name for the given page identifier.
-			 *
-			 * @param {string} page_id
-			 * @return {string}
-			 */
-			_getPageWidget: function (page_id) {
-				var page_list	= this.options.pages,
-					page_widget	= page_list[page_id], content_el;
-
-				if (!page_widget) {
-					page_widget	= page_list[this.options.defaultPage];
-				}
-				if (!page_widget) {
-					throw "Default page widget could not be found. Listed as: " + this.options;
-				}
-				content_el	= this.getContentElement();
-
-				if (typeof content_el[page_widget] !== 'function') {
-					throw 'Page widget: ' + page_widget + ', is not a valid jQueryUI widget.';
-				}
-				return page_widget;
 			},
 			/**
 			 * Create a generic content element.

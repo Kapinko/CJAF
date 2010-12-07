@@ -4,7 +4,7 @@
 /*global jQuery: false, cjaf: false*/
 
 (function($, cjaf){
-	cjaf.define('cjaf/widget/captcha', [
+	cjaf.define('core/widget/captcha', [
 
 	],
 	function(){
@@ -14,28 +14,26 @@
 		 */
 		var TIMEOUT_INTERVAL	= (20 * 60 * 1000);
 
-		$.widget('cjaf.captcha', {
+		$.widget('cjaf.core_captcha', {
 			options: {
 				/**
-				 * @type {string}
+				 * These are the options that will be passed directly to the 
+				 * view template.
+				 * @type {Object.<string,*>}
 				 */
-				initViewPath: '/js/stax/view/captcha/init.ejs',
-				/**
-				 * @type {string}
-				 */
-				imageClass: 'captcha-image',
-				/**
-				 * @type {string}
-				 */
-				imageHeight: '40px',
-				/**
-				 * @type {string}
-				 */
-				imageAlt: 'Captcha Code',
-				/**
-				 * @type {string}
-				 */
-				imageSrc: '/CAPTCHA/0',
+				"view": {
+					/**
+					 * These are the attributes that will be applied to the
+					 * captcha image.
+					 * @type {Object.<string,string>}
+					 */
+					"image": {
+						"css_class": "captcha-image",
+						"height": "40px",
+						"alt": "Captcha Code",
+						"src": ""
+					}
+				},
 				/**
 				 * How long in milliseconds before the captcha needs to be
 				 * reloaded.
