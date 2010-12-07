@@ -93,12 +93,13 @@
 				}
 				
 				notifier	= new cjaf.Dispatcher.Page.Notifier($(document));
-
+				
 				$(document).dispatcher({
 					defaultPage:	page,
 					pages:			map,
 					contentElement: el //Antonio Banderas
 				});
+				$(document).dispatcher("setCachedEvent", {"page": notifier.getCurrentPage()});
 				this._registerDispatcherPlugins($(document), cornerstone);
 			},
 			/**
