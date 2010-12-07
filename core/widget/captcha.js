@@ -1,0 +1,97 @@
+/**
+ * This is a widget that will display a captcha image.
+ */
+/*global jQuery: false, cjaf: false*/
+
+(function($, cjaf){
+	cjaf.define('cjaf/widget/captcha', [
+
+	],
+	function(){
+		/**
+		 * The default captcha timeout interval.
+		 * @type {number}
+		 */
+		var TIMEOUT_INTERVAL	= (20 * 60 * 1000);
+
+		$.widget('cjaf.captcha', {
+			options: {
+				/**
+				 * @type {string}
+				 */
+				initViewPath: '/js/stax/view/captcha/init.ejs',
+				/**
+				 * @type {string}
+				 */
+				imageClass: 'captcha-image',
+				/**
+				 * @type {string}
+				 */
+				imageHeight: '40px',
+				/**
+				 * @type {string}
+				 */
+				imageAlt: 'Captcha Code',
+				/**
+				 * @type {string}
+				 */
+				imageSrc: '/CAPTCHA/0',
+				/**
+				 * How long in milliseconds before the captcha needs to be
+				 * reloaded.
+				 *
+				 * @type {number}
+				 */
+				timeout: TIMEOUT_INTERVAL
+			},
+
+			_create: function(){
+				var self	= this,
+					o		= this.options;
+
+				this.element.html(
+					view(o.initViewPath, {
+						image_class: o.imageClass,
+						image_height: o.imageHeight,
+						image_alt: o.imageAlt,
+						image_src: o.imageSrc
+					})
+				);
+
+				this.element.bind('reload', function(){
+					self.reload();
+				})
+
+				this.timeout(true);
+			},
+			/**
+			 * Re-initialize the captcha element.
+			 */
+			reload: function(){
+				this.element.find('img').reload();
+			},
+			/**
+			 * Reload the captcha element after the timeout time has been reached.
+			 *
+			 * @param {boolean} 
+			 */
+			timeout: function(skip_reload){
+				var self	= this;
+
+				if(!skip_reload){
+					this.reload();
+				}
+				this.timerId	= setTimeout(function(){
+					self.timeout();
+				}, this.getTimeoutInterval());
+			},
+			/**
+			 * Get the timeout interval for the captcha reload.
+			 * @return {number}
+			 */
+			getTimeoutInterval: function(){
+				return this.options.timeout;
+			}
+		});
+	});
+})(jQuery, stax);
