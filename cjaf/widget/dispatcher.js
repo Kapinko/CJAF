@@ -99,7 +99,7 @@
 						return $.proxy(context, handler);
 					},
 					index, binding;
-					
+
 				for (index = 0; index < event_map.length; index += 1) {
 					binding	= event_map[index];
 					
@@ -362,7 +362,13 @@
 			 *		has been hidden.
 			 */
 			_transitionOut: function (callback) {
-				this.getContentElement().fadeOut('normal', callback);
+				var el	= this.getContentElement();
+
+				if (el.is(':visible')) {
+					el.fadeOut('normal', callback);
+				} else {
+					callback();
+				}
 			},
 			/**
 			 * Clear the element to prepare to load thenew content.
@@ -409,9 +415,9 @@
 				map				= this.page_map, page_widget;
 				
 				page_widget	= map.getWidget(target_page.id, content_el);
-				
+
 				content_el[page_widget](target_page.options);
-				
+
 				map.setCurrent(target_page);
 				return true;
 			},
@@ -435,7 +441,13 @@
 			 *		has been made visible.
 			 */
 			_transitionIn: function (callback) {
-				this.getContentElement().fadeIn('normal', callback);
+				var el	= this.getContentElement();
+
+				if (el.not(':visible')) {
+					el.fadeIn('normal', callback);
+				} else {
+					callback();
+				}
 			},
 			/**
 			 * Call post render method on registered plugins.
