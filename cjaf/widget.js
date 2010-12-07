@@ -15,15 +15,21 @@
 		 * @param {*} data
 		 */
 		$.Widget.prototype._view	= function (view, data) {
-			if (typeof view !== 'string') {
-				data	= view;
-				view	= cjaf.View.getDefault();
-			}
+			var options;
 			
-			var options	= {
-				"name": this.widgetName.split('_').join('/'),
-				"view": view
-			};
+			if (this.options.initView) {
+				options	= this.options.initView;
+				
+			} else {
+				if (typeof view !== 'string') {
+					data	= view;
+					view	= cjaf.View.getDefault();
+				}
+				options	= {
+					"name": this.widgetName.split('_').join('/'),
+					"view": view
+				};
+			}
 
 			return cjaf.view(options, data);
 		};
