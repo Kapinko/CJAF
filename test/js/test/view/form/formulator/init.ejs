@@ -1,41 +1,48 @@
 <div class="container-form-error-message"></div>
+{{#locale}}
 	<fieldset>
 		<div id="edit-information-inner-content-container">
 		<div id="inner-left" class="dynamicBox">
 		<div>
-			<h5>{{form.information.heading1}}</h5>
+			<h5>{{heading1}}</h5>
 		</div>
 
 			   <div>
+			   {{#address1}}
 				<div class="edit-label">
-					<label for="address-1">{{form.information.address1.label}}:</label>
+					<label for="address-1">{{label}}:</label>
 				</div>
 				<div class="edit-box">
 					<input  class="ui-widget-content ui-corner-all ui-state-default" id="address-1" type="text" size="20" value="" maxlength="100">
 				</div>
+				{{/address1}}
 			   </div>
 			   <div>
+			   {{#address2}}
 				   <div class="edit-label">
-					   <label for="address-2">{{form.information.address2.label}}:</label>
+					   <label for="address-2">{{label}}:</label>
 				   </div>
 				   <div class="edit-box">
 						<input class="ui-widget-content ui-corner-all ui-state-default" id="address-2" type="text" size="20" value="" maxlength="100">
 				   </div>
+				{{/address2}}
 			   </div>
 
 	<div>
 
-
+				{{#city}}
 				   <div class="edit-label">
-					   <label for="city">{{form.information.city.label}}:</label>
+					   <label for="city">{{label}}:</label>
 				   </div>
 				   <div class="edit-box">
 					<input class="ui-widget-content ui-corner-all ui-state-default"id="city" type="text" size="20" value="" maxlength="50">
 				   </div>
+				{{/city}}
 			   </div>
 			   <div>
+			   {{#state}}
 				   <div class="edit-label">
-					   <label for="state">{{form.information.state.label}}:</label>
+					   <label for="state">{{label}}:</label>
 				   </div>
 				   <div class="edit-box">
                    <select class="ui-widget-content ui-corner-all ui-state-default" id="state">
@@ -148,51 +155,61 @@
                    </select>
 
                   </div>
+			  {{/state}}
 			   </div>
 			   <div>
+			   {{#zip}}
 				   <div class="edit-label">
-					   <label for="zip">{{form.information.zip.label}}:</label>
+					   <label for="zip">{{label}}:</label>
 				   </div>
 				   <div class="edit-box">
 						<input class="ui-widget-content ui-corner-all ui-state-default" id="zip" type="text" size="4" value="" maxlength="5">
 				   </div>
+			   {{/zip}}
 			   </div>
 		</div>
 		<div id="inner-right">
 		<div>
-			<h5>{{form.information.heading2}}</h5>
+			<h5>{{heading2}}</h5>
 		</div>
 		<div>
+				{{#email}}
 				   <div class="edit-label">
-					   <label for="email">{{form.information.email.label}}:</label>
+					   <label for="email">{{label}}:</label>
 				   </div>
 				   <div class="edit-box">
 						<input class="ui-widget-content ui-corner-all ui-state-default" id="email" type="text" size="40" value="" maxlength="100">
 				   </div>
+				{{/email}}
 			    </div>
                   <div>
+				{{#homephone}}
 				   <div class="edit-label">
-					   <label for="phone-home">{{form.information.homephone.label}}:</label>
+					   <label for="phone-home">{{label}}:</label>
 				   </div>
 				   <div class="edit-box">
-					<input class="ui-widget-content ui-corner-all ui-state-default" id="phone-home" type="text" size="12" value="" maxlength="12">{{locale.phoneexample}}
+					<input class="ui-widget-content ui-corner-all ui-state-default" id="phone-home" type="text" size="12" value="" maxlength="12">{{phoneexample}}
 				   </div>
+				{{/homephone}}
 			   </div>
                   <div>
+				  {{#cellphone}}
 				   <div class="edit-label">
-					   <label for="phone-cell">{{form.information.cellphone.label}}:</label>
+					   <label for="phone-cell">{{label}}:</label>
 				   </div>
 				   <div class="edit-box">
 
-						<input class="ui-widget-content ui-corner-all ui-state-default" id="phone-cell" type="text" size="12" value="" maxlength="12">{{locale.phoneexample}}
+						<input class="ui-widget-content ui-corner-all ui-state-default" id="phone-cell" type="text" size="12" value="" maxlength="12">{{phoneexample}}
 
 			        </div>
+				{{/cellphone}}
 			   </div>
 		<div><span>{{form.information.instructions}}</span></div>
 		<div>
-			<button id="information-submit" class="ui-widget ui-widget-header ui-widget-content ui-corner-all">{{form.information.button}}</button>
-			<!--<span id="accinfo-success" class="loadable success">{{form.information.success}}</span> -->
+			<button id="information-submit" class="ui-widget ui-widget-header ui-widget-content ui-corner-all">{{button}}</button>
+			<!--<span id="accinfo-success" class="loadable success">{{success}}</span> -->
 		</div>
 	</div>
 	</div>
 	</fieldset>
+{{/locale}}

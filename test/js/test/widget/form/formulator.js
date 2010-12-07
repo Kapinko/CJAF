@@ -62,7 +62,7 @@
 				 * @type {Object.<string,*>}
 				 */
 				"errorLocale": locale.error,
-				disableClientSideValidation: true,
+				disableClientSideValidation: false,
 				/**
 				 * Get the event handler helper class for this form widget.
 				 * @type {cjaf.Widget.Form.Helper.Handler}
