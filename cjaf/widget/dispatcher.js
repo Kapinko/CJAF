@@ -63,7 +63,37 @@
 				 * This is the content container element.
 				 * @type {jQuery}
 				 */
-				contentElement: null
+				contentElement: null,
+				/**
+				 * This function will be expected to hide the given element
+				 * and call the given callback function when the hide animation
+				 * has completed.
+				 * @type {function(jQuery, function():boolean}
+				 */
+				transitionOut: function (element, callback) {
+					if (element.is(':visible')) {
+						element.fadeOut('normal', callback);
+						
+					} else {
+						callback();
+					}
+					return false;
+				},
+				/**
+				 * This function will be expected to hide the given element
+				 * and call the given callback function when the hide animation
+				 * has completed.
+				 * @type {function(jQuery, function():boolean}
+				 */
+				transitionIn: function (element, callback) {
+					if (element.not(':visible')) {
+						element.fadeIn('normal', callback);
+
+					} else {
+						callback();
+					}
+					return false;
+				}
 			},
 			/**
 			 *  @type {Object}
@@ -363,12 +393,7 @@
 			 */
 			_transitionOut: function (callback) {
 				var el	= this.getContentElement();
-
-				if (el.is(':visible')) {
-					el.fadeOut('normal', callback);
-				} else {
-					callback();
-				}
+				return this.options.transitionOut(el, callback);
 			},
 			/**
 			 * Clear the element to prepare to load thenew content.
@@ -442,12 +467,7 @@
 			 */
 			_transitionIn: function (callback) {
 				var el	= this.getContentElement();
-
-				if (el.not(':visible')) {
-					el.fadeIn('normal', callback);
-				} else {
-					callback();
-				}
+				return this.options.transitionIn(el, callback);
 			},
 			/**
 			 * Call post render method on registered plugins.
