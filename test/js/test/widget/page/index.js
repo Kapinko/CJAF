@@ -54,6 +54,8 @@
 				el.dispatcher('render');
 
 				el.find('.avmenu li a').click(function (event) {
+					el.find('.avmenu li a').removeClass("current");
+					$(event.currentTarget).addClass('current');
 					el.trigger(EventHelper.dispatcher.content.change, [{id: 'test'}]);
 					event.stopPropagation();
 					event.preventDefault();
