@@ -7,17 +7,19 @@
 
 (function ($, cjaf) {
 	cjaf.define("cjaf/widget/form", [
+		'cjaf/global',
 		'cjaf/widget/form/helper/ui',
 		'cjaf/widget/form/helper/handler',
 		'cjaf/widget/form/helper/trigger',
 		'jQuery/jquery.log'
 	],
 	/**
+	 * @param {cjaf.Global} Global
 	 * @param {cjaf.Widget.Form.Helper.UI} UIHelper
 	 * @param {cjaf.Widget.Form.Helper.Handler} HandlerHelper
 	 * @param {cjaf.Widget.Form.Helper.Trigger} TriggerHelper
 	 */
-	function (UIHelper, HandlerHelper, TriggerHelper) {
+	function (Global, UIHelper, HandlerHelper, TriggerHelper) {
 		var DISABLE_CLIENT_SIDE_VALIDATION	= "cjaf.disableClientSideValidation";
 		
 		$.widget('cjaf.form', {
@@ -75,8 +77,8 @@
 				 * to this form.
 				 * @type {function(cjaf.Widget.Form.Helper.UI)}
 				 */
-				"initFormElements": function (form_ui) {
-//					throw "You must provide a initFormElements function.";
+				"initFormElements": function (form_ui, form_locale) {
+					throw "You must provide a initFormElements function.";
 				}
 			},
 			/**
@@ -88,7 +90,13 @@
 				}
 				
 				var el	= this.element,
-				o		= this.options;
+				o		= this.options,
+				locale;
+
+				//If the user has not turned off the locale lookup.
+				if (!o.no_locale) {
+					locale	= Global.localize(this.widgetName);
+				}
 				
 				/**
 				 * This is the user interface helper for this form widget.
@@ -132,7 +140,7 @@
 					this.trigger.bindClear($(o.clearTrigger));
 				}
 				
-				o.initFormElements.apply(this, [this.ui]);
+				o.initFormElements.apply(this, [this.ui, locale]);
 			},
 			/**
 			 * Submit this form
