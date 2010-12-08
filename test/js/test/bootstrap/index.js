@@ -33,7 +33,6 @@
 					'cjaf/view/renderer/mustache',
 					'cjaf/widget/dispatcher/plugin/widget_loader',
 					
-					'test/widget/template',
 					'test/widget/page/index',
 					'test/widget/page/widgets',
 					'test/widget/navigation',
@@ -70,13 +69,6 @@
 			 * @param {jQuery} cornerstone
 			 */
 			"_preLayout": function (cornerstone) {},
-			/**
-			 * This function must return the accessible name of the layout template
-			 * widget to be used for this site.
-			 */
-			"_getLayoutWidgetName": function () {
-				return 'test_template';
-			},
 			/**
 			 * This function must return an object suitable to be passed to the
 			 * layout widget constructor.

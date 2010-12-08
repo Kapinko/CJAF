@@ -7,41 +7,54 @@
 
 (function ($, cjaf) {
 	cjaf.define('test/widget/page/widgets', [
-		'i18n!test/nls/Base',
-		'test/widget/form/formulator',
-		'cjaf/widget/pluggable'
+		'cjaf/widget/helper/event',
+		'cjaf/widget/dispatcher',
+		'test/widget/page/widgets/forms'
 		
 	],
-	function (locale) {
+	function (EventHelper) {
 		$.widget('cjaf.test_page_widgets', {
 			/**
 			 * These are the available options and their defaults for this
 			 * widget.
 			 * @type {Object.<string, *>}
 			 */
-			options: {
-				/**
-				 * This is the full path to the initialization view for this
-				 * widget.
-				 * @type {string}
-				 */
-				'initViewPath': '/test/js/test/view/page/widgets/init.ejs',
-				/**
-				 * This is the locale object that will be passed to the
-				 * initialization view.
-				 * @type {Object.<string,*>}
-				 */
-				'locale': locale.form_test
-			},
+			options: {},
 			/**
 			 * The initialization function for this widget.
 			 */
 			_create: function () {
-				var o	= this.options;
+				var o	= this.options,
+					el	= this.element,
+					content;
 				
-				this.element.html(cjaf.view(o.initViewPath, o.locale));
+				el.html(this._view({}));
 
-				$("#test-form").test_form_formulator();
+				content	= this.element.find('#content-section')
+
+				el.dispatcher({
+					defaultPage:	"forms",
+					pages:			{
+						"test": "test_page_test",
+						"forms": "test_page_widgets_forms"
+					},
+					"contentElement": content,//Antonio Banderas
+					"transitionOut": function (element, callback) {
+						element.effect("explode", {"mode": "hide"}, 500, callback);
+					},
+					"transitionIn": function (element, callback) {
+						element.effect("fade", {"mode": "show"}, 500, callback);
+					}
+				});
+				el.dispatcher('render');
+
+				el.find('.avmenu li a').click(function (event) {
+					el.find('.avmenu li a').removeClass("current");
+					$(event.currentTarget).addClass('current');
+					el.trigger(EventHelper.dispatcher.content.change, [{id: 'test'}]);
+					event.stopPropagation();
+					event.preventDefault();
+				});
 			}
 		});
 	});

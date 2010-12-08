@@ -1,12 +1,27 @@
-<div class="widget-test-area">
-
-<div class="ui-widget-content ui-corner-all">
-<div class="header">
-<h4>WIDGET TEST AREA</h4>
-</div>
-
-</div>
-	<div id="widget-form-test-area">
-		<form method="POST" id="test-form" action="javascript:;"></form>
+<div id="leftside">
+	<h2 class="hide">Menu:</h2>
+	{{#navigation}}
+	<ul class="avmenu">
+		{{#links}}
+		<li><a class="current" href="#forms">{{forms}}</a></li>
+		<li><a href="#">{{login}}</a></li>
+		<li><a href="#">{{test3}}</a></li>
+		{{#test4}}
+		<li><a href="#">{{label}}</a>
+			<ul>
+				<li><a href="#">{{sub1}}</a></li>
+				<li><a href="#">{{sub2}}</a></li>
+			</ul>
+		</li>
+		{{/test4}}
+		<li><a href="#">{{print}}</a></li>
+		{{/links}}
+	</ul>
+	{{/navigation}}
+	<div class="announce">
+		<h2>Updates:</h2>
+		<p><strong>Oct 14, 2010:</strong><br />Alternative version of <a href="http://andreasviklund.com/templates/andreas01/">andreas01</a> created, dark style!</p>
 	</div>
 </div>
+
+<div id="content-section"></div>

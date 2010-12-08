@@ -38,13 +38,6 @@
 
 				'locale':locale,
 				/**
-				 * This is the full path to the initialization view for this
-				 * widget.
-				 * @type {string}
-				 */
-				'initViewPath': '/test/js/test/view/form/formulator/init.ejs',
-
-				/**
 				 * This should be set to the jQuery object that will trigger a
 				 * form submit.
 				 * @type {jQuery}
@@ -185,7 +178,7 @@
 			_create: function () {
 				var o	= this.options;
 				
-				this.element.html(cjaf.view(o.initViewPath,{'locale':o.locale}));
+				this.element.html(this._view({'locale':o.locale}));
 
 				o.submitTrigger	= this._getSubmitButton();
 
