@@ -47,14 +47,12 @@
 				var self	= this,
 					o		= this.options;
 
-				this.element.html(
-					view(o.initViewPath, {
+				this.element.html(this._view({
 						image_class: o.imageClass,
 						image_height: o.imageHeight,
 						image_alt: o.imageAlt,
 						image_src: o.imageSrc
-					})
-				);
+				}));
 
 				this.element.bind('reload', function(){
 					self.reload();
@@ -92,4 +90,4 @@
 			}
 		});
 	});
-})(jQuery, stax);
+})(jQuery, cjaf);

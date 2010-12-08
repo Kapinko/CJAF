@@ -9,7 +9,8 @@
 	cjaf.define('test/widget/page/widgets', [
 		'cjaf/widget/helper/event',
 		'cjaf/widget/dispatcher',
-		'test/widget/page/widgets/forms'
+		'test/widget/page/widgets/forms',
+		'test/widget/page/widgets/login'
 		
 	],
 	function (EventHelper) {
@@ -33,14 +34,15 @@
 				content	= this.element.find('#content-section')
 
 				el.dispatcher({
-					defaultPage:	"forms",
+					defaultPage:	"#forms",
 					pages:			{
-						"test": "test_page_test",
-						"forms": "test_page_widgets_forms"
+						"#test": "test_page_test",
+						"#forms": "test_page_widgets_forms",
+						"#login": "test_page_widgets_login"
 					},
 					"contentElement": content,//Antonio Banderas
 					"transitionOut": function (element, callback) {
-						element.effect("explode", {"mode": "hide"}, 500, callback);
+						element.effect("slide", {"direction": "right", "mode": "hide"}, 500, callback);
 					},
 					"transitionIn": function (element, callback) {
 						element.effect("fade", {"mode": "show"}, 500, callback);
@@ -51,7 +53,7 @@
 				el.find('.avmenu li a').click(function (event) {
 					el.find('.avmenu li a').removeClass("current");
 					$(event.currentTarget).addClass('current');
-					el.trigger(EventHelper.dispatcher.content.change, [{id: 'test'}]);
+					el.trigger(EventHelper.dispatcher.content.change, [{id: $(this).attr('href')}]);
 					event.stopPropagation();
 					event.preventDefault();
 				});
