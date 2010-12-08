@@ -36,7 +36,7 @@
 					content;
 
 				el.html(this._view(o.locale));
-				content	= this.element.find('#content-section')
+				content	= this.element.find('#content-section');
 
 				el.dispatcher({
 					defaultPage:	"test",
@@ -45,7 +45,7 @@
 					},
 					"contentElement": content,//Antonio Banderas
 					"transitionOut": function (element, callback) {
-						element.effect("explode", {"mode": "hide"}, 500, callback);
+						element.effect("slide", {"direction": "right", "mode": "hide"}, 500, callback);
 					},
 					"transitionIn": function (element, callback) {
 						element.effect("fade", {"mode": "show"}, 500, callback);
