@@ -7,8 +7,13 @@
 
 
 (function ($, cjaf) {
-	cjaf.define('cjaf/widget', [],
-	function () {
+	cjaf.define('cjaf/widget', [
+		'cjaf/global'
+	],
+	/**
+	 * @param {cjaf.Global} Global
+	 */
+	function (Global) {
 		/**
 		 * Obtain a rendered view for this widget.
 		 * @param {string} view
@@ -29,6 +34,11 @@
 					"name": this.widgetName.split('_').join('/'),
 					"view": view
 				};
+			}
+			
+			//if the user hasn't turned off localization load the string file.
+			if (!this.options.no_locale) {
+				$.extend(data, Global.localize(this.widgetName));
 			}
 
 			return cjaf.view(options, data);

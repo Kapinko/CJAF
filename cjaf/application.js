@@ -18,7 +18,7 @@ window.cjaf	= (function ($, require, window, document) {
 	 * This is the default locale.
 	 * @type {string}
 	 */
-	var DEFAULT_LOCALE		= 'en_US', //default locale is U.S. English.
+	var DEFAULT_LOCALE		= 'en-US', //default locale is U.S. English.
 	/**
 	 * where the locale is stored.
 	 * @type {string}
@@ -46,6 +46,7 @@ window.cjaf	= (function ($, require, window, document) {
 	DEFAULT_DEPENDENCIES	= [
 		'cjaf/class',
 		'cjaf/namespace',
+		'cjaf/global',
 		'cjaf/view',
 		'cjaf/model',
 		'cjaf/view/renderer',
@@ -182,6 +183,12 @@ window.cjaf	= (function ($, require, window, document) {
 		 */
 		"getLocale": function () {
 			return cjaf.LOCALE;
+		},
+		/**
+		 * This function returns the base path to the locale files.
+		 */
+		"getLocalePath": function () {
+			return [this.getBaseUrl(), 'global'].join('/');
 		}
 	};
 	/**
@@ -322,6 +329,10 @@ window.cjaf	= (function ($, require, window, document) {
 							require(dependencies, 
 								function () {
 									require.ready(function () {
+										//set the locale
+										cjaf.Global.setLocale(Bootstrap.getLocale())
+												.setBasePath(Bootstrap.getLocalePath());
+										
 										Bootstrap.run(cornerstone);
 										_showApplication(cornerstone, elements_to_clear);
 									});
