@@ -25,10 +25,12 @@
 			if (!already_loaded[path]) {
 				$.ajax({
 					url: path,
+					dataType: 'json',
 					method: 'GET',
 					async: false,
 					success: function (response, status, XMLHttpRequest) {
 						$.localize(widget, locale, response);
+						already_loaded[path]	= true;
 						load_ok	= true;
 					},
 					failure: function (XMLHttpRequest, status, errorThrown) {
@@ -122,9 +124,9 @@
 				if (locale !== default_locale) {
 					load(widget, default_locale, base_path);
 				}
-				
+
 				load(widget, locale, base_path);
-				
+
 				return $.localize(widget, locale);
 			}
 		});
