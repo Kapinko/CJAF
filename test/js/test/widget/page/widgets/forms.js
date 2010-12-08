@@ -10,14 +10,7 @@
 	],
 	function (locale) {
 		$.widget("cjaf.test_page_widgets_forms", {
-			options: {
-				/**
-				 * This is the locale object that will be passed to the
-				 * initialization view.
-				 * @type {Object.<string,*>}
-				 */
-				'locale': locale.form_test
-			},
+			options: {},
 			_create: function () {
 				var el	= this.element;
 				
