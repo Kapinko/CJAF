@@ -11,7 +11,8 @@
 		'cjaf/widget/form/helper/ui',
 		'cjaf/widget/form/helper/handler',
 		'cjaf/widget/form/helper/trigger',
-		'jQuery/jquery.log'
+		'jQuery/jquery.log',
+		'jQuery/jquery.translate'
 	],
 	/**
 	 * @param {cjaf.Global} Global
