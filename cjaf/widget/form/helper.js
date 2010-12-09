@@ -12,13 +12,6 @@
 	 * @return {cjaf.Form.Helper}
 	 */
 	function () {
-		if (!cjaf.hasOwnProperty('Form')) {
-			cjaf.Form	= {};
-		}
-		if (!cjaf.Form.hasOwnProperty('Helper')) {
-			cjaf.Form.Helper	= {};
-		}
-		
-		return cjaf.Form.Helper;
+		return cjaf.namespace("Form.Helper", {});
 	});
 }(jQuery, cjaf));

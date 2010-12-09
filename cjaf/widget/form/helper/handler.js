@@ -7,25 +7,23 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/form/helper/handler', [
-		'cjaf/widget/form/helper',
 		'cjaf/widget/form/helper/event',
 		'cjaf/widget/helper/event',
 		'cjaf/widget/error/handler/http/form'
 	],
 	/**
-	 * @param {cjaf.Widget.Form.Helper} FormHelper
 	 * @param {cjaf.Widget.Form.Helper.Event} EventHelper
 	 * @param {cjaf.Widget.Event} WidgetEventHelper
 	 * @return {cjaf.Widget.Form.Helper.Handler}
 	 */
-	function (FormHelper, EventHelper, WidgetEventHelper) {
+	function (EventHelper, WidgetEventHelper) {
 		/**
 		 * This is an object that handles all of the form events.
 		 * @param {jQuery} form
 		 * @param {string} widget_name
 		 * @constructor
 		 */
-		FormHelper.Handler	= function (form, widget_name) {
+		var Handler	= cjaf.namespace("Form.Helper.Handler", function (form, widget_name) {
 			if (!form.is('form')) {
 				throw "You must provide a form widget to the form UI helper.";
 			}
@@ -43,8 +41,8 @@
 			form.bind(EventHelper.validation.success, $.proxy(this, "handleValidationSuccess"));
 			form.bind(EventHelper.validation.failed, $.proxy(this, "handleValidationFailure"));
 			form.error_handler_http_form();
-		};
-		FormHelper.Handler.prototype	= {
+		});
+		Handler.prototype	= {
 			/**
 			 * This method is called upon a successful form validation.
 			 * @param {function():boolean} success
@@ -141,6 +139,6 @@
 			}
 		};
 		
-		return FormHelper.Handler;
+		return Handler;
 	});
 }(jQuery, cjaf));

@@ -6,22 +6,20 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/form/helper/ui', [
-		'cjaf/widget/form/helper',
 		'cjaf/widget/form/helper/event'
 	],
 	/**
-	 * @param {cjaf.Widget.Form.Helper} FormHelper
 	 * @param {cjaf.Widget.Form.Helper.Event} EventHelper
 	 * @return {cjaf.Widget.Form.Helper.UI}
 	 */
-	function (FormHelper, EventHelper) {
+	function (EventHelper) {
 		/**
 		 * This is a form helper object that handles all of the form UI elments.
 		 * @param {jQuery} form
 		 * @param {string} widget_name
 		 * @constructor
 		 */
-		FormHelper.UI	= function (form, widget_name) {
+		var UI	= cjaf.namespace("Form.Helper.UI", function (form, widget_name) {
 			if (!form.is('form')) {
 				throw "You must provide a form widget to the form UI helper.";
 			}
@@ -41,8 +39,8 @@
 			 * @type {Array.<jQuery>}
 			 */
 			this.element_list	= [];
-		};
-		FormHelper.UI.prototype	= {
+		});
+		UI.prototype	= {
 			/**
 			 * Add an element to this form.
 			 * @param {jQuery} el
@@ -78,6 +76,6 @@
 			}
 		};
 
-		return FormHelper.UI;
+		return UI;
 	});
 }(jQuery, cjaf));

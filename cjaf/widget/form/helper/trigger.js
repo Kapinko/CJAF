@@ -7,16 +7,14 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/form/helper/trigger', [
-		'cjaf/widget/form/helper',
 		'cjaf/widget/form/helper/event',
 		'cjaf/widget/form/listener/submit_with_spinner'
 	],
 	/**
-	 * @param {cjaf.Widget.Form.Helper} FormHelper
 	 * @param {cjaf.Widget.Form.Helper.Event} EventHelper
 	 * @return {cjaf.Widget.Form.Helper.Handler}
 	 */
-	function (FormHelper, EventHelper) {
+	function (EventHelper) {
 		/**
 		 * Is the given element a button?
 		 * @param {jQuery} el
@@ -24,8 +22,7 @@
 		 */
 		var is_button	= function (el) {
 			return el.is(':button, :input[type="submit"]');
-		};
-		
+		},
 		/**
 		 * This is an object that handles all of the form event triggering
 		 * and trigger binding.
@@ -33,7 +30,7 @@
 		 * @param {string} widget_name
 		 * @constructor
 		 */
-		FormHelper.Trigger	= function (form, widget_name) {
+		Trigger	= cjaf.namespace('Form.Helper.Trigger', function (form, widget_name) {
 			if (!form.is('form')) {
 				throw "You must provide a form widget to the form UI helper.";
 			}
@@ -46,8 +43,8 @@
 			 * @type {string}
 			 */
 			this.widget_name	= widget_name;
-		};
-		FormHelper.Trigger.prototype	= {
+		});
+		Trigger.prototype	= {
 			/**
 			 * Bind the submit trigger click event to the submit function.
 			 * @param {jQuery} trigger
@@ -137,6 +134,6 @@
 			}
 		};
 
-		return FormHelper.Trigger;
+		return Trigger;
 	});
 }(jQuery, cjaf));
