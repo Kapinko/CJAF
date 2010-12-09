@@ -20,10 +20,12 @@
 		 * @param {*} data
 		 */
 		$.Widget.prototype._view	= function (view, data) {
-			var options;
+			var o		= this.options,
+			partials	= null,
+			options;
 			
 			if (this.options.initView) {
-				options	= this.options.initView;
+				options	= o.initView;
 				
 			} else {
 				if (typeof view !== 'string') {
@@ -36,12 +38,23 @@
 				};
 			}
 			
+			//If the user has provided custom view data as an option then merge 
+			//it in now.
+			if (o.view) {
+				$.extend(data, o.view);
+			}
+			
+			//If the user has listed any partials then set the partials parameter.
+			if (o.partials) {
+				partials	= o.partials
+			}
+			
 			//if the user hasn't turned off localization load the string file.
-			if (!this.options.no_locale) {
+			if (!o.no_locale) {
 				$.extend(data, Global.localize(this.widgetName));
 			}
 
-			return cjaf.view(options, data);
+			return cjaf.view(options, data, partials);
 		};
 	});
 }(jQuery, cjaf));
