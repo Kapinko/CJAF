@@ -67,7 +67,6 @@
 				}
 			};
 		}()));
-		console.log(Event);
 		return Event;
 	});
 }(jQuery, cjaf));
