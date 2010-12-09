@@ -70,15 +70,16 @@
 			};
 
 			load_partials	= function (partials) {
-				var path, loaded,
+				var path, partial, loaded	= {},
 				loader	= function (template) {
 					return template;
 				};
 
 				if (partials) {
-					for (path in partials) {
-						if (partials.hasOwnProperty(path)) {
-							loaded[path]	= load(partials[path], loader);
+					for (partial in partials) {
+						if (partials.hasOwnProperty(partial)) {
+							path			= make_path(partials[partial]);
+							loaded[partial]	= load(path, loader);
 						}
 					}
 				}

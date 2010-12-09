@@ -14,7 +14,8 @@
 		'jQuery/jquery.tmpl'
 	],
 	function () {
-		var jQueryTmpl	= cjaf.namespace('View.Renderer.jQueryTmpl', function () {});
+		var counter	= 0, 
+		jQueryTmpl	= cjaf.namespace('View.Renderer.jQueryTmpl', function () {});
 		jQueryTmpl.prototype	= {
 			/**
 			 * Compile the given string to a view object.
@@ -35,7 +36,8 @@
 				if (partials) {
 					for (var partial in partials) {
 						if (partials.hasOwnProperty(partial)) {
-							data[partial]	= $.template(partial);
+							counter += 1;
+							data[partial]	= $.template("p" + counter + partial, partials[partial]);
 						}
 					}
 				}
