@@ -14,6 +14,11 @@
 		var jQueryTmpl	= cjaf.namespace('View.Renderer.Mustache', function () {});
 		jQueryTmpl.prototype	= {
 			/**
+			 * This is the file extension used for Mustache template files.
+			 * @type {string}
+			 */
+			"extension": ".mhtml",
+			/**
 			 * Compile the given string to a view object.
 			 * @param {string} view
 			 * @return {function()}

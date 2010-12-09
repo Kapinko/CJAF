@@ -132,7 +132,7 @@
 					 * not provide a file name to the cjaf.view function.
 					 * @type {string}
 					 */
-					"default_view": 'init.phtml',
+					"default_view": 'init',
 					/**
 					 * This is the absolute path that will be used as the base path
 					 * for all view template retrievals.

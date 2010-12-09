@@ -22,6 +22,13 @@
 			View.getDefault	= function () {
 				return options.default_view;
 			};
+			/**
+			 * Get the view file extension
+			 * @return {string}
+			 */
+			View.getFileExt	= function () {
+				return renderer.extension;
+			}
 
 			make_path	= function (widget) {
 				var view, path;
@@ -36,7 +43,7 @@
 				if (widget.charAt(0) === '/') {
 					path	= widget;
 				} else {
-					path	= [base_path, widget, view].join('/');
+					path	= [base_path, widget, view].join('/') + View.getFileExt();
 				}
 
 				return path;
@@ -99,7 +106,7 @@
 			};
 		});
 		View.defaults	= {
-			"default_view": "init.phtml"
+			"default_view": "init"
 		};
 		
 		return View;

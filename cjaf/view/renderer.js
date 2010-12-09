@@ -17,6 +17,11 @@
 		Renderer	= cjaf.namespace("View.Renderer", function () {});
 		Renderer.prototype	= {
 			/**
+			 * This should be the the file extension to use for template files.
+			 * @type {string}
+			 */
+			"extension": "phtml",
+			/**
 			 * Convert a given string into a view template.
 			 * @param {string} view
 			 * @return {*}

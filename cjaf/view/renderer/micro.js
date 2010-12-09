@@ -11,6 +11,11 @@
 		var Micro	= cjaf.namespace('View.Renderer.Micro', function () {});
 		Micro.prototype	= {
 			/**
+			 * This is the extension used for Micro template files.
+			 * @type {string}
+			 */
+			"extension": ".ejs",
+			/**
 			 * Compile the given string to a view object.
 			 * @param {string} view
 			 * @return {function()}

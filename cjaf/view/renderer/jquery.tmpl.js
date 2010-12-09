@@ -18,6 +18,12 @@
 		jQueryTmpl	= cjaf.namespace('View.Renderer.jQueryTmpl', function () {});
 		jQueryTmpl.prototype	= {
 			/**
+			 * Get the standard file extension used for jQuery.tmpl template
+			 * files.
+			 * @return {string}
+			 */
+			"extension": ".jtmpl",
+			/**
 			 * Compile the given string to a view object.
 			 * @param {string} view
 			 * @return {function()}
