@@ -41,7 +41,7 @@
 			//If the user has provided custom view data as an option then merge 
 			//it in now.
 			if (o.view) {
-				$.extend(data, o.view);
+				data	= $.extend(true, data, o.view);
 			}
 			
 			//If the user has listed any partials then set the partials parameter.
@@ -51,7 +51,7 @@
 			
 			//if the user hasn't turned off localization load the string file.
 			if (!o.no_locale) {
-				$.extend(data, Global.localize(this.widgetName));
+				data	= $.extend(true, data, Global.localize(this.widgetName));
 			}
 
 			return cjaf.view(options, data, partials);
