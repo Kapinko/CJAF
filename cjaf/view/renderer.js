@@ -20,7 +20,7 @@
 			 * This should be the the file extension to use for template files.
 			 * @type {string}
 			 */
-			"extension": "phtml",
+			"extension": ".phtml",
 			/**
 			 * Convert a given string into a view template.
 			 * @param {string} view
