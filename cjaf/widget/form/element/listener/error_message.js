@@ -100,7 +100,7 @@
 			handleValidationFailedEvent: function (event, errorCode) {
 				var element	= $(event.target);
 
-				if (element.hasOwnProperty('translate') && typeof element.translate  === 'function') {
+				if (typeof element.translate  === 'function') {
 					errorCode	= element.translate(errorCode);
 				}
 
