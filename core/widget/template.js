@@ -3,11 +3,11 @@
 /*jslint nomen: false*/
 
 (function ($, cjaf) {
-	cjaf.define('cjaf/widget/template', [
+	cjaf.define('core/widget/template', [
 
 	],
 	function () {
-		$.widget('cjaf.template', {
+		$.widget('cjaf.core_template', {
 			options: {
 				/**
 				 * The data members of this object will be first passed to the

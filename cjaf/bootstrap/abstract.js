@@ -158,7 +158,7 @@
 			 * widget to be used for this site.
 			 */
 			"_getLayoutWidgetName": function () {
-				return 'template';
+				throw "You must provide a layout widget.";
 			},
 			/**
 			 * This function must return an object suitable to be passed to the
