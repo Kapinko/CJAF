@@ -22,7 +22,7 @@
 		$.Widget.prototype._view	= function (view, data) {
 			var o		= this.options,
 			partials	= null,
-			options;
+			options, locale;
 			
 			if (this.options.initView) {
 				options	= o.initView;
@@ -51,9 +51,14 @@
 			
 			//if the user hasn't turned off localization load the string file.
 			if (!o.no_locale) {
-				data	= $.extend(true, data, Global.localize(this.widgetName));
+				if (o.locale) {
+					locale	= o.locale
+				} else {
+					locale	= this.widgetName;
+				}
+				data	= $.extend(true, data, Global.localize(locale));
 			}
-
+			
 			return cjaf.view(options, data, partials);
 		};
 	});
