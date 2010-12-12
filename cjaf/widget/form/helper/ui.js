@@ -39,6 +39,8 @@
 			 * @type {Array.<jQuery>}
 			 */
 			this.element_list	= [];
+								 
+			this.setUpForm(this.form);
 		});
 		UI.prototype	= {
 			/**
