@@ -18,6 +18,17 @@
 	function (Menu, MenuItem) {
 		var Renderer	= cjaf.namespace("Widget.Helper.Menu.Renderer", function () {
 			/**
+			 * This is the template that will be used to create the menu markup.
+			 * @type {string}
+			 */
+			this.menuTemplate	= null;
+			/**
+			 * This is the template that will be used to create the menu item
+			 * mark up.
+			 * @type {string}
+			 */
+			this.menuItemTemplate	= null;
+			/**
 			 * This is a callback that will be called when we have rendered
 			 * a menu item and that menu item will be passed as a jQuery object.
 			 * @type {function(jQuery):boolean}
@@ -55,23 +66,14 @@
 			 */
 			"init": function () {},
 			/**
-			 * This function will render the menu container.
-			 * @param {Menu} menu
-			 * @return {jQuery}
-			 */
-			"renderContainer": function (menu) {
-				return $('<div>').addClass(this.container_class).attr('id', 'container-' + menu.getId());
-			},
-			/**
 			 * This function will render the menu itself.
 			 * @param {Menu} menu
 			 * @return {jQuery}
 			 */
 			"renderMenu": function (menu) {
-				var ul	= $('<ul>');
-				ul.addClass(this.menu_class)
+				return  $(cjaf.view(this.menuTemplate, menu))
+					.addClass(this.menu_class)
 					.attr('id', menu.getId());
-				return ul;
 			},
 			/**
 			 * This function will render a given menu item.  Menu items will be
@@ -81,22 +83,21 @@
 			 */
 			"renderMenuItem": function (menu_item) {
 				var title	= menu_item.getTitle(),
-				ref			= menu_item.getRef(), li;
+				ref			= menu_item.getRef(), item;
 
 				if (!title) {
 					title	= menu_item.getId();
 				}
-				
-				li	= $('<li>').addClass(this.menu_item_class)
-					.attr('id', menu_item.getId())
-					.click(menu_item.getAction());
-
-				if (ref) {
-					li.html('<a href="#' + ref + '">' + title + '</a>');
-				} else {
-					li.text(title);
+				if (!ref) {
+					ref		= '#';
 				}
-				return li;
+				
+				item	= {
+					"text": title,
+					"ref": ref
+				};
+				
+				return $(cjaf.view(this.menuItemTemplate, item)).addClass(this.menu_class);
 			},
 			/**
 			 * Set the menu complete callback
@@ -114,20 +115,6 @@
 			 */
 			"setMenuItemCallback": function (callback) {
 				this.menuItemCallback	= callback;
-				return this;
-			},
-			/**
-			 * Set the CSS class for the container
-			 * @param {string} css_class
-			 * @param {boolean} clear_default
-			 * @return {Menu.Renderer}
-			 */
-			"setContainerClass": function (css_class, clear_default) {
-				if (clear_default) {
-					this.container_class	= css_class;
-				} else {
-					this.container_class	+= ' ' + css_class;
-				}
 				return this;
 			},
 			/**
@@ -174,15 +161,23 @@
 						this.renderMenuItem(menu_item).appendTo(menu_html), menu_item
 					);
 				}
-
-				container	= this.renderContainer(menu);
-				menu_html.appendTo(container);
+				
 				this.postRenderHook(container, menu_html, menu);
 				this.menuCompleteCallback(container, menu);
 				
 				return container;
 			},
 			/**
+			 * This is a hook so that child classes can to any necessary
+			 * configuration before the menu has been created.
+			 * @param {jQuery} container
+			 * @param {Menu} menu
+			 * @return {Renderer}
+			 */
+			"preRenderHook": function (container, menu) {
+				return this;
+			},
+			/*
 			 * This is a hook so that child classes can do any necessary 
 			 * configuration after the menu has been created but before
 			 * we pass the menu of to the user.

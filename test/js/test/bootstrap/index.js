@@ -36,9 +36,9 @@
 					
 					'test/widget/page/index',
 					'test/widget/page/widgets',
-					'test/widget/navigation',
+					//'test/widget/navigation',
 					
-					'cjaf/widget/helper/menu/renderer/dock'
+					//'core/widget/helper/menu/renderer/dock'
 				];
 			},
 			/**
@@ -139,11 +139,11 @@
 			 * @param {jQuery} cornerstone the site container element.
 			 */
 			"_registerDispatcherPlugins": function (container, cornerstone) {
-				var options	= {
-					"pageList": this._getNavigationPageMap(),
-					"renderer": cjaf.Widget.Helper.Menu.Renderer.Dock
-				};
-				container.dispatcher('registerPlugin', new cjaf.Dispatcher.Plugin.WidgetLoader(cornerstone.find('.nav-primary'), 'test_navigation', options));
+				//var options	= {
+					//"pageList": this._getNavigationPageMap(),
+					//"renderer": cjaf.Widget.Helper.Menu.Renderer.Dock
+				//};
+				//container.dispatcher('registerPlugin', new cjaf.Dispatcher.Plugin.WidgetLoader(cornerstone.find('.nav-primary'), 'test_navigation', options));
 			},
 			/**
 			 * This function should return your applications base URL.

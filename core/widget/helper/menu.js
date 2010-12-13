@@ -4,7 +4,7 @@
  */
 /** JSLint Declarations */
 /*global jQuery: false, cjaf: false*/
-
+"use strict";
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/helper/menu', [
 		'cjaf/collection'

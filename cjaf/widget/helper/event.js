@@ -91,6 +91,15 @@
 					"render": {
 						"complete": "list_render_complete"
 					}
+				},
+				/**
+				 * Events related to menus.
+				 * @type {Object.<string,*>}
+				 */
+				"menu": {
+					"item": {
+						"select": "menu_item_select"
+					}
 				}
 			};
 		}()));
