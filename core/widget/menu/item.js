@@ -39,7 +39,17 @@
 				 * user has chosen one of the sub items.
 				 * @type {Array.<string>}
 				 */
-				"sub_items": []
+				"sub_items": [],
+				/**
+				 * Is this the first menu item in the menu item list?
+				 * @type {boolean}
+				 */
+				"is_first": false,
+				/**
+				 * Is this the last menu item in the menu item list?
+				 * @type {boolean}
+				 */
+				"is_last": false
 			},
 			/**
 			 * The initialization method for this widget.

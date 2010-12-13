@@ -9,7 +9,8 @@
 		'cjaf/widget/helper/event',
 		'core/widget/helper/menu',
 		'core/widget/helper/menu/item',
-		'core/widget/helper/menu/renderer'
+		'core/widget/helper/menu/renderer',
+		'core/widget/menu/item'
 	],
 	/**
 	 * @param {cjaf.Widget.Helper.Event} EventHelper
@@ -70,7 +71,13 @@
 				*/
 			    "show": function (el) {
 					return el.slideDown();
-			    }
+			    },
+				/**
+				 * This is the anme of the navigation item widget we're going
+				 * to use to control the individual menu items.
+				 * @type {string}
+				 */
+				"itemWidget": "core_menu_item"
 			},
 			/**
 			 * Has this menu been initialized?
@@ -84,18 +91,16 @@
 				if (!(this.options.menu instanceof Menu)) {
 					throw "You must provide a menu object representing the menu to render.";
 				}
-				var el	= this.element,
-					o	= this.options;
+				var el			= this.element,
+					o			= this.options,
+					renderer	= new o.renderer();
 					
 				el.hide();
 				
 				el.addClass(o.menuContainerClass);
 				
-				o.renderer.setMenuItemCallback($.proxy(this, "_initMenuItem"))
+				renderer.setMenuItemCallback($.proxy(this, "_initMenuItem"))
 					.setMenuCompleteCallback($.proxy(this, "_menuRenderComplete"))
-					.setMenuView(o.menuView)
-					.setItemView(o.itemView)
-					.setContainerClass(o.menuContainerClass)
 					.render(o.menu);
 						
 				this.initialized	= true;
@@ -146,7 +151,12 @@
 			 * @return {boolean}
 			 */
 			"_initMenuItem": function (el, menu_item) {
-				el.menu_item({
+				var item_widget	= this.options.itemWidget;
+				
+				if (!el[item_widget] || typeof el[item_widget] !== 'function') {
+					throw "Item widget option does not represent a valid jQueryUI widget.";
+				}
+				el[item_widget]({
 					"menu_item": menu_item,
 					"selected_class": this.options.selected_class
 				});

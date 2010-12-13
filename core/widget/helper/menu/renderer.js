@@ -68,9 +68,11 @@
 			 * This function will render a given menu item.  Menu items will be
 			 * placed into the menu in the order which they are given.
 			 * @param {MenuItem} menu_item
+			 * @param {boolean} is_first
+			 * @param {boolean} is_last
 			 * @return {jQuery}
 			 */
-			"renderMenuItem": function (menu_item) {
+			"renderMenuItem": function (menu_item, is_first, is_last) {
 				var title	= menu_item.getTitle(),
 				ref		= menu_item.getRef(), item;
 
@@ -148,13 +150,18 @@
 				
 				var menu_html	= this.renderMenu(menu),
 				menu_item_list	= menu.getItems(),
+				first			= true,
 				menu_item;
 				
 				while (menu_item_list.hasNext()) {
 					menu_item	= menu_item_list.getNext();
+					
 					this.menuItemCallback(
-						this.renderMenuItem(menu_item).appendTo(menu_html), menu_item
+						this.renderMenuItem(menu_item, first, !menu_item_list.hasNext())
+							.appendTo(menu_html), menu_item
 					);
+					
+					first	= false;
 				}
 				
 				this.postRenderHook(menu_html, menu);
