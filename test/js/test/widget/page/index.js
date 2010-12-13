@@ -20,12 +20,7 @@
 			 * @type {Object.<string, *>}
 			 */
 			options: {
-				/**
-				 * This is the locale object that will be passed to the
-				 * initialization view.
-				 * @type {Object.<string,*>}
-				 */
-				'locale': {}
+				
 			},
 			/**
 			 * The initialization function for this widget.
@@ -35,7 +30,7 @@
 					el		= this.element,
 					content;
 
-				el.html(this._view(o.locale));
+				el.html(this._view({}));
 				content	= this.element.find('#content-section');
 
 				el.dispatcher({

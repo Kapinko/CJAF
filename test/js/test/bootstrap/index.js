@@ -32,6 +32,7 @@
 				return [
 					'cjaf/view/renderer/mustache',
 					'cjaf/widget/dispatcher/plugin/widget_loader',
+					'core/widget/template',
 					
 					'test/widget/page/index',
 					'test/widget/page/widgets',
@@ -70,13 +71,25 @@
 			 */
 			"_preLayout": function (cornerstone) {},
 			/**
+			 * This function must return the accessible name of the layout template
+			 * widget to be used for this site.
+			 */
+			"_getLayoutWidgetName": function () {
+				return 'core_template';
+			},
+			/**
 			 * This function must return an object suitable to be passed to the
 			 * layout widget constructor.
 			 *
 			 * @return {Object}
 			 */
 			"_getLayoutConfig": function () {
-				return {};
+				return {
+					"initView": {
+						"name": "test/template",
+						"view": "init"
+					}
+				};
 			},
 			/**
 			 * This is the function where you should set up all of your site wide
