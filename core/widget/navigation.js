@@ -6,22 +6,22 @@
 /*jslint nomen:false*/
 
 (function ($, cjaf) {
-	cjaf.define('cjaf/widget/navigation', [
-		'cjaf/widget/helper/menu/renderer',
-		'cjaf/widget/helper/menu',
-		'cjaf/widget/helper/menu/item',
-		'cjaf/widget/helper/event',
-		'cjaf/widget/navigation/item',
-		'cjaf/widget/menu'
+	cjaf.define('core/widget/navigation', [
+	    'cjaf/widget/helper/event',
+	    'core/widget/helper/menu/renderer',
+	    'core/widget/helper/menu',
+	    'core/widget/helper/menu/item',
+	    'core/widget/navigation/item',
+	    'core/widget/menu'
 	],
 	/**
+	 * @param {cjaf.Widget.Helper.Event} EventHelper
 	 * @param {cjaf.Widget.Helper.Menu.Renderer} Renderer
 	 * @param {cjaf.Widget.Helper.Menu} Menu
 	 * @param {cjaf.Widget.Helper.Menu.Item} MenuItem
-	 * @param {cjaf.Widget.Helper.Event} EventHelper
 	 */
-	function (Renderer, Menu, MenuItem, EventHelper) {
-		$.widget('cjaf.navigation', {
+	function (EventHelper, Renderer, Menu, MenuItem) {
+		$.widget('cjaf.core_navigation', {
 			/**
 			 * These are the available options for this widget and
 			 * their associated defaults.
@@ -59,7 +59,13 @@
 				 *to denote that it is the currently selected option.
 				 * @type {string}
 				 */
-				"selectedClass": 'current-page'
+				"selectedClass": 'current-page',
+				/**
+				 * This is the name of the navigation item widget we'll use
+				 * to control the individual menu items.
+				 * @type {string}
+				 */
+				"itemWidget": "core_navigation_item"
 			},
 			/**
 			 * This is the initialization function for this widget.
@@ -122,7 +128,13 @@
 			 * @return {boolean}
 			 */
 			"_initMenuItem": function (el, menu_item) {
-				el.navigation_item({
+				var nav_widget	= this.options.itemWidget;
+				if (!el[nav_widget] || typeof el[nav_widget] !== 'function') {
+					throw "Navigation item widget is not a valid jQueryUI widget.";
+				}
+				
+				
+				el[nav_widget]({
 					"menuItem": menu_item,
 					"selectedClass": this.options.selectedClass
 				});

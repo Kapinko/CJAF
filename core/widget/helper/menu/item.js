@@ -5,16 +5,16 @@
 /*global jQuery: false, cjaf: false*/
 
 (function ($, cjaf) {
-	cjaf.define('cjaf/widget/helper/menu/item', [
+	cjaf.define('core/widget/helper/menu/item', [
 		'cjaf/collection'
 	],
 	/**
 	 * @param {cjaf.Collection} Collection
-	 * @return {cjaf.Widget.Helper.Menu.Item}
+	 * @return {cjaf.Core.Widget.Helper.Menu.Item}
 	 */
 	function (Collection) {
 		var menu_item_counter	= 0,
-		Item	= cjaf.namespace("Widget.Helper.Menu.Item", 
+		Item	= cjaf.namespace("Core.Widget.Helper.Menu.Item", 
 		/**
 		 * This is an object that is meant to represent a discrete item that
 		 * is contained within a menu.

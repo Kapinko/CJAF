@@ -330,7 +330,7 @@ window.cjaf	= (function ($, require, window, document) {
 									require.ready(function () {
 										//set the locale
 										cjaf.Global.setLocale(Bootstrap.getLocale())
-												.setBasePath(Bootstrap.getLocalePath());
+											.setBasePath(Bootstrap.getLocalePath());
 										
 										Bootstrap.run(cornerstone);
 										_showApplication(cornerstone, elements_to_clear);

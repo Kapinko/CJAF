@@ -5,9 +5,9 @@
 /*global jQuery: false, cjaf: false */
 
 (function ($, cjaf) {
-	cjaf.define('cjaf/widget/helper/menu/renderer/dock', [
+	cjaf.define('core/widget/helper/menu/renderer/dock', [
 		'cjaf/class',
-		'cjaf/widget/helper/menu/renderer',
+		'core/widget/helper/menu/renderer',
 		'jQuery/jquery.jqDock'
 	],
 	/**
@@ -16,7 +16,7 @@
 	 * @return {cjaf.Widget.Helper.Menu.Renderer.Dock}
 	 */
 	function (Class, Renderer) {
-		var Dock	= cjaf.namespace("Widget.Helper.Menu.Renderer.Dock", 
+		var Dock	= cjaf.namespace("Core.Widget.Helper.Menu.Renderer.Dock", 
 		Class.extend(Renderer, {
 			/**
 			 * This function will render the menu itself.
@@ -66,12 +66,11 @@
 			 * This is a hook so that child classes can do any necessary 
 			 * configuration after the menu has been created but before
 			 * we pass the menu of to the user.
-			 * @param {jQuery} container
 			 * @oaram {jQuery} menu_html
 			 * @param {Menu} menu
 			 * @return {Renderer}
 			 */
-			"postRenderHook": function (container, menu_html, menu) {
+			"postRenderHook": function (menu_html, menu) {
 				var dockOptions	= {
 					"align": 'top',
 					"labels": true

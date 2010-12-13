@@ -5,9 +5,9 @@
 /*global jQuery: false, cjaf: false */
 
 (function ($, cjaf) {
-	cjaf.define('cjaf/widget/helper/menu/renderer/lava', [
+	cjaf.define('core/widget/helper/menu/renderer/lava', [
 		'cjaf/class',
-		'cjaf/widget/helper/menu/renderer',
+		'core/widget/helper/menu/renderer',
 		'lib/jquery/jquery.lavamenu'
 	],
 	/**
@@ -16,7 +16,7 @@
 	 * @return {cjaf.Widget.Helper.Menu.Renderer.Dock}
 	 */
 	function (Class, Renderer) {
-		var Dock	= cjaf.namespace("Widget.Helper.Menu.Renderer.Lava", 
+		var Dock	= cjaf.namespace("Core.Widget.Helper.Menu.Renderer.Lava", 
 		Class.extend(Renderer, {
 			/**
 			 * This function will render the menu itself.
@@ -27,7 +27,7 @@
 				var container	= $('<ul>');
 				container.addClass(this.menu_class)
 						.attr('id', menu.getId());
-				return container;`
+				return container;
 			},
 			/**
 			 * This function will render a given menu item.  Menu items will be

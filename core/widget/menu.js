@@ -5,11 +5,11 @@
 /*global jQuery: false, cjaf: false*/
 
 (function ($, cjaf) {
-	cjaf.define('cjaf/widget/menu', [
+	cjaf.define('core/widget/menu', [
 		'cjaf/widget/helper/event',
-		'cjaf/widget/helper/menu',
-		'cjaf/widget/helper/menu/item',
-		'cjaf/widget/helper/menu/renderer'
+		'core/widget/helper/menu',
+		'core/widget/helper/menu/item',
+		'core/widget/helper/menu/renderer'
 	],
 	/**
 	 * @param {cjaf.Widget.Helper.Event} EventHelper
@@ -18,7 +18,7 @@
 	 * @param {cjaf.Widget.Helper.Menu.Renderer} Renderer
 	 */
 	function (EventHelper, Menu, MenuItem, Renderer) {
-	    $.widget('cjaf.menu', {
+	    $.widget('cjaf.core_menu', {
 			/**
 			 * These are the available options for this widget and their
 			 * associated defaults.
@@ -49,24 +49,6 @@
 				* @type {string}
 				*/
 			    "menuItemSelector": "li",
-			   /**
-				* This is the options that describe the view that will be
-				* passed to the initialization view function.
-				* @type {Object.<string,string>}
-				*/
-			    "menuView": {
-					"name": "menu",
-					"view": "init"
-			    },
-			   /**
-				* These are the options that describe the view template that
-				* will be passed to the menu item initialization view function.
-				* @type {Object.<string,string>}
-				*/
-			    "itemView": {
-					"name": "menu_item",
-					"view": "init"
-			    },
 			   /**
 				* This is an object that represents the menu we should be
 				* rendering.
@@ -107,15 +89,14 @@
 					
 				el.hide();
 				
-				el.addClass(o.menuContainerClass)
-					.html(this._view({"menu": o.menu}));
+				el.addClass(o.menuContainerClass);
 				
 				o.renderer.setMenuItemCallback($.proxy(this, "_initMenuItem"))
-						.setMenuCompleteCallback($.proxy(this, "_menuRenderComplete"))
-						.setMenuView(o.menuView)
-						.setItemView(o.itemView)
-						.setContainerClass(o.menuContainerClass)
-						.render(o.menu);
+					.setMenuCompleteCallback($.proxy(this, "_menuRenderComplete"))
+					.setMenuView(o.menuView)
+					.setItemView(o.itemView)
+					.setContainerClass(o.menuContainerClass)
+					.render(o.menu);
 						
 				this.initialized	= true;
 			},

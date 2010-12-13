@@ -7,11 +7,11 @@
 
 (function ($, cjaf) {
 	cjaf.define('test/widget/navigation', [
-		'i18n!test/nls/Base',
-		'cjaf/widget/navigation'
+		'cjaf/global',
+		'core/widget/navigation'
 	],
-	function (base_locale) {
-		$.widget('cjaf.test_navigation', $.cjaf.navigation, {
+	function (Global) {
+		$.widget('cjaf.test_navigation', $.cjaf.core_navigation, {
 			/**
 			 * These are the available options and their default settings.
 			 * @type {Object.<string, *>}
@@ -22,13 +22,19 @@
 				 * initialization view template for this widget.
 				 * @type {Object.<string,*>}
 				 */
-				"locale": base_locale.navigation,
+				"locale": null,
 				/**
 				 *This is the class that should be applied to a navigation item
 				 *to denote that it is the currently selected option.
 				 * @type {string}
 				 */
 				"selectedClass": 'current-page'
+			},
+			_create: function () {
+				if (!this.options.locale) {
+					this.options.locale	= Global.localize(this.widgetName).navigation;
+				}
+				$.cjaf.core_navigation.prototype._create.apply(this,arguments);
 			}
 		});
 	});

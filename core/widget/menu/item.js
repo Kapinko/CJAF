@@ -7,14 +7,14 @@
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/menu/item', [
 		'cjaf/widget/helper/event',
-		'cjaf/widget/helper/menu/item'
+		'core/widget/helper/menu/item'
 	],
 	/**
-	 * @param {cjaf.Widget.Helper.Event} EventHelper
-	 * @param {cjaf.Widget.Helper.Menu.Item} MenuItem
+	 * @param {cjaf.Core.Widget.Helper.Event} EventHelper
+	 * @param {cjaf.Core.Widget.Helper.Menu.Item} MenuItem
 	 */
 	function (EventHelper, MenuItem) {
-		$.widget('cjaf.menu_item', {
+		$.widget('cjaf.core_menu_item', {
 			/**
 			 * These are the available options for this widget and their
 			 * default values.

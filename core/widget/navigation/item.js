@@ -7,15 +7,15 @@
 
 (function ($, cjaf, document) {
 	cjaf.define('cjaf/widget/navigation/item', [
-		'cjaf/widget/helper/menu/item',
-		'cjaf/widget/helper/event'
+		'cjaf/widget/helper/event',
+		'core/widget/helper/menu/item'
 	],
 	/**
-	 * @param {cjaf.Widget.Helper.Menu.Item} MenuItem
 	 * @param {cjaf.Widget.Helper.Event} EventHelper
+	 * @param {cjaf.Widget.Helper.Menu.Item} MenuItem
 	 */
-	function (MenuItem, EventHelper) {
-		$.widget('cjaf.navigation_item', {
+	function (EventHelper, MenuItem) {
+		$.widget('cjaf.core_navigation_item', {
 			/**
 			 * These are the available options for this widget.
 			 * @type {Object.<string,*>}

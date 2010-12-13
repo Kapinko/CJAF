@@ -57,7 +57,7 @@
 			 * This is the base path for localization files.
 			 * @type {string}
 			 */
-			base_path: "/js/cjaf/core/global",
+			base_path: null,
 			/**
 			 * Get the default locale
 			 * @return {string}
@@ -104,6 +104,9 @@
 			 * @return {string}
 			 */
 			"getBasePath": function () {
+				if (!this.base_path) {
+					throw "Localization Base Path has not been set.";
+				}
 				return this.base_path;
 			},
 			/**
@@ -124,7 +127,7 @@
 				if (locale !== default_locale) {
 					load(widget, default_locale, base_path);
 				}
-
+				
 				load(widget, locale, base_path);
 
 				return $.localize(widget, locale);

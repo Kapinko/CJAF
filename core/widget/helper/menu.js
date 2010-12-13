@@ -6,7 +6,7 @@
 /*global jQuery: false, cjaf: false*/
 "use strict";
 (function ($, cjaf) {
-	cjaf.define('cjaf/widget/helper/menu', [
+	cjaf.define('core/widget/helper/menu', [
 		'cjaf/collection'
 	], 
 	/**
@@ -15,7 +15,7 @@
 	 */
 	function (Collection) {
 		var menu_counter	= 0,
-		Menu	= cjaf.namespace("Widget.Helper.Menu", 
+		Menu	= cjaf.namespace("Core.Widget.Helper.Menu", 
 		/**
 		 * An object to represent a menu (ie. a collection of menu items).
 		 * @constructor
