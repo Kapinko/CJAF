@@ -35,17 +35,23 @@
 			 * This is the CSS class that will be applied to the menu container.
 			 * @type {string}
 			 */
-			this.container_class	= 'ui-widget';
+			this.container_class	= '';
 			/**
 			 * This is the CSS class that will be applied to the menu.
 			 * @type {string}
 			 */
-			this.menu_class			= 'ui-widget-content ui-menu';
+			this.menu_class			= '';
 			/**
 			 * This is the CSS class that will be applied to the menu items.
 			 * @type {string}
 			 */
-			this.menu_item_class	= 'ui-menu-item';
+			this.menu_item_class	= '';
+			/**
+			 * This is the CSS class that will be applied to the menu item
+			 * links.
+			 * @type {string}
+			 */
+			this.menu_item_link_class	= "";
 
 			this.init();
 		});
@@ -60,7 +66,7 @@
 			 * @return {jQuery}
 			 */
 			"renderMenu": function (menu) {
-			    return $('<li>')
+			    return $('<ul>')
 				.addClass(this.menu_class)
 				.attr('id', menu.getId());
 			},
@@ -86,13 +92,22 @@
 				item	= $('<li>')
 					.addClass(this.menu_item_class);
 					
-				$('<a>')
-				    .attr('href', ref)
-				    .attr('title', title)
-				    .html(title)
-				    .appendTo(item);
+				this.renderMenuItemLink(title, ref, title).appendTo(item);
 				    
 				return item;
+			},
+			/**
+			 * Render the link for a menu item
+			 * @param {text}
+			 * @param {href}
+			 * @return {jQuery}
+			 */
+			"renderMenuItemLink": function (text, href, title) {
+				return $('<a>')
+					.addClass(this.menu_item_link_class)
+				    .attr('href', href)
+				    .attr('title', title)
+				    .html(text);
 			},
 			/**
 			 * Set the menu complete callback
@@ -132,11 +147,25 @@
 			 * @param {boolean} clear_default
 			 * @return {Menu.Renderer}
 			 */
-			"setMenuItem": function (css_class, clear_default) {
+			"setMenuItemClass": function (css_class, clear_default) {
 				if (clear_default) {
 					this.menu_item_class	= css_class;
 				} else {
 					this.menu_item_class	+= ' ' + css_class;
+				}
+				return this;
+			},
+			/**
+			 * Set the CSS class to the menu item links
+			 * @param {string} css_class
+			 * @param {boolean} clear_default
+			 * @return {Menu.Renderer}
+			 */
+			"setMenuItemLinkClass": function (css_class, clear_default) {
+				if (clear_default) {
+					this.menu_item_link_class	= css_class;
+				} else {
+					this.menu_item_link_class	+= ' ' + css_class;
 				}
 				return this;
 			},

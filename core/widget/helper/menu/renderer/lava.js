@@ -8,7 +8,7 @@
 	cjaf.define('core/widget/helper/menu/renderer/lava', [
 		'cjaf/class',
 		'core/widget/helper/menu/renderer',
-		'lib/jquery/jquery.lavamenu'
+		'lib/jquery/jquery.lavalamp'
 	],
 	/**
 	 * @param {cjaf.Class} Class
@@ -58,16 +58,15 @@
 			 * This is a hook so that child classes can do any necessary 
 			 * configuration after the menu has been created but before
 			 * we pass the menu of to the user.
-			 * @param {jQuery} container
 			 * @oaram {jQuery} menu_html
 			 * @param {Menu} menu
 			 * @return {Renderer}
 			 */
-			"postRenderHook": function (container, menu_html, menu) {
+			"postRenderHook": function (menu_html, menu) {
 				var options	= {
 					
 				};
-				menu_html.jqDock(options);
+				menu_html.lavaLamp(options);
 			}
 		}));
 		

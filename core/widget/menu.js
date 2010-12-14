@@ -44,6 +44,11 @@
 				* @type {string}
 				*/
 			    "menuContainerClass": "cjaf-menu",
+				/**
+				 * This is the CSS class that will be applied to the menu item
+				 * @type {string}
+				 */
+				"menuItemClass": "",
 			   /**
 				* This is the selector to use to find the menu item elements
 				* within this menu.
@@ -101,6 +106,7 @@
 				
 				renderer.setMenuItemCallback($.proxy(this, "_initMenuItem"))
 					.setMenuCompleteCallback($.proxy(this, "_menuRenderComplete"))
+					.setMenuItemClass(o.menuItemClass)
 					.render(o.menu);
 						
 				this.initialized	= true;
