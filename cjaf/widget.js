@@ -5,7 +5,6 @@
 /*jslint nomen: false*/
 /*global jQuery: false, cjaf: false*/
 
-
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget', [
 		'cjaf/global'
@@ -46,13 +45,13 @@
 			
 			//If the user has listed any partials then set the partials parameter.
 			if (o.partials) {
-				partials	= o.partials
+				partials	= o.partials;
 			}
 			
 			//if the user hasn't turned off localization load the string file.
 			if (!o.no_locale) {
 				if (o.locale) {
-					locale	= o.locale
+					locale	= o.locale;
 				} else {
 					locale	= this.widgetName;
 				}

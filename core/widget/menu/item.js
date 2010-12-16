@@ -1,10 +1,10 @@
 /**
  * This is a generic menu item widget.
  */
-/*jslint nomen: false, strict: false*/
-/*global jQuery: false, cjaf: false*/
+/*jslint nomen: false*/
+/*global jQuery: false, cjaf: false, window: false*/
 
-(function ($, cjaf) {
+(function ($, cjaf, document) {
 	cjaf.define('cjaf/widget/menu/item', [
 		'cjaf/widget/helper/event',
 		'core/widget/helper/menu/item'
@@ -55,7 +55,7 @@
 			 * The initialization method for this widget.
 			 */
 			_create: function () {
-				var el	= this.element;
+				var el	= this.element,
 				page_change_handler	= $.proxy(this, "_handleItemSelect"),
 				sub_items			= this.options.sub_items,
 				sub_menu_items		= this.options.menu_item.getItems();
@@ -80,7 +80,7 @@
 			 * @param {Object.<string,string>} item
 			 * @return {boolean}
 			 */
-			"_handleItemSelect": function (event, item){
+			"_handleItemSelect": function (event, item) {
 				var menu_item	= this.options.menu_item,
 				selected		= this.options.selected_class,
 				sub_items		= this.options.sub_items,
@@ -123,4 +123,4 @@
 			}
 		});
 	});
-}(jQuery, cjaf));
+}(jQuery, cjaf, window.document));

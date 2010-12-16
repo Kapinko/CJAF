@@ -1,5 +1,7 @@
-(function($,stax){
-	stax.define('sodexo/card_holder/widget/form/login', [
+/*jslint nomen:false*/
+/*global jQuery: false, cjaf: false*/
+(function ($, cjaf) {
+	cjaf.define('sodexo/card_holder/widget/form/login', [
 		'i18n!nls/form.login.js',
 		'cjaf/widget/form',
 		'stax/widget/captcha',
@@ -12,7 +14,7 @@
 	 * @param {Object} locale
 	 * @param {FormEvents} FormEvents
 	 */
-	function(locale, FormEvents){
+	function (locale, FormEvents) {
 		locale	= locale.form.login;
 		/**
 		 * The default captcha timeout interval.
@@ -20,7 +22,7 @@
 		 */
 		var TIMEOUT_INTERVAL	= (20 * 60 * 1000);
 
-		$.widget('stax.card_holder_form_login', $.stax.form, {
+		$.widget('stax.card_holder_form_login', $.cjaf.form, {
 			options: {
 				initViewPath: '/js/sodexo/card_holder/view/form/login/init.ejs',
 				captchaTimeout: TIMEOUT_INTERVAL,
@@ -29,15 +31,15 @@
 				captchaSelector: '#captcha',
 				captchaImageSelector: '#captcha-image-container',
 				errorLocale: locale.error,
-				loggedInRedirector: function(){
+				loggedInRedirector: function () {
 					$.Auth('redirect');
 				}
 			},
-			_create: function(){
+			_create: function () {
 				var o		= this.options;
 
 				this.element.html(
-					view(o.initViewPath, {locale:locale})
+					cjaf.view(o.initViewPath, {locale: locale})
 				);
 
 				this.bindSubmitTrigger($('#login-submit'), {iconPrimary: 'ui-icon-star'});
@@ -57,7 +59,7 @@
 			/**
 			 * Set up all the elements for this form.
 			 */
-			_initFormElements: function(){
+			_initFormElements: function () {
 				var username	= this.getUsername(),
 					password	= this.getPassword(),
 					captcha		= this.getCaptcha();
@@ -93,7 +95,7 @@
 			 * @param {function()} success
 			 * @param {function()} error
 			 */
-			runAjaxCall: function(success, error){
+			runAjaxCall: function (success, error) {
 				var credentials	= new $.Auth.Credentials(
 						this.getUsername().val(),
 						this.getPassword().val(),
@@ -106,7 +108,7 @@
 			 * @param {string} status
 			 * @param {xmlHttpRequest} xmlHttpRequest
 			 */
-			handleSuccess: function(response, status, xmlHttpRequest){
+			handleSuccess: function (response, status, xmlHttpRequest) {
 				this.options.loggedInRedirector();
 			},
 			/**
@@ -114,48 +116,43 @@
 			 * @param {string} status
 			 * @param {string} error
 			 */
-			handleError: function(XMLHttpRequest, status, error){
+			handleError: function (XMLHttpRequest, status, error) {
 				var response_code	= XMLHttpRequest.status;
-
-				switch(response_code){
-					case 500: {
-
-						if($.Auth('isLoggedIn')){
-							$.Auth('redirect');
-						} else {
-							this.getForm().trigger(FormEvents.error, XMLHttpRequest.responseText);
-						}
-						break;
-					}
-					default: {
+				
+				if (response_code === 500) {
+					if ($.Auth('isLoggedIn')) {
+						$.Auth('redirect');
+					} else {
 						this.getForm().trigger(FormEvents.error, XMLHttpRequest.responseText);
 					}
+				} else {
+					this.getForm().trigger(FormEvents.error, XMLHttpRequest.responseText);
 				}
 			},
 			/**
 			 * @return {jQuery}
 			 */
-			getUsername: function(){
+			getUsername: function () {
 				return this.element.find(this.options.usernameSelector);
 			},
 			/**
 			 * @return {jQuery}
 			 */
-			getPassword: function(){
+			getPassword: function () {
 				return this.element.find(this.options.passwordSelector);
 			},
 			/**
 			 * @return {jQuery}
 			 */
-			getCaptcha: function(){
+			getCaptcha: function () {
 				return this.element.find(this.options.captchaSelector);
 			},
 			/**
 			 * @return {jQuery}
 			 */
-			getCaptchaImage: function(){
+			getCaptchaImage: function () {
 				return this.element.find(this.options.captchaImageSelector);
 			}
 		});
 	});
-})(jQuery, stax);
+}(jQuery, cjaf));

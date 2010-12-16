@@ -3,14 +3,13 @@
  */
 /** JSLint Declarations */
 /*global jQuery: false, cjaf: false*/
-
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/form/helper/event', [],
 	/**
 	 * @return {cjaf.Form.Helper.Event}
 	 */
 	function () {
-		Event	= cjaf.namespace("Form.Helper.Event", (function () {
+		var Event	= cjaf.namespace("Form.Helper.Event", (function () {
 			return {
 				/**
 				 * These are the events that can occur during the form 

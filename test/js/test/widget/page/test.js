@@ -1,8 +1,8 @@
 /**
  * This is a test sub page.
  */
+/*jslint nomen: false*/
 /*global jQuery: false, cjaf: false*/
-
 (function ($, cjaf) {
 	cjaf.define('cjaf/test/widget/page/test', [],
 	/**

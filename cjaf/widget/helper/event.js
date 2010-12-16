@@ -3,7 +3,6 @@
  */
 /** JSLint Declarations */
 /*global jQuery: false, cjaf: false */
-
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/helper/event', [],
 	/**

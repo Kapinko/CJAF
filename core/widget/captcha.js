@@ -1,13 +1,13 @@
 /**
  * This is a widget that will display a captcha image.
  */
-/*global jQuery: false, cjaf: false*/
-
-(function($, cjaf){
+/*jslint nomen: false*/
+/*global jQuery: false, cjaf: false, setTimeout: false*/
+(function ($, cjaf) {
 	cjaf.define('core/widget/captcha', [
 
 	],
-	function(){
+	function () {
 		/**
 		 * The default captcha timeout interval.
 		 * @type {number}
@@ -43,7 +43,7 @@
 				timeout: TIMEOUT_INTERVAL
 			},
 
-			_create: function(){
+			_create: function () {
 				var self	= this,
 					o		= this.options;
 
@@ -52,18 +52,19 @@
 						image_height: o.imageHeight,
 						image_alt: o.imageAlt,
 						image_src: o.imageSrc
-				}));
+					}
+				));
 
-				this.element.bind('reload', function(){
+				this.element.bind('reload', function () {
 					self.reload();
-				})
+				});
 
 				this.timeout(true);
 			},
 			/**
 			 * Re-initialize the captcha element.
 			 */
-			reload: function(){
+			reload: function () {
 				this.element.find('img').reload();
 			},
 			/**
@@ -71,13 +72,13 @@
 			 *
 			 * @param {boolean} 
 			 */
-			timeout: function(skip_reload){
+			timeout: function (skip_reload) {
 				var self	= this;
 
-				if(!skip_reload){
+				if (!skip_reload) {
 					this.reload();
 				}
-				this.timerId	= setTimeout(function(){
+				this.timerId	= setTimeout(function () {
 					self.timeout();
 				}, this.getTimeoutInterval());
 			},
@@ -85,9 +86,9 @@
 			 * Get the timeout interval for the captcha reload.
 			 * @return {number}
 			 */
-			getTimeoutInterval: function(){
+			getTimeoutInterval: function () {
 				return this.options.timeout;
 			}
 		});
 	});
-})(jQuery, cjaf);
+}(jQuery, cjaf));

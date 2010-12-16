@@ -1,3 +1,4 @@
+/*global cjaf:false*/
 cjaf.define('i18n!nls/widget/page/widget', {
 	"root": {
 		"navigation": {
@@ -14,4 +15,4 @@ cjaf.define('i18n!nls/widget/page/widget', {
 			}
 		}
 	}
-})
+});

@@ -5,7 +5,6 @@
  * @see http://benalman.com/projects/jquery-bbq-plugin/
  */
 /*global jQuery: false, cjaf: false, window: false*/
-
 (function ($, cjaf, window) {
 	cjaf.define('cjaf/widget/dispatcher/page/notifier', [
 		'cjaf/widget/helper/event',
@@ -59,7 +58,7 @@
 				var links	= (base) ? base.find('a') : $('a');
 				links.click(function () {
 					var href	= $(this).attr('href');
-					$.bbq.pushState({url:href});
+					$.bbq.pushState({url: href});
 				});
 				return false;
 			},

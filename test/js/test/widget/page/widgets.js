@@ -4,7 +4,6 @@
 /** JSLint Declarations */
 /*global jQuery: false, cjaf: false*/
 /*jslint nomen:false*/
-
 (function ($, cjaf) {
 	cjaf.define('test/widget/page/widgets', [
 		'cjaf/widget/helper/event',
@@ -31,7 +30,7 @@
 				
 				el.html(this._view({}));
 
-				content	= this.element.find('#content-section')
+				content	= this.element.find('#content-section');
 
 				el.dispatcher({
 					defaultPage:	"#forms",

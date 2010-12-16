@@ -2,10 +2,9 @@
  * This is the page controller for the CJAF Test Framework index page.
  */
 /** JSLint Declarations */
-/*global jQuery: false, cjaf: false*/
+/*global jQuery: false, cjaf: false, window: false*/
 /*jslint nomen:false*/
-
-(function ($, cjaf) {
+(function ($, cjaf, setTimeout) {
 	cjaf.define('test/widget/form/formulator', [
 		'cjaf/widget/form/helper/handler',
 		'cjaf/widget/form',
@@ -38,7 +37,7 @@
 				 * form submit.
 				 * @type {jQuery}
 				 */
-				"submitTrigger":null,
+				"submitTrigger": null,
 				/**
 				 * This should be set to the jQuery object that will trigger a
 				 * form clear/reset
@@ -51,7 +50,7 @@
 				 */
 				"eventHandler": cjaf.Class.extend(EventHandler, {
 					"runAjaxCall": function (success, error) {
-						window.setTimeout(success, 1000);
+						setTimeout(success, 1000);
 						return false;
 					}
 				}),
@@ -93,7 +92,7 @@
 						validators: [
 							{type: 'NotEmpty', options: {}},
 							{type: 'Length', options: {maximumLength: 26}},
-							{type: 'Regex', options:{regex: /^[A-Za-z][A-Za-z \-\']*[A-Za-z]$/}}
+							{type: 'Regex', options: {regex: /^[A-Za-z][A-Za-z \-\']*[A-Za-z]$/}}
 						],
 						errorLocale: locale.city.error,
 						errorListVisible: false
@@ -115,8 +114,8 @@
 					zip.form_element({
 						validators: [
 							{type: 'NotEmpty', options: {}},
-							{type: 'MinimumLength',options:{'minimumLength':5}},
-							{type: 'Number', options:{}}
+							{type: 'MinimumLength', options: {'minimumLength': 5}},
+							{type: 'Number', options: {}}
 						],
 						errorLocale: locale.zip.error,
 						errorListVisible: false
@@ -126,7 +125,7 @@
 					email.form_element({
 						validators: [
 							{type: 'NotEmpty', options: {}},
-							{type: 'Email',options: {}}
+							{type: 'Email', options: {}}
 						],
 						errorLocale: locale.email.error,
 						errorListVisible: false
@@ -141,7 +140,7 @@
 						errorLocale: locale.homephone.error,
 						errorListVisible: false
 					});
-					homep.mask('(999) 999-9999', {placeholder:" "});
+					homep.mask('(999) 999-9999', {placeholder: " "});
 					form_ui.addElement(homep);
 
 					mobile.form_element({
@@ -151,13 +150,13 @@
 						errorLocale: locale.cellphone.error,
 						errorListVisible: false
 					});
-					mobile.mask('(999) 999-9999', {placeholder:" "});
+					mobile.mask('(999) 999-9999', {placeholder: " "});
 					form_ui.addElement(mobile);
 
 
 					this.element.find('.container-form-error-message').form_listener_element_error_proxy({
 						form: this.element,
-						fieldList: [addr1,addr2,city,state,zip,email,homep,mobile]
+						fieldList: [addr1, addr2, city, state, zip, email, homep, mobile]
 					});
 				}
 			},
@@ -174,58 +173,58 @@
 				$.cjaf.form.prototype._create.apply(this, arguments);
 			},
 			
-			_getAddressLine1: function(){
+			_getAddressLine1: function () {
 				return this.element.find('#address-1');
 			},
 			/**
 			 * @return {jQuery}
 			 */
-			_getAddressLine2:function(){
+			_getAddressLine2: function () {
 				return this.element.find('#address-2');
 			},
 			/**
 			 * @return {jQuery}
 			 */
-			_getCity: function(){
+			_getCity: function () {
 				return this.element.find('#city');
 			},
 			/**
 			 * @return {jQuery}
 			 */
-			_getState: function(){
+			_getState: function () {
 				return this.element.find('#state');
 			},
 			/**
 			 * @return {jQuery}
 			 */
-			_getZip: function(){
+			_getZip: function () {
 				return this.element.find('#zip');
 			},
 			/**
 			 * @return {jQuery}
 			 */
-			_getEmail: function(){
+			_getEmail: function () {
 				return this.element.find('#email');
 			},
 			/**
 			 * @return {jQuery}
 			 */
-			_getPhoneHome: function(){
+			_getPhoneHome: function () {
 				return this.element.find('#phone-home');
 			},
 			/**
 			 * @return {jQuery}
 			 */
-			_getPhoneCell: function(){
+			_getPhoneCell: function () {
 				return this.element.find('#phone-cell');
 			},
 			/**
 			 * @return {jQuery}
 			 */
-			_getSubmitButton: function(){
+			_getSubmitButton: function () {
 				return this.element.find('#information-submit');
 			}
 
 		});
 	});
-}(jQuery, cjaf));
+}(jQuery, cjaf, window.setTimeout));

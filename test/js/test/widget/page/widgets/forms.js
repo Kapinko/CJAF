@@ -1,8 +1,8 @@
 /**
  * This is a page to test all of the form widgets.
  */
+/*jslint nomen: false*/
 /*global jQuery: false, cjaf: false*/
-
 (function ($, cjaf) {
 	cjaf.define('test/widget/page/widgets/forms', [
 		'i18n!test/nls/Base',

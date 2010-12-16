@@ -28,7 +28,7 @@
 			 */
 			View.getFileExt	= function () {
 				return renderer.extension;
-			}
+			};
 
 			make_path	= function (widget) {
 				var view, path;

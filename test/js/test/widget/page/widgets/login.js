@@ -1,8 +1,8 @@
 /**
  * This is a page to test login components.
  */
+/*jslint nomen: false*/
 /*global jQuery:false, cjaf: false*/
-
 (function ($, cjaf) {
 	cjaf.define('test/widget/page/widgets/login', [
 		'core/widget/captcha'

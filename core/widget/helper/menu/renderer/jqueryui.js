@@ -3,7 +3,6 @@
  */
 /** JSLint Declarations */
 /*global jQuery: false, cjaf: false */
-
 (function ($, cjaf) {
 	cjaf.define('core/widget/helper/menu/renderer/jqueryui', [
 		'cjaf/class',
@@ -25,7 +24,7 @@
 				* This is the CSS class that will be applied to the menu.
 				* @type {string}
 				*/
-			   this.menu_class			= 'ui-menu';
+				this.menu_class			= 'ui-menu';
 				/**
 				* This is the CSS class that will be applied to the menu items.
 				* @type {string}

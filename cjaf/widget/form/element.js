@@ -66,6 +66,11 @@
 				 */
 				"validators": [],
 				/**
+				 * What class should be applied to this element when it does not
+				 * have focus.,
+				 */
+				"startClass": 'ui-state-default ui-corner-all',
+				/**
 				 * What class should be applied to this element when it
 				 * receives focus?
 				 * @type {string}
@@ -90,7 +95,7 @@
 				var o		= this.options, error_locale;
 					
 				this.elementId	= this.element.attr('id');
-				
+
 				this._initUIStyle();
 				
 				if (o.hasOwnProperty('errorLocale') && typeof o.errorLocale === 'object') {
@@ -276,6 +281,8 @@
 				} else {
 					style_target	= this.element.find('input,textarea');
 				}
+
+				style_target.addClass(o.startClass);
 				
 				style_target.bind('mouseenter mouseleave', function () {
 					$(this).toggleClass(o.hoverClass);

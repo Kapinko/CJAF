@@ -4,7 +4,6 @@
  * be used for a given "page".
  */
 /*global jQuery: false, cjaf: false*/
-
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/dispatcher/page/map', [
 		
@@ -63,7 +62,7 @@
 			 * @return {PageMap}
 			 */
 			"remove": function (page_id) {
-				unset(this.map[page_id]);
+				delete(this.map[page_id]);
 			},
 			/**
 			 * Get the identifier of the current page.

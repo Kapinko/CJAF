@@ -4,7 +4,6 @@
 /** JSLint declarations */
 /*global jQuery:false, cjaf:false*/
 /*jslint nomen:false*/
-
 (function ($, cjaf) {
 	cjaf.define('test/widget/navigation', [
 		'cjaf/global',
@@ -34,7 +33,7 @@
 				if (!this.options.locale) {
 					this.options.locale	= Global.localize(this.widgetName).navigation;
 				}
-				$.cjaf.core_navigation.prototype._create.apply(this,arguments);
+				$.cjaf.core_navigation.prototype._create.apply(this, arguments);
 			}
 		});
 	});
