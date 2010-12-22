@@ -56,7 +56,7 @@
 				widget	= this.widget_name;
 				
 				if (is_button(trigger)) {
-					options = $.extend({"form": form});
+					options = $.extend({}, options, {"form": form});
 					trigger.submit_with_spinner(options);
 				}
 				

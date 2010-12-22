@@ -42,6 +42,18 @@
 				 */
 				"clearTrigger": null,
 				/**
+				 * This object will be passed to the submit trigger as a set of
+				 * options.
+				 * @type {Object.<string,*>}
+				 */
+				"submitTriggerOptions": {},
+				/**
+				 * This object will be passed to the clear trigger as a set of
+				 * options.
+				 * @type {Object.<string,*>}
+				 */
+				"clearTriggerOptions": {},
+				/**
 				 * Should we only show one error per field?
 				 * @type {boolean}
 				 */
@@ -134,11 +146,11 @@
 				}
 
 				if (o.hasOwnProperty('submitTrigger')) {
-					this.trigger.bindSubmit($(o.submitTrigger));
+					this.trigger.bindSubmit($(o.submitTrigger), o.submitTriggerOptions);
 				}
 
 				if (o.hasOwnProperty('clearTrigger')) {
-					this.trigger.bindClear($(o.clearTrigger));
+					this.trigger.bindClear($(o.clearTrigger), o.clearTriggerOptions);
 				}
 				
 				o.initFormElements.apply(this, [this.ui, locale]);
