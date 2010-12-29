@@ -44,7 +44,7 @@
 						'isAllowed': function () {
 							return true;
 						},
-						'subPages': []
+						'subPages': {}
 					}
 				},
 				/**
