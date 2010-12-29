@@ -89,6 +89,10 @@
 					ref		= '#';
 				}
 				
+				if (ref.indexOf('#') !== 0) {
+					ref	= '#' + ref;
+				}
+				
 				item	= $('<li>')
 					.addClass(this.menu_item_class);
 					
