@@ -5,7 +5,7 @@
 /*global jQuery: false, cjaf: false, window: false*/
 
 (function ($, cjaf, document) {
-	cjaf.define('cjaf/widget/menu/item', [
+	cjaf.define('core/widget/menu/item', [
 		'cjaf/widget/helper/event',
 		'core/widget/helper/menu/item'
 	],
