@@ -91,26 +91,46 @@
 				for (page in page_list) {
 					if (page_list.hasOwnProperty(page)) {
 						page_opts	= page_list[page];
-						locale_key	= page_opts.hasOwnProperty('localeKey') ? page_opts.localeKey : page;
-			
-						menu_item	= new MenuItem();
-						menu_item.setTitle(locale[locale_key])
-								.setRef(page);
-			
-						if (page_opts.hasOwnProperty('isAllowed')) {
-							menu_item.setAuthFunction(page_opts.isAllowed);
-						}
-						if (page_opts.hasOwnProperty('image')) {
-							menu_item.setImageUrl(page_opts.image);
-						}
-						//@todo Add sub pages here.
-	//					if (page_opts.hasOwnProperty('subPages')) {}
+						
+						menu_item	= this._getMenuItemFromPageObject(page, page_opts, locale);
 						menu.addItem(menu_item);
 					}
 				}
 		
 				return menu;
-			}
+			},
+			
+			/**
+			 * Create a menu item from the given page object.
+			 * @param {string} name - the name of this page
+			 * @param {Object.<string,*>} page - the object that represents this page.
+			 * @param {Object.<string,*>} locale - the locale object to use for this menu item.
+			 */
+			 _getMenuItemFromPageObject: function (name, page, locale) {
+			 	var locale_key	= page.hasOwnProperty('localeKey') ? page.localeKey : name,
+			 	menu_item		= new MenuItem(),
+			 	sub_menu_items;
+			 	
+			 	menu_item.setTitle(locale[locale_key])
+			 			.setRef(name);
+			 			
+			 	if (page.hasOwnProperty('isAllowed')) {
+			 		menu_item.setAuthFunction(page.isAllowed);
+			 	}
+			 	if (page.hasOwnProperty('image')) {
+			 		menu_item.setImageUrl(page.image);
+			 	}
+			 	
+			 	if (page.hasOwnProperty('subPages')) {
+			 		sub_menu_items	= this._getMenuFromPageList(page.subPages).getItems();
+			 		
+			 		while (sub_menu_items.hasNext()) {
+			 			menu_item.addItem(sub_menu_items.getNext());
+			 		}
+			 	}
+			 	
+			 	return menu_item;
+			 }
 		});
     });
 }(jQuery, cjaf));
