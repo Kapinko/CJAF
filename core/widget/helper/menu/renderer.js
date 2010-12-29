@@ -80,7 +80,7 @@
 			 */
 			"renderMenuItem": function (menu_item, is_first, is_last) {
 				var title	= menu_item.getTitle(),
-				ref		= menu_item.getRef(), item;
+				ref		= menu_item.getRef(), item, sub_items, sub_menu;
 
 				if (!title) {
 					title	= menu_item.getId();
@@ -97,8 +97,30 @@
 					.addClass(this.menu_item_class);
 					
 				this.renderMenuItemLink(title, ref, title).appendTo(item);
+				
+				item	= this.renderSubMenu(item, menu_item);
 				    
 				return item;
+			},
+			/**
+			 * This function will render the sub menu for the given menu item.
+			 * @param {jQuery} item_html - the current menu HTML markup.
+			 * @param {MenuItem} menu_item - the JavaScript representation of the menu item.
+			 */
+			"renderSubMenu": function (item_html, menu_item) {
+				var sub_items	= menu_item.getItems(), sub_menu;
+				
+				if (sub_items.getCount() > 0) {
+					sub_menu	= new Menu();
+					
+					while (sub_items.hasNext()) {
+						sub_menu.addItem(sub_items.getNext());
+					}
+					
+					this.render(sub_menu).appendTo(item_html);
+				}
+				
+				return item_html;
 			},
 			/**
 			 * Render the link for a menu item
