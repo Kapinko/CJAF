@@ -22,8 +22,8 @@
 			var o		= this.options,
 			partials	= null,
 			options, locale;
-			
-			if (this.options.initView) {
+
+			if (this.options.initView && arguments.length < 2) {
 				options	= o.initView;
 				
 			} else {
