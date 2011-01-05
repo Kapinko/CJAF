@@ -40,7 +40,8 @@
 			"renderMenuItemLink": function (text, href, title) {
 				return $('<input type="button">')
 					.addClass(this.menu_item_link_class)
-				    .attr("value", text);
+				    .attr("value", text)
+					.data('page', href);
 			},
 			/**
 			 * This is a hook so that child classes can do any necessary 
@@ -51,7 +52,9 @@
 			 * @return {Renderer}
 			 */
 			"postRenderHook": function (menu_html, menu) {
-				menu_html.find('button,input[type="button"]').button();
+				menu_html.find('button,input[type="button"]').button().click(function () {
+					window.location = $(this).data('page');
+				});
 			}
 		}));
 		
