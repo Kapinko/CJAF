@@ -19,7 +19,7 @@
 
 			return path;
 		},
-		load		= function (widget, locale, base_path) {
+		load		= function (widget, locale, base_path, is_default) {
 			var path	= make_path(widget, locale, base_path), load_ok = true;
 
 			if (!already_loaded[path]) {
@@ -122,15 +122,22 @@
 				}
 				
 				var default_locale	= this.getDefaultLocale(),
-				base_path			= this.getBasePath();
+				base_path			= this.getBasePath(),
+				localized;
 				
 				if (locale !== default_locale) {
-					load(widget, default_locale, base_path);
+					load(widget, default_locale, base_path, true);
 				}
 				
 				load(widget, locale, base_path);
 
-				return $.localize(widget, locale);
+				localized	= $.localize(widget, locale);
+
+				if (localized === null) {
+					localized	= $.localize(widget, default_locale);
+				}
+
+				return localized;
 			}
 		});
 		
