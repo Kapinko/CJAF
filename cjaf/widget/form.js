@@ -84,15 +84,7 @@
 				 * Get the event trigger helper class for this form widget.
 				 * @type {cjaf.Widget.Form.Helper.Trigger}
 				 */
-				"eventTrigger": TriggerHelper,
-				/**
-				 * This function should add all of the necessary elements 
-				 * to this form.
-				 * @type {function(cjaf.Widget.Form.Helper.UI)}
-				 */
-				"initFormElements": function (form_ui, form_locale) {
-					throw "You must provide a initFormElements function.";
-				}
+				"eventTrigger": TriggerHelper
 			},
 			/**
 			 * Form widget initialization.
@@ -152,8 +144,16 @@
 				if (o.hasOwnProperty('clearTrigger')) {
 					this.trigger.bindClear($(o.clearTrigger), o.clearTriggerOptions);
 				}
-				
-				o.initFormElements.apply(this, [this.ui, locale]);
+
+				this.initFormElements(this.ui, locale);
+			},
+			/**
+			 * This function should add all of the necessary elements
+			 * to this form.
+			 * @type {function(cjaf.Widget.Form.Helper.UI)}
+			 */
+			"initFormElements": function (form_ui, form_locale) {
+				throw "You must provide a initFormElements function.";
 			},
 			/**
 			 * Submit this form
