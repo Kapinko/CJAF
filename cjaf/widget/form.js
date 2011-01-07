@@ -95,13 +95,7 @@
 				}
 				
 				var el	= this.element,
-				o		= this.options,
-				locale;
-
-				//If the user has not turned off the locale lookup.
-				if (!o.no_locale) {
-					locale	= Global.localize(this.widgetName);
-				}
+				o		= this.options;
 				
 				/**
 				 * This is the user interface helper for this form widget.
@@ -145,7 +139,7 @@
 					this.trigger.bindClear($(o.clearTrigger), o.clearTriggerOptions);
 				}
 
-				this.initFormElements(this.ui, locale);
+				this.initFormElements(this.ui, this._getLocale());
 			},
 			/**
 			 * This function should add all of the necessary elements
@@ -154,6 +148,15 @@
 			 */
 			"initFormElements": function (form_ui, form_locale) {
 				throw "You must provide a initFormElements function.";
+			},
+			/**
+			 * This method is called upon a successful form validation.
+			 * @param {function():boolean} success
+			 * @param {function():boolean} error
+			 * @return {boolean}
+			 */
+			"runAjaxCall": function (success, error) {
+				return  false;
 			},
 			/**
 			 * Submit this form
@@ -234,6 +237,24 @@
 				}
 
 				return flag;
+			},
+			/**
+			 * Get the locale object for this form.
+			 * @return {Object.<string,*>}
+			 */
+			_getLocale: function () {
+				var locale = null;
+
+				//If the user has not turned off the locale lookup.
+				if (!this.options.no_locale) {
+					//Load the default if a custom locale name is not specified.
+					if (!this.options.locale_name) {
+						locale	= Global.localize(this.widgetName);
+					} else {
+						locale	= Global.localize(this.options.localeName);
+					}
+				}
+				return locale;
 			}
 		});
 	});

@@ -44,15 +44,6 @@
 		});
 		Handler.prototype	= {
 			/**
-			 * This method is called upon a successful form validation.
-			 * @param {function():boolean} success
-			 * @param {function():boolean} error
-			 * @return {boolean}
-			 */
-			"runAjaxCall": function (success, error) { 
-				return  false;
-			},
-			/**
 			 * Handle a successful form submission.
 			 * @param {Object.<string,*>} status
 			 * @param {string} error
@@ -91,8 +82,9 @@
 				};
 				
 				form.trigger(EventHelper.submit.server);
-				
-				this.runAjaxCall(success, error);
+
+				//Tell the form to submit itself.
+				this.form[this.widget_name]('runAjaxCall', success, error);
 				return false;
 			},
 			/**
