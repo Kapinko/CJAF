@@ -1,65 +1,89 @@
 /*jslint nomen:false*/
 /*global jQuery: false, cjaf: false*/
 (function ($, cjaf) {
-	cjaf.define('sodexo/card_holder/widget/form/login', [
-		'i18n!nls/form.login.js',
+	cjaf.define('core/widget/form/login', [
+		'core/widget/form/login/helper/handler',
 		'cjaf/widget/form',
-		'stax/widget/captcha',
-		'stax/widget/form/listener/error_message',
-		'jQuery/jquery.reload',
-		'jQuery/jquery.auth',
+		'cjaf/widget/form/element',
+		'cjaf/widget/form/listener/error_message',
+		'core/widget/captcha',
+		'lib/jquery/jquery.auth',
 		'lib/validator/not_empty'
 	],
 	/**
-	 * @param {Object} locale
-	 * @param {FormEvents} FormEvents
+	 * @param {HandlerHelper} HandlerHelper
 	 */
-	function (locale, FormEvents) {
-		locale	= locale.form.login;
+	function (HandlerHelper) {
 		/**
 		 * The default captcha timeout interval.
 		 * @type {number}
 		 */
 		var TIMEOUT_INTERVAL	= (20 * 60 * 1000);
 
-		$.widget('stax.card_holder_form_login', $.cjaf.form, {
+		$.widget('cjaf.core_form_login', $.cjaf.form, {
 			options: {
-				initViewPath: '/js/sodexo/card_holder/view/form/login/init.ejs',
 				captchaTimeout: TIMEOUT_INTERVAL,
 				usernameSelector: '#username',
 				passwordSelector: '#password',
 				captchaSelector: '#captcha',
 				captchaImageSelector: '#captcha-image-container',
-				errorLocale: locale.error,
+				/**
+				 * This will be applied to the captcha image as it's
+				 * src attribute
+				 * @type {string}
+				 */
+				captchaSrc: '',
 				loggedInRedirector: function () {
 					$.Auth('redirect');
+				},
+				/**
+				 * Get the event handler helper class for this form widget.
+				 * @type {cjaf.Widget.Form.Helper.Handler}
+				 */
+				"eventHandler": HandlerHelper,
+				/**
+				 * This is the jQuery selector for the object
+				 * that will trigger a form submit.
+				 * @type {string}
+				 */
+				"submitButton": '#form-submit-login',
+				/**
+				 * These are the options that will be sent to the submit trigger
+				 * bind method.
+				 * @type {Object.<string,*>}
+				 */
+				"submitTriggerOptions": {
+					'iconPrimary': 'ui-icon-star'
 				}
+
 			},
 			_create: function () {
 				var o		= this.options;
 
-				this.element.html(
-					cjaf.view(o.initViewPath, {locale: locale})
-				);
+				this.element.html(this._view({}));
 
-				this.bindSubmitTrigger($('#login-submit'), {iconPrimary: 'ui-icon-star'});
-
-				this.getCaptchaImage().captcha({
-					timeout: o.captchaTimeout
+				this.getCaptchaImage().core_captcha({
+					timeout: o.captchaTimeout,
+					view: {
+						image: {
+							src: this.options.captchaSrc
+						}
+					}
 				});
 
-				//Attach the error message listener.
-				$('#container-form-error-message').form_listener_error_message({
-					form: this.element
-				});
+				o.submitTrigger	= this.getSubmitButton();
 
 				//Call the parent create function.
-				$.stax.form.prototype._create.apply(this, arguments);
+				$.cjaf.form.prototype._create.apply(this, arguments);
+
+				this.handler.setLoggedInHandler(this.options.loggedInRedirector);
 			},
 			/**
 			 * Set up all the elements for this form.
+			 * @param {cjaf.Widget.Helper.Form.UI} form_ui
+			 * @param {Object.<string,*>} form_locale
 			 */
-			_initFormElements: function () {
+			initFormElements: function (form_ui, form_locale) {
 				var username	= this.getUsername(),
 					password	= this.getPassword(),
 					captcha		= this.getCaptcha();
@@ -68,25 +92,25 @@
 					validators: [
 						{type: 'NotEmpty', options: {}}
 					],
-					errorLocale: locale.username.error
+					errorLocale: form_locale.username.error
 				});
-				this.addElement(username);
+				form_ui.addElement(username);
 
 				password.form_element({
 					validators: [
 						{type: 'NotEmpty', options: {}}
 					],
-					errorLocale: locale.password.error
+					errorLocale: form_locale.password.error
 				});
-				this.addElement(password);
+				form_ui.addElement(password);
 
 				captcha.form_element({
 					validators: [
 						{type: 'NotEmpty', options: {}}
 					],
-					errorLocale: locale.captcha.input.error
+					errorLocale: form_locale.captcha.error
 				});
-				this.addElement(captcha);
+				form_ui.addElement(captcha);
 
 			},
 			/**
@@ -95,39 +119,15 @@
 			 * @param {function()} success
 			 * @param {function()} error
 			 */
-			runAjaxCall: function (success, error) {
-				var credentials	= new $.Auth.Credentials(
-						this.getUsername().val(),
+			"runAjaxCall": function (success, error) {
+				var form	= this.form,
+				widget		= this.widget_name,
+				credentials	= new $.Auth.Credentials(
+						form[widget]('getUsername')..val(),
 						this.getPassword().val(),
 						this.getCaptcha().val()
 				);
 				$.Auth('login', credentials, success, error);
-			},
-			/**
-			 * @param {Object} response
-			 * @param {string} status
-			 * @param {xmlHttpRequest} xmlHttpRequest
-			 */
-			handleSuccess: function (response, status, xmlHttpRequest) {
-				this.options.loggedInRedirector();
-			},
-			/**
-			 * @param {XMLHttpRequest} xmlHttpRequest
-			 * @param {string} status
-			 * @param {string} error
-			 */
-			handleError: function (XMLHttpRequest, status, error) {
-				var response_code	= XMLHttpRequest.status;
-				
-				if (response_code === 500) {
-					if ($.Auth('isLoggedIn')) {
-						$.Auth('redirect');
-					} else {
-						this.getForm().trigger(FormEvents.error, XMLHttpRequest.responseText);
-					}
-				} else {
-					this.getForm().trigger(FormEvents.error, XMLHttpRequest.responseText);
-				}
 			},
 			/**
 			 * @return {jQuery}
@@ -152,6 +152,13 @@
 			 */
 			getCaptchaImage: function () {
 				return this.element.find(this.options.captchaImageSelector);
+			},
+			/**
+			 * Get submit button
+			 * @return {jQuery}
+			 */
+			getSubmitButton: function () {
+				return this.element.find(this.options.submitButton);
 			}
 		});
 	});

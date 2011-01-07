@@ -248,10 +248,10 @@
 				//If the user has not turned off the locale lookup.
 				if (!this.options.no_locale) {
 					//Load the default if a custom locale name is not specified.
-					if (!this.options.locale_name) {
+					if (!this.options.locale) {
 						locale	= Global.localize(this.widgetName);
 					} else {
-						locale	= Global.localize(this.options.localeName);
+						locale	= Global.localize(this.options.locale);
 					}
 				}
 				return locale;

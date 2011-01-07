@@ -1,0 +1,3 @@
+{{#image}}
+<img class="{{css_class}}" alt="{{alt}}" src="{{src}}" style="height:{{height}}" />
+{{/image}}
