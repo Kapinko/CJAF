@@ -45,10 +45,34 @@
 				*/
 			    "menuContainerClass": "cjaf-menu",
 				/**
+				 * This is the CSS class that will be applied to the menu
+				 * element.
+				 * @type {string}
+				 */
+				"menuClass": "",
+				/**
 				 * This is the CSS class that will be applied to the menu item
 				 * @type {string}
 				 */
 				"menuItemClass": "",
+				/**
+				 * This is the CSS class that will be applied to any links found
+				 * within a menu item.
+				 * @type {string}
+				 */
+				"menuItemLinkClass": "",
+				/**
+				 * This is the element structure that will be used for the
+				 * menu.
+				 * @type {jQuery}
+				 */
+				"menuElement": $("<ul>"),
+				/**
+				 * This is the element structure that will be used for the menu
+				 * items.
+				 * @type {jQuery}
+				 */
+				"menuItemElement": $("<li>"),
 			   /**
 				* This is the selector to use to find the menu item elements
 				* within this menu.
@@ -106,7 +130,11 @@
 				
 				renderer.setMenuItemCallback($.proxy(this, "_initMenuItem"))
 					.setMenuCompleteCallback($.proxy(this, "_menuRenderComplete"))
+					.setMenuElement(o.menuElement)
+					.setMenuItemElement(o.menuItemElement)
+					.setMenuClass(o.menuClass)
 					.setMenuItemClass(o.menuItemClass)
+					.setMenuItemLinkClass(o.menuItemLinkClass)
 					.render(o.menu);
 						
 				this.initialized	= true;

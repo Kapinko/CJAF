@@ -52,6 +52,18 @@
 			 * @type {string}
 			 */
 			this.menu_item_link_class	= "";
+			/**
+			 * This is the structure that will be used as the menu structure
+			 * element. This will be cloned.
+			 * @type {jQuery}
+			 */
+			this.menu_element	= $('<ul>');
+			/**
+			 * This is the structure taht will be used as the menu item structure
+			 * element. This will be cloned.
+			 * @type {jQuery}
+			 */
+			this.menu_item_element	= $('<li>');
 
 			this.init();
 		});
@@ -66,7 +78,7 @@
 			 * @return {jQuery}
 			 */
 			"renderMenu": function (menu) {
-			    return $('<ul>')
+			    return this.menu_element.clone()
 				.addClass(this.menu_class)
 				.attr('id', menu.getId());
 			},
@@ -93,7 +105,7 @@
 					ref	= '#' + ref;
 				}
 				
-				item	= $('<li>')
+				item	= this.menu_item_element.clone()
 					.addClass(this.menu_item_class);
 					
 				this.renderMenuItemLink(title, ref, title).appendTo(item);
@@ -134,6 +146,24 @@
 				    .attr('href', href)
 				    .attr('title', title)
 				    .html(text);
+			},
+			/**
+			 * Set the menu structure element.
+			 * @param {jQuery} element
+			 * @return {Menu.Renderer}
+			 */
+			"setMenuElement": function (element) {
+				this.menu_element	= element;
+				return this;
+			},
+			/**
+			 * Set the menu item structure element.
+			 * @param {jQuery} element
+			 * @return {Menu.Renderer}
+			 */
+			"setMenuItemElement": function (element) {
+				this.menu_item_element	= element;
+				return this;
 			},
 			/**
 			 * Set the menu complete callback
@@ -245,6 +275,22 @@
 			 */
 			"postRenderHook": function (container, menu_html, menu) {
 				return this;
+			},
+			/**
+			 * This will return the jQuery representation of the menu
+			 * structure element.
+			 * @return {jQuery}
+			 */
+			_getMenuElement: function () {
+				return $('<ul>');
+			},
+			/**
+			 * This will return the jQuery representation of the menu item
+			 * structure element.
+			 * @return {jQuery}
+			 */
+			_getMenuItemElement: function () {
+				return $('<li>');
 			}
 		};
 		return Renderer;
