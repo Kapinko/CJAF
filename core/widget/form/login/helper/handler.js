@@ -7,12 +7,14 @@
 (function ($, cjaf) {
 	cjaf.define('core/widget/form/login/helper/handler', [
 		'cjaf/widget/form/helper/handler',
+		'cjaf/widget/form/helper/event',
 		'lib/jquery/jquery.auth'
 	],
 	/**
 	 * @param {cjaf.Widget.Form.Helper.Handler} BaseHandler
+	 * @param {cjaf.Widget.Form.Helper.Event} FormEvent
 	 */
-	function (BaseHandler) {
+	function (BaseHandler, FormEvents) {
 		var Handler	= cjaf.Class.extend(BaseHandler, {
 			/**
 			 * @param {Object} response
@@ -20,7 +22,7 @@
 			 * @param {xmlHttpRequest} xmlHttpRequest
 			 */
 			"handleSuccess": function (response, status, xmlHttpRequest) {
-				this.options.loggedInRedirector();
+				this.loggedInHandler();
 			},
 			/**
 			 * @param {XMLHttpRequest} xmlHttpRequest

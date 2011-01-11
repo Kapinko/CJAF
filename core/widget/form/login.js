@@ -53,7 +53,8 @@
 				 * @type {Object.<string,*>}
 				 */
 				"submitTriggerOptions": {
-					'iconPrimary': 'ui-icon-star'
+					'iconPrimary': 'ui-icon-star',
+					'processingImageUrl': '/img/loading/ajax-arrows.gif'
 				}
 
 			},
@@ -72,6 +73,11 @@
 				});
 
 				o.submitTrigger	= this.getSubmitButton();
+				o.errorLocale	= this._getLocale().error;
+
+				this.element.find('.form-error-message-top-all').form_listener_error_message({
+					form: this.element
+				});
 
 				//Call the parent create function.
 				$.cjaf.form.prototype._create.apply(this, arguments);
@@ -120,10 +126,8 @@
 			 * @param {function()} error
 			 */
 			"runAjaxCall": function (success, error) {
-				var form	= this.form,
-				widget		= this.widget_name,
-				credentials	= new $.Auth.Credentials(
-						form[widget]('getUsername')..val(),
+				var credentials	= new $.Auth.Credentials(
+						this.getUsername().val(),
 						this.getPassword().val(),
 						this.getCaptcha().val()
 				);

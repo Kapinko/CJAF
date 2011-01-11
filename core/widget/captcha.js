@@ -5,7 +5,7 @@
 /*global jQuery: false, cjaf: false, setTimeout: false*/
 (function ($, cjaf) {
 	cjaf.define('core/widget/captcha', [
-
+		'lib/jquery/jquery.reload'
 	],
 	function () {
 		/**

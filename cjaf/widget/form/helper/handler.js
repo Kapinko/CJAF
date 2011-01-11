@@ -45,8 +45,8 @@
 		Handler.prototype	= {
 			/**
 			 * Handle a successful form submission.
-			 * @param {Object.<string,*>} status
-			 * @param {string} error
+			 * @param {Object.<string,*>} response
+			 * @param {string} status
 			 * @param {XMLHttpRequest} XMLHttpRequest
 			 * @return {boolean}
 			 */

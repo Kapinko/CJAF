@@ -6,7 +6,7 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget/error/handler/http/form', [
-		'cjaf/widget/helper/event',
+		'cjaf/widget/form/helper/event',
 		'cjaf/widget/error/handler/http'
 	],
 	/**
