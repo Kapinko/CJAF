@@ -67,9 +67,10 @@
 			 * @return {Object.<string,*>}
 			 */
 			"getCurrentPage": function () {
-				var page	= {
-					id: $.param.fragment(),
-					options: $.deparam.querystring()
+				var fragments	= $.param.fragment().split('?'),
+				page			= {
+					id: fragments[0],
+					options: $.deparam.querystring(fragments[1])
 				};
 				return page;
 			},
