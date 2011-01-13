@@ -8,13 +8,15 @@
 (function ($, cjaf, window) {
 	cjaf.define('cjaf/widget/dispatcher/page/notifier', [
 		'cjaf/widget/helper/event',
-		'jQuery/jquery.ba-bbq'
+		'cjaf/request',
+		'lib/jquery/jquery.ba-bbq'
 	],
 	/**
 	 * @param {cjaf.Widget.Helper.Event} EventHelper
+	 * @param {cjaf.Request} Request
 	 * @return {cjaf.Dispatcher.Page.Notifier}
 	 */
-	function (EventHelper) {
+	function (EventHelper, Request) {
 		/**
 		 * Create the page change notification handler. The element provided
 		 * must have a dispatcher attached for this object to function properly.
@@ -67,10 +69,9 @@
 			 * @return {Object.<string,*>}
 			 */
 			"getCurrentPage": function () {
-				var fragments	= $.param.fragment().split('?'),
-				page			= {
-					id: fragments[0],
-					options: $.deparam.querystring(fragments[1])
+				var page			= {
+					id: Request.getPage(),
+					options: Request.getParams()
 				};
 				return page;
 			},

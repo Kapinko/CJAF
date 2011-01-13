@@ -7,12 +7,14 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget', [
-		'cjaf/global'
+		'cjaf/global',
+		'cjaf/request'
 	],
 	/**
 	 * @param {cjaf.Global} Global
+	 * @param {cjaf.Request} Request
 	 */
-	function (Global) {
+	function (Global, Request) {
 		/**
 		 * Obtain a rendered view for this widget.
 		 * @param {string} view
@@ -60,5 +62,9 @@
 			
 			return cjaf.view(options, data, partials);
 		};
+
+		$.Widget.prototype._getRequest	= function () {
+			return Request;
+		}
 	});
 }(jQuery, cjaf));
