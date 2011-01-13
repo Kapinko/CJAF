@@ -41,6 +41,12 @@
 
 			return load_ok;
 		},
+		get_currency_symbol	= function (currency) {
+			var symbol = "$";
+			//@todo add lookup for different currencies
+
+			return symbol;
+		},
 		Global	= cjaf.namespace('Global', {
 			/**
 			 * This is the base locale. The translation strings will always be
@@ -138,6 +144,46 @@
 				}
 
 				return localized;
+			},
+			/**
+			 * Format the given string or number into a currency value for
+			 * the given locale using the given currency.
+			 * @param {string|number} value
+			 * @param {string} locale
+			 * @param {string} currency (defaults to US. dollars "$")
+			 */
+			"currency": function (value, locale, currency) {
+				if (!currency) {
+					currency	= "US"
+				}
+				if (!locale) {
+					locale	= this.getDefaultLocale();
+				}
+
+				var symbol	= get_currency_symbol(currency),
+				formatted	= symbol + $.format(value, "n");
+
+				return formatted;
+			},
+			/**
+			 * Parse and format the given string into a date representation for
+			 * the given locale.
+			 * @param {string} date
+			 * @param {string} locale
+			 */
+			"parseDate": function (date, custom_formats, locale) {
+				if (!locale) {
+					locale	= this.getDefaultLocale();
+				}
+				return $.parseDate(date, custom_formats, locale);
+			},
+			/**
+			 * Format the given date object according to the given format.
+			 * @param {Date} date
+			 * @param {string} format
+			 */
+			"formatDate": function (date, format) {
+				return $.format(date, format);
 			}
 		});
 		
