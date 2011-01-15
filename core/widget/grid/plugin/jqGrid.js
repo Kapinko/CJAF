@@ -76,8 +76,8 @@
 					"loadText": grid.loadingText,
 					"jsonReader": {
 						"root": grid.rowKey,
-						"total": function (obj) {return Math.floor(obj[grid.totalRowsKey] / obj[grid.rowKey].length);},
-						"page": function (obj) { return Math.floor(obj.start / obj.limit); },
+						"total": function (obj) {return Math.ceil(obj[grid.totalRowsKey] / obj[grid.rowKey].length) || 1;},
+						"page": function (obj) { return Math.ceil(obj.start / obj.limit) + 1 || 1;},
 						"records": grid.totalRowsKey,
 						"id": "0",
 						"repeatitems": false
@@ -85,7 +85,7 @@
 					"serializeGridData": function (postData) {
 						return {
 							"sort": postData.sidx,
-							"start": postData.page * postData.rows,
+							"start": (postData.page - 1) * postData.rows,
 							"limit": postData.rows,
 							"dir": postData.sord
 						}
