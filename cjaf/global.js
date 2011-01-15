@@ -185,6 +185,10 @@
 			 * @param {string} format
 			 */
 			"formatDate": function (date, format) {
+				if (typeof date === 'number') {
+					date	= new Date(date * 1000);
+				}
+
 				return $.format(date, format);
 			}
 		});
