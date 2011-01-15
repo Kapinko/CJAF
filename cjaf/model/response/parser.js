@@ -73,10 +73,10 @@
 					
 					if (!response.hasOwnProperty(field.getName())) {
 						alt_iter	= field.getAlternateNames().getIter();
-						
+
 						while (alt_iter.hasNext()) {
 							alt	= alt_iter.getNext();
-							
+
 							if (response.hasOwnProperty(alt)) {
 								value	= response[alt];
 							}
@@ -85,9 +85,9 @@
 						value	= response[field.getName()];
 					}
 					
-					if (!value && field.isRequired()) {
+					if ((value === null || value === undefined) && field.isRequired()) {
 						if (console) {
-							console.log('missing field: ' + field);
+							console.log('missing field: ' + field.getName());
 							console.log(response);
 						}
 						$.error('Response object not valid. Missing "' +
