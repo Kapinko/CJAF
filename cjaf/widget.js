@@ -27,6 +27,10 @@
 
 			if (this.options.initView && arguments.length < 2) {
 				options	= o.initView;
+
+				if (view !== "string") {
+					data	= view;
+				}
 				
 			} else {
 				if (typeof view !== 'string') {
