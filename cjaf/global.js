@@ -160,8 +160,10 @@
 					locale	= this.getDefaultLocale();
 				}
 
+				value		= $.parseFloat(value, 10);
+
 				var symbol	= get_currency_symbol(currency),
-				formatted	= symbol + $.format(value, "n");
+				formatted	= symbol + $.format(value, "n2");
 
 				return formatted;
 			},
