@@ -8,10 +8,10 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/model/collection', [
-		'cjaf/Class',
+		'cjaf/class',
 		'cjaf/collection',
 		'cjaf/model',
-		'cjaf/model/repsonse/parser'
+		'cjaf/model/response/parser'
 	],
 	/**
 	 * @param {cjaf.Class} Class
