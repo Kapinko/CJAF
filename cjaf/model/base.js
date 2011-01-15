@@ -40,6 +40,8 @@
 			 * @type {Cache}
 			 */
 			this.cache		= new Cache();
+
+			this.init();
 		};
 		Model.Base.prototype	= {
 			/**
