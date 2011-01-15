@@ -7,14 +7,16 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/model/base', [
-		'cjaf/Model',
+		'cjaf/model',
+		'cjaf/cache',
 		'lib/plugins/String/camelCaseToUnderscore'
 	],
 	/**
 	 * @param {cjaf.Model} Model
+	 * @param {cjaf.Cache} Cache
 	 * @return {cjaf.Model.Base}
 	 */
-	function (Model) {
+	function (Model, Cache) {
 		/**
 		 * @param {string} id
 		 * @param {Object.<string,function()>} filters
@@ -32,6 +34,12 @@
 			 * @type {Object.<string, function()>}
 			 */
 			this.filters	= (filters) ? filters : {};
+
+			/**
+			 * This is the cache object for this model.
+			 * @type {Cache}
+			 */
+			this.cache		= new Cache();
 		};
 		Model.Base.prototype	= {
 			/**
@@ -58,15 +66,37 @@
 			 * @return {*}
 			 */
 			"getProperty": function (name, apply_filter) {
-				var filter, value	= this[name];
+				var value	= this[name];
 				
 				if (value && (typeof apply_filter === 'undefined' || apply_filter)) {
-					filter	= this.getFilter(name);
-					
-					if (typeof filter === 'function') {
-						value	= filter(value);
-					}
+					value	= this._filter(name, value);
 				}
+				return value;
+			},
+			/**
+			 * Set a property in the cache.
+			 * @param {string} name
+			 * @param {*} value
+			 * @param {number} timeout
+			 * @return {cjaf.Model.Base}
+			 */
+			"setCachedProperty": function (name, value, timeout) {
+				this.cache.store(name, value, timeout);
+				return this;
+			},
+			/**
+			 * Retrieve a property value from the cache.
+			 * @param {string} name
+			 * @param {boolean} apply_filter
+			 * @return {*}
+			 */
+			"getCachedProperty": function (name, apply_filter) {
+				var value	= this.cache.retrieve(name);
+
+				if (value && (typeof apply_filter === 'undefined' || apply_filter)) {
+					value	= this._filter(name, value);
+				}
+
 				return value;
 			},
 			/**
@@ -91,6 +121,21 @@
 					method	= '_create';
 				}
 				return this[method].apply(this, arguments);
+			},
+			/**
+			 * Apply a filter to the given stored value.
+			 * @param {name}
+			 * @param {value}
+			 * @return {*} - the filtered value
+			 */
+			"_filter": function(name, value) {
+				var filter	= this.getFilter(name);
+
+				if (typeof filter === 'function') {
+					value	= filter(value);
+				}
+
+				return value;
 			},
 			/**
 			 * This function will be called when this model object already has

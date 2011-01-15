@@ -5,7 +5,7 @@
 /*global jQuery: false, cjaf: false*/
 
 (function ($, cjaf) {
-	cjaf.define('cjaf/model/factory/abstract', [
+	cjaf.define('cjaf/model/factory/base', [
 		'cjaf/model/factory',
 		'cjaf/model/response/parser',
 		'cjaf/model/collection',
@@ -15,13 +15,13 @@
 	 * @param {cjaf.Model.Factory} Factory
 	 * @param {cjaf.Model.Response.Parser} ResponseParser
 	 * @param {cjaf.Model.Collection} Collection
-	 * @return {cjaf.Model.Factory.Abstract}
+	 * @return {cjaf.Model.Factory.Base}
 	 */
 	function (Factory, ResponseParser, Collection) {
 		/**
 		 * @constructor
 		 */
-		Factory.Abstract	= function () {
+		Factory.Base	= function () {
 			//Call init on construction.
 			this.init();
 			
@@ -35,7 +35,7 @@
 			 */
 			this.parser	= new ResponseParser(this.fields);
 		};
-		Factory.Abstract.prototype = {
+		Factory.Base.prototype = {
 			"fields": {
 				'id': {
 					'required': true
@@ -51,7 +51,7 @@
 			 * 
 			 * @param {Object.<string, *>} response
 			 * @param {XMLHttpRequest} XMLHttpRequest
-			 * @return {cjaf.Model.Abstract}
+			 * @return {cjaf.Model.Base}
 			 */
 			"wrap": function (response, XMLHttpRequest) {
 				$.error('You must override the "wrap" method.');
@@ -67,7 +67,7 @@
 			 */
 			"wrapMany": function (response, XMLHttpRequest, response_key) {
 				var collection	= this.getCollectionObject(response, XMLHttpRequest),
-				response_index, model;
+				response_index, model, parsed;
 
 				if (response_key) {
 					response	= response[response_key];
@@ -75,7 +75,8 @@
 
 				for (response_index in response) {
 					if (response.hasOwnProperty(response_index)) {
-						model	= this.wrap(response.response_index);
+						parsed	= this.parser.parse(response.response_index);
+						model	= this.wrap(parsed);
 						collection.add(model);
 					}
 					
@@ -124,10 +125,13 @@
 				self	= this;
 
 				wrap_callback	= function (response, status, XMLHttpRequest) {
+					var parsed, object;
+
 					if (response[response_key]) {
 						response	= response[response_key];
 					}
-					var object	= self.wrap(response, XMLHttpRequest);
+					parsed	= self.parser.parse(response);
+					object	= self.wrap(parsed, XMLHttpRequest);
 					return callback(object, status, XMLHttpRequest);
 				};
 
@@ -145,7 +149,7 @@
 			}
 		};
 		
-		return Factory.Abstract;
+		return Factory.Base;
 	});
 	
 }(jQuery, cjaf));
