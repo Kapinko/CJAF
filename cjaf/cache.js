@@ -19,7 +19,11 @@
 			}
 
 			this.defaultTimeout	= timeout;
-			this.store	= {};
+			/**
+			 * This is the cache store
+			 * @type {Object.<string,*>}
+			 */
+			this.walmart	= {};
 		}
 		Cache.prototype	= {
 			/**
@@ -33,9 +37,9 @@
 					timeout	= this.defaultTimeout;
 				}
 
-				this.store[name]	= {
+				this.walmart[name]	= {
 					"value": value,
-					"timeout": timeout + this.getTimestamp()
+					"timeout": timeout + this._getTimestamp()
 				};
 			},
 			/**
@@ -44,7 +48,7 @@
 			 * @return {*}
 			 */
 			"retrieve": function (name) {
-				var store	= this.store[name],
+				var store	= this.walmart[name],
 				value = null;
 
 				if (store && !this._hasExpired(store)) {
