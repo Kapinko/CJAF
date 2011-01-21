@@ -7,8 +7,8 @@
 (function ($, cjaf, document) {
 	cjaf.define('cjaf/widget/form/element/listener/error_message', [
 		'cjaf/widget/form/element/listener',
-		'jQuery/jquery.decorator',
-		'jQueryUI/jquery.ui.tooltip'
+		'cjaf/widget/tooltip',
+		'jQuery/jquery.decorator'
 	],
 	function () {
 		$.widget('cjaf.form_element_listener_error_message', $.cjaf.form_element_listener, {
@@ -25,7 +25,7 @@
 				/**
 				 * @type {string}
 				 */
-				listClass: 'ui-state-error',
+				listClass: 'ui-state-error ui-corner-all',
 				/**
 				 * @type {string}
 				 */
@@ -56,11 +56,11 @@
 					container.addClass(list_class);
 					icon_span.addClass('ui-icon ui-icon-alert')
 									.css('float', 'left');
-									
+
 					container.append(icon_span);
 					container.append(error_ul);
-
-					target.decorate(container, decorator_options);
+					
+					//target.decorate(container, decorator_options);
 					return container;
 				},
 				/**
@@ -98,13 +98,22 @@
 			 * @param {jQuery.Event} errorCode
 			 */
 			handleValidationFailedEvent: function (event, errorCode) {
-				var element	= $(event.target);
+				var element	= $(event.target),
+				target;
 
 				if (typeof element.translate  === 'function') {
 					errorCode	= element.translate(errorCode);
 				}
 
-				this.addError(errorCode);
+				target	= this.addError(errorCode);
+
+				if (this.options.target === 'parent') {
+					target	= target.parent();
+				}
+
+				this.tooltip	= target.tooltip({
+					"content": $.proxy(this, "_getErrorList")
+				});
 			},
 			/**
 			 * @param {jQuery.Event} event
@@ -112,6 +121,10 @@
 			 */
 			handleValidationStartEvent: function (event) {
 				this.clearErrors();
+
+				if (this.tooltip) {
+					this.tooltip.tooltip("destroy");
+				}
 			},
 			/**
 			 * Display the given error messages.
@@ -155,6 +168,9 @@
 						target	= this.element.parent();
 					}
 					this.errorList	= o.createErrorListFunction(this._getListClass(), target, o.decoratorOptions);
+
+					//Make sure the list's width is sane
+					this.errorList.width(target.width() + 5);
 				}
 				return this.errorList;
 			},
