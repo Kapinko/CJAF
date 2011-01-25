@@ -6,12 +6,12 @@
 
 (function ($, cjaf) {
 	cjaf.define('core/widget/grid', [
-		'core/widget/grid/plugin/jqGrid'
+		'core/widget/grid/plugin/dataTables'
 	],
 	/**
-	 * @param {cjaf.Grid.Plugin.jqGrid} jqGridPlugin
+	 * @param {cjaf.Grid.Plugin.DataTables} DataTablesPlugin
 	 */
-	function (jqGridPlugin) {
+	function (DataTablesPlugin) {
 		var gridCounter	= 0;
 
 		$.widget('cjaf.core_grid', {
@@ -20,7 +20,7 @@
 				 * This is the plugin backend we want to use
 				 * @type {cjaf.Grid.Plugin}
 				 */
-				"plugin": jqGridPlugin,
+				"plugin": DataTablesPlugin,
 				/**
 				 * This is the locale object we're going to use for this
 				 * grid
@@ -37,6 +37,11 @@
 				 * @type {string}
 				 */
 				"tableId": "CJAF-Grid-" + (gridCounter += 1),
+				/**
+				 * Should we hide this grid if it is empty?
+				 * @type {boolean}
+				 */
+				"hideIfEmpty": false,
 				/**
 				 * Should the grid be zebra striped?
 				 * @type {boolean}
@@ -58,10 +63,20 @@
 				 */
 				"height": "100%",
 				/**
+				 * Should sorting be handled client side?
+				 * @type {boolean}
+				 */
+				"clientSideSort": false,
+				/**
 				 * This is the URL we'll use to request data from the server.
 				 * @type {string}
 				 */
 				"serverUrl": "",
+				/**
+				 * What type of HTTP request are we going to make?
+				 * @type {string}
+				 */
+				"requestType": "GET",
 				/**
 				 * This is the type of data the grid should expect the row
 				 * data to be in. (json, xml)
