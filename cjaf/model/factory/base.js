@@ -93,7 +93,6 @@
 				for (response_index in response) {
 					if (response.hasOwnProperty(response_index)) {
 						model	= this.wrap(response[response_index]);
-								console.log('wrapMany!');
 						collection.add(model);
 					}
 					
