@@ -62,13 +62,13 @@
 			 * @throw {Exception}
 			 */
 			"add": function (model) {
-				if (this.containedPrototype === null) {
-					this.containedPrototype	= model;
-					
-				} else if (!(model instanceof this.containedPrototype)) {
-					$.error('Given model is not an instance of ' + 
-						this.containedPrototype);
-				}
+//				if (this.containedPrototype === null) {
+//					this.containedPrototype	= model;
+//
+//				} else if (!(model instanceof this.containedPrototype)) {
+//					$.error('Given model is not an instance of ' +
+//						this.containedPrototype);
+//				}
 				
 				return Collection.prototype.add.apply(this, arguments);
 			},

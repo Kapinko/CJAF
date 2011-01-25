@@ -66,6 +66,9 @@
 				var field_list	= this.fields,
 					return_obj	= {},
 					field, value, required, alt, alt_iter, has_field;
+
+				//reset iterator.
+				field_list.reset();
 					
 				while (field_list.hasNext()) {
 					value	= null;

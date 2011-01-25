@@ -33,19 +33,26 @@
 			 * have added in some fields.
 			 * @type {ResponseParser}
 			 */
-			this.parser	= new ResponseParser(this.fields);
+			this.parser	= new ResponseParser(this.getFields());
 		};
 		Factory.Base.prototype = {
-			"fields": {
-				'id': {
-					'required': true
-				}
-			},
 			/**
 			 * This function is provided so that you can perform any necessary
 			 * initialization tasks for this factory.
 			 */
 			"init": function () {},
+			/**
+			 * Get the fields that are expected in a response object that
+			 * supposedly contains a model object.
+			 * @return {Object.<string, Object>}
+			 */
+			"getFields": function () {
+				return {
+					"id": {
+						"required": true
+					}
+				};
+			},
 			/**
 			 * Get a model object from the given server response.
 			 * 
@@ -54,7 +61,17 @@
 			 * @return {cjaf.Model.Base}
 			 */
 			"wrap": function (response, XMLHttpRequest) {
-				$.error('You must override the "wrap" method.');
+				var parsed	= this.parser.parse(response);
+				return this._wrap(parsed, XMLHttpRequest);
+			},
+			/**
+			 * You must override this function to return a model object.
+			 * @param {Object.<string,*>} response
+			 * @param {XMLHttpRequest} XMLHttpRequest
+			 * @return {cjaf.Model.Base}
+			 */
+			"_wrap": function (response, XMLHttpRequest) {
+				$.error('You must override the "_wrap" method.');
 			},
 			/**
 			 * Create a collection of account objects from the given API
@@ -67,7 +84,7 @@
 			 */
 			"wrapMany": function (response, XMLHttpRequest, response_key) {
 				var collection	= this.getCollectionObject(response, XMLHttpRequest),
-				response_index, model, parsed;
+				response_index, model;
 
 				if (response_key) {
 					response	= response[response_key];
@@ -75,12 +92,14 @@
 
 				for (response_index in response) {
 					if (response.hasOwnProperty(response_index)) {
-						parsed	= this.parser.parse(response.response_index);
-						model	= this.wrap(parsed);
+						model	= this.wrap(response[response_index]);
+								console.log('wrapMany!');
 						collection.add(model);
 					}
 					
 				}
+
+		
 
 				return collection;
 			},
@@ -125,13 +144,10 @@
 				self	= this;
 
 				wrap_callback	= function (response, status, XMLHttpRequest) {
-					var parsed, object;
-
 					if (response[response_key]) {
 						response	= response[response_key];
 					}
-					parsed	= self.parser.parse(response);
-					object	= self.wrap(parsed, XMLHttpRequest);
+					var object	= self.wrap(response, XMLHttpRequest);
 					return callback(object, status, XMLHttpRequest);
 				};
 
