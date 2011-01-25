@@ -48,6 +48,10 @@
 
 				el.append($("<table>").attr("id", o.tableId));
 
+				if (o.hideIfEmpty) {
+					el.hide();
+				}
+
 				this.table		= el.find("#" + o.tableId);
 			},
 			/**
@@ -162,9 +166,9 @@
 				processing.addClass("ui-widget-content ui-state-default ui-corner-all ui-helper-clearfix");
 
 				if (data_length === 0 && hideIfEmpty) {
-					$(document).trigger("dataTableEmpty", hideIfEmpty);
-				} else if (data_length !== 0 && hideIfEmpty) {
-					$(document).trigger("dataTableNotEmpty", hideIfEmpty);
+					this.element.hide();
+				} else if (data_length !== 0 && hideIfEmpty && !this.element.is(":visible")) {
+					this.element.show();
 				}
 			},
 			/**
