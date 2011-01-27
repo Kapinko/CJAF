@@ -81,10 +81,10 @@
 			 */
 			"handlePageChange": function (event) {
 				var page	= this.getCurrentPage();
-				
-				if (page.id && page.id !== 'index') {
+
+				if (page.id !== 'index') {
 					this.dispatcher.trigger(this.change_event, [page]);
-				} 
+				}
 				return false;
 			}
 		};
