@@ -27,14 +27,23 @@
 				'getChoices': function () {
 					return [
 						{'value': 'en_US', 'display': 'US English'},
-						{'value': 'es_ES', 'display': 'Spanish'},
-						{'value': 'it-IT', 'display': 'Italian'}
+						{'value': 'es', 'display': 'Spanish'},
+						{'value': 'it', 'display': 'Italian'},
+						{'value': 'fr', 'display': 'French'},
+						{'value': 'de', 'display': 'German'},
+						{'value': 'el', 'display': 'Greek'},
+						{'value': 'iw', 'display': 'Hebrew'},
+						{'value': 'hi', 'display': 'Hindi'},
+						{'value': 'af', 'display': 'Afrikaans'},
+						{'value': 'gl', 'display': 'Galician'},
+						{'value': 'fa', 'display': 'Persian'}
 					];
 				}
 			},
 			_create: function () {
 				var o	= this.options,
-				el		= this.element;
+				el		= this.element,
+				locale	= $.cookie('cjaf.locale');
 
 				el.html(this._view({'selectId': o.selectId}));
 
@@ -42,6 +51,10 @@
 					'options': o.getChoices()
 				}))
 				.change($.proxy(this, '_handleUserSelect'));
+
+				if (locale) {
+					this._getSelect().val(locale);
+				}
 			},
 
 			_getSelect: function () {
