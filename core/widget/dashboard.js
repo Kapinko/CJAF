@@ -7,9 +7,14 @@
 
 (function ($, cjaf) {
 	cjaf.define("core/widget/dashboard", [
-
+		'cjaf/view',
+		'cjaf/global'
 	],
-	function () {
+	/**
+	 * @param {cjaf.View} View
+	 * @param {cjaf.Global} i18n
+	 */
+	function (View, i18n) {
 		$.widget('cjaf.core_dashboard', {
 			options: {
 				/**
@@ -64,10 +69,27 @@
 			 * @return {jQuery}
 			 */
 			addPortlet: function (widget_name, options, template) {
-
-				if (template instanceof $) {
-					template	= this._view
+				if (template === undefined) {
+					template = $("<div>");
+				} else if (typeof template === 'string') {
+					template	= $(View(template, i18n.localize(widget_name)));
+				} else if (!(template instanceof $)) {
+					$.error("The given template must be a template path or a jQuery object.");
 				}
+
+				if (typeof template[widget_name] !== 'function') {
+					$.error("The given widget_name must be the name of a valid CJAF widget.");
+				}
+
+				var portlet	= $("<div>");
+
+				portlet.core_dashboard_portlet({
+					"widgetName": widget_name,
+					"widgetOptions": options,
+					"widgetStructure": template
+				});
+
+				this.element.append(portlet);
 			}
 		});
 	});

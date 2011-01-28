@@ -28,6 +28,13 @@
 				 */
 				"widgetOptions": {},
 				/**
+				 * This is the structure that will be placed into the portlet's
+				 * body element and then the widget will be applied to this
+				 * structure element if it is set.
+				 * @type {jQuery}
+				 */
+				"widgetStructure": null,
+				/**
 				 * This is the selector that will be used to find the portlet's
 				 * body element.
 				 * @type {string}
@@ -43,7 +50,7 @@
 			_create: function () {
 				var o	= this.options,
 				el		= this.element,
-				body;
+				command;
 
 				el.html(this._view({}));
 
@@ -51,21 +58,17 @@
 					.bind("portlet.maximize", $.proxy(this, "_handleMaximize"))
 					.bind("portlet.minimize", $.proxy(this, "_handleMinimize"));
 
-				body	= this._getBody();
+				command	= new PortletCommand(el);
 
-				if (typeof body[o.widgetName] === 'function') {
-					$.error("You must provide a valid CJAF widget to the portlet container.");
-				}
-				body[o.widgetName](o.widgtOptions);
-
-				this._getBody()[o.widgetName](o.widgetOptions);
+				this._initHead(command);
+				this._initBody(command);
 			},
 
-			_getBody: function () {
+			"getBody": function () {
 				return this.element.find(this.options.bodySelector);
 			},
 
-			_getHead: function () {
+			"getHead": function () {
 				return this.element.find(this.options.headSelector);
 			},
 
@@ -76,7 +79,7 @@
 			 * @return {boolean}
 			 */
 			_handleTitleChange: function (event, title) {
-				this._getHead().html(title);
+				this.getHead().html(title);
 			},
 			/**
 			 * Handle the minimize event.
@@ -95,6 +98,37 @@
 			_handleMaximize: function (event) {
 				console.log("_handleMaximize");
 				console.log(arguments);
+			},
+			/**
+			 * Set up the header of this portlet.
+			 * @param {PortletCommand} command
+			 */
+			_initHead: function (command) {
+				
+			},
+			/**
+			 * Set up the body of this portlet
+			 * @param {PortletCommand} command
+			 */
+			_initBody: function (command) {
+				var o	= this.options,
+				el		= this.element,
+				body	= this.getBody();
+
+				if (typeof body[o.widgetName] === 'function') {
+					$.error("You must provide a valid CJAF widget to the portlet container.");
+				}
+
+				$.extend(o.widgetOptions, {
+					"portletCommand": command
+				});
+
+				if (o.widgetStructure instanceof $) {
+					o.widgetStructure[o.widgetName](o.widgetOptions);
+					body.html(o.widgetStructure);
+				} else {
+					body[o.widgetName](o.widgetOptions);
+				}
 			}
 		});
 	});

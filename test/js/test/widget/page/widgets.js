@@ -8,6 +8,7 @@
 	cjaf.define('test/widget/page/widgets', [
 		'cjaf/widget/helper/event',
 		'cjaf/widget/dispatcher',
+		'test/widget/page/widgets/dashboard',
 		'test/widget/page/widgets/forms',
 		'test/widget/page/widgets/login'
 		
@@ -33,9 +34,10 @@
 				content	= this.element.find('#content-section');
 
 				el.dispatcher({
-					defaultPage:	"#forms",
+					defaultPage:	"#dashboard",
 					pages:			{
 						"#test": "test_page_test",
+						"#dashboard": "test_page_widgets_dashboard",
 						"#forms": "test_page_widgets_forms",
 						"#login": "test_page_widgets_login"
 					},

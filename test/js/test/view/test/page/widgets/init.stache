@@ -3,7 +3,8 @@
 	{{#navigation}}
 	<ul class="avmenu">
 		{{#links}}
-		<li><a class="current" href="#forms">{{forms}}</a></li>
+		<li><a class="current" href="#dashboard">{{dashboard}}</a></li>
+		<li><a href="#forms">{{forms}}</a></li>
 		<li><a href="#login">{{login}}</a></li>
 		<li><a href="#test">{{test3}}</a></li>
 		{{#test4}}

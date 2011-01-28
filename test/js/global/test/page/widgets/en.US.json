@@ -1,6 +1,7 @@
 {
 	"navigation": {
 		"links": {
+			"dashboard": "Dashboard",
 			"forms": "Forms",
 			"login": "Login",
 			"test3": "Test #3",
