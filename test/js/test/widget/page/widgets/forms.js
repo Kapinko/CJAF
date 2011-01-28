@@ -5,7 +5,6 @@
 /*global jQuery: false, cjaf: false*/
 (function ($, cjaf) {
 	cjaf.define('test/widget/page/widgets/forms', [
-		'i18n!test/nls/Base',
 		'test/widget/form/formulator'
 	],
 	function (locale) {

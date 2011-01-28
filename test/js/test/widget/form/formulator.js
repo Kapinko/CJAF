@@ -13,7 +13,6 @@
 		'lib/validator/not_empty',
 		'lib/validator/length',
 		'lib/validator/integer',
-		'lib/validator/length',
 		'lib/validator/match',
 		'lib/validator/maximum_length',
 		'lib/validator/name',
@@ -22,7 +21,7 @@
 		'lib/validator/regex',
 		'lib/validator/minimum_length',
 		'lib/validator/email',
-		'jQuery/jquery.maskedinput'
+		'lib/jquery/jquery.maskedinput'
 	],
 	function (EventHandler) {
 		$.widget('cjaf.test_form_formulator', $.cjaf.form,  {
@@ -53,112 +52,7 @@
 						setTimeout(success, 1000);
 						return false;
 					}
-				}),
-				/**
-				 * This function should add all of the necessary elements
-				 * to this form.
-				 * @type {function(cjaf.Widget.Form.Helper.UI, Object.<string,*>)}
-				 */
-				"initFormElements": function (form_ui, form_locale) {
-					var addr1	= this._getAddressLine1(),
-					addr2	= this._getAddressLine2(),
-					city	= this._getCity(),
-					state	= this._getState(),
-					zip		= this._getZip(),
-					email	= this._getEmail(),
-					homep	= this._getPhoneHome(),
-					mobile	= this._getPhoneCell(),
-					locale	= form_locale.form.information;
-
-					addr1.form_element({
-						validators: [
-							{type: 'NotEmpty', options: {}}
-						],
-						errorLocale: locale.address1.error,
-						errorListVisible: false
-					});
-					form_ui.addElement(addr1);
-
-					addr2.form_element({
-						validators: [
-
-						],
-						errorLocale: locale.address2.error,
-						errorListVisible: false
-					});
-					form_ui.addElement(addr2);
-
-					city.form_element({
-						validators: [
-							{type: 'NotEmpty', options: {}},
-							{type: 'Length', options: {maximumLength: 26}},
-							{type: 'Regex', options: {regex: /^[A-Za-z][A-Za-z \-\']*[A-Za-z]$/}}
-						],
-						errorLocale: locale.city.error,
-						errorListVisible: false
-					});
-					form_ui.addElement(city);
-
-					//state.selectmenu({width:60, style:'dropdown', maxHeight: 100});
-
-					state.form_element({
-						validators: [
-							{type: 'NotEmpty', options: {}}
-						],
-						errorLocale: locale.state.error,
-						errorListVisible: false
-					});
-					form_ui.addElement(state);
-
-
-					zip.form_element({
-						validators: [
-							{type: 'NotEmpty', options: {}},
-							{type: 'MinimumLength', options: {'minimumLength': 5}},
-							{type: 'Number', options: {}}
-						],
-						errorLocale: locale.zip.error,
-						errorListVisible: false
-					});
-					form_ui.addElement(zip);
-
-					email.form_element({
-						validators: [
-							{type: 'NotEmpty', options: {}},
-							{type: 'Email', options: {}}
-						],
-						errorLocale: locale.email.error,
-						errorListVisible: false
-					});
-					form_ui.addElement(email);
-
-					homep.form_element({
-						validators: [
-							{'type': 'Length', 'options': {'minimumLength': 10, 'allowEmpty': true}}
-
-						],
-						errorLocale: locale.homephone.error,
-						errorListVisible: false
-					});
-					homep.mask('(999) 999-9999', {placeholder: " "});
-					form_ui.addElement(homep);
-
-					mobile.form_element({
-						validators: [
-							{'type': 'Length', 'options': {'minimumLength': 10, 'allowEmpty': true}}
-						],
-						errorLocale: locale.cellphone.error,
-						errorListVisible: false
-					});
-					mobile.mask('(999) 999-9999', {placeholder: " "});
-					form_ui.addElement(mobile);
-
-
-					this.element.find('.container-form-error-message').form_listener_element_error_proxy({
-						form: this.element,
-						fieldList: [addr1, addr2, city, state, zip, email, homep, mobile]
-					});
-				}
+				})
 			},
 			/**
 			 * The initialization function for this widget.
@@ -171,6 +65,111 @@
 				o.submitTrigger	= this._getSubmitButton();
 
 				$.cjaf.form.prototype._create.apply(this, arguments);
+			},
+			/**
+			 * This function should add all of the necessary elements
+			 * to this form.
+			 * @type {function(cjaf.Widget.Form.Helper.UI, Object.<string,*>)}
+			 */
+			"initFormElements": function (form_ui, form_locale) {
+				var addr1	= this._getAddressLine1(),
+				addr2	= this._getAddressLine2(),
+				city	= this._getCity(),
+				state	= this._getState(),
+				zip		= this._getZip(),
+				email	= this._getEmail(),
+				homep	= this._getPhoneHome(),
+				mobile	= this._getPhoneCell(),
+				locale	= form_locale.form.information;
+
+				addr1.form_element({
+					validators: [
+						{type: 'NotEmpty', options: {}}
+					],
+					errorLocale: locale.address1.error,
+					errorListVisible: false
+				});
+				form_ui.addElement(addr1);
+
+				addr2.form_element({
+					validators: [
+
+					],
+					errorLocale: locale.address2.error,
+					errorListVisible: false
+				});
+				form_ui.addElement(addr2);
+
+				city.form_element({
+					validators: [
+						{type: 'NotEmpty', options: {}},
+						{type: 'Length', options: {maximumLength: 26}},
+						{type: 'Regex', options: {regex: /^[A-Za-z][A-Za-z \-\']*[A-Za-z]$/}}
+					],
+					errorLocale: locale.city.error,
+					errorListVisible: false
+				});
+				form_ui.addElement(city);
+
+				//state.selectmenu({width:60, style:'dropdown', maxHeight: 100});
+
+				state.form_element({
+					validators: [
+						{type: 'NotEmpty', options: {}}
+					],
+					errorLocale: locale.state.error,
+					errorListVisible: false
+				});
+				form_ui.addElement(state);
+
+
+				zip.form_element({
+					validators: [
+						{type: 'NotEmpty', options: {}},
+						{type: 'MinimumLength', options: {'minimumLength': 5}},
+						{type: 'Number', options: {}}
+					],
+					errorLocale: locale.zip.error,
+					errorListVisible: false
+				});
+				form_ui.addElement(zip);
+
+				email.form_element({
+					validators: [
+						{type: 'NotEmpty', options: {}},
+						{type: 'Email', options: {}}
+					],
+					errorLocale: locale.email.error,
+					errorListVisible: false
+				});
+				form_ui.addElement(email);
+
+				homep.form_element({
+					validators: [
+						{'type': 'Length', 'options': {'minimumLength': 10, 'allowEmpty': true}}
+
+					],
+					errorLocale: locale.homephone.error,
+					errorListVisible: false
+				});
+				homep.mask('(999) 999-9999', {placeholder: " "});
+				form_ui.addElement(homep);
+
+				mobile.form_element({
+					validators: [
+						{'type': 'Length', 'options': {'minimumLength': 10, 'allowEmpty': true}}
+					],
+					errorLocale: locale.cellphone.error,
+					errorListVisible: false
+				});
+				mobile.mask('(999) 999-9999', {placeholder: " "});
+				form_ui.addElement(mobile);
+
+
+				this.element.find('.container-form-error-message').form_listener_element_error_proxy({
+					form: this.element,
+					fieldList: [addr1, addr2, city, state, zip, email, homep, mobile]
+				});
 			},
 			
 			_getAddressLine1: function () {

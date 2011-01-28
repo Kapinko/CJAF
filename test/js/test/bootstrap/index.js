@@ -33,12 +33,12 @@
 					'cjaf/view/renderer/mustache',
 					'cjaf/widget/dispatcher/plugin/widget_loader',
 					'core/widget/template',
-					
+					'core/widget/helper/menu/renderer/dock',
 					'test/widget/page/index',
 					'test/widget/page/widgets',
-					'test/widget/navigation',
+					'test/widget/navigation'
 					
-					'core/widget/helper/menu/renderer/dock'
+					
 				];
 			},
 			/**
