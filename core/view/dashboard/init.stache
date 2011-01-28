@@ -1,0 +1,4 @@
+<div class="ui-widget cjaf-dashboard">
+	<h3>{{title}}</h3>
+	<div class="cjaf-dashboard-body"></div>
+</div>

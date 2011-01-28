@@ -1,0 +1,4 @@
+<div class="ui-widget ui-widget-content ui-corner-all cjaf-portlet">
+	<h4 class="cjaf-portlet-head ui-widget-header"></h4>
+	<div class="cjaf-portlet-body"></div>
+</div>
