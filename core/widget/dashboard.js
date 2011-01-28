@@ -8,7 +8,8 @@
 (function ($, cjaf) {
 	cjaf.define("core/widget/dashboard", [
 		'cjaf/view',
-		'cjaf/global'
+		'cjaf/global',
+		'core/widget/dashboard/portlet'
 	],
 	/**
 	 * @param {cjaf.View} View
@@ -27,15 +28,18 @@
 				 * area.
 				 * @type {string}
 				 */
-				bodySelector: "cjaf-dashboard-body",
+				bodySelector: ".cjaf-dashboard-body",
 				/**
 				 * These are the options that will be passed to the jQueryUI
 				 * sortable widget
-				 * @see http://www.mypaycardusa.com/terms.html
+				 * @see http://jqueryui.com/demos/sortable/
 				 * @type {Object.<string,*>}
 				 */
 				sortable: {
-
+					handle: ".cjaf-portlet-head",
+					cursor: "move",
+					placeholder: "ui-state-highlight",
+					forcePlaceholderSize: true
 				}
 			},
 
@@ -89,7 +93,15 @@
 					"widgetStructure": template
 				});
 
-				this.element.append(portlet);
+				this._getBody().append(portlet).sortable("refresh");
+			},
+			/**
+			 * Refresh the sortable. This will cause new items to be recognized.
+			 * @return {jQuery}
+			 */
+			refresh: function () {
+				this._getBody().sortable("refresh");
+				return this.element;
 			}
 		});
 	});

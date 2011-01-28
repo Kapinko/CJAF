@@ -6,7 +6,8 @@
 
 (function ($, cjaf) {
 	cjaf.define("test/widget/page/widgets/dashboard", [
-		"core/widget/dashboard"
+		"core/widget/dashboard",
+		"test/widget/dashboard/portlet/test"
 	],
 	function () {
 		$.widget("cjaf.test_page_widgets_dashboard", {
@@ -15,11 +16,18 @@
 			},
 
 			_create: function () {
-				var el	= this.element;
+				var el	= this.element,
+				dashboard;
 
 				el.html(this._view({}));
 
-				el.find("#dashboard").core_dashboard();
+				dashboard	= el.find('#dashboard');
+
+				dashboard.core_dashboard();
+				dashboard.core_dashboard("addPortlet", "test_dashboard_portlet_test", {});
+				dashboard.core_dashboard("addPortlet", "test_dashboard_portlet_test", {});
+				dashboard.core_dashboard("addPortlet", "test_dashboard_portlet_test", {}); 
+
 			}
 		});
 	});

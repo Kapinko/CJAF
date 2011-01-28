@@ -13,7 +13,7 @@
 	 * @param {PortletCommand} PortletCommand
 	 */
 	function (PortletCommand) {
-		$.widget("cjaf.core_portlet", {
+		$.widget("cjaf.core_dashboard_portlet", {
 			options: {
 				/**
 				 * This is the name of the widget that will make up our body.
@@ -45,7 +45,13 @@
 				 * head element.
 				 * @type {string}
 				 */
-				"headSelector": ".cjaf-portlet-head"
+				"headSelector": ".cjaf-portlet-head",
+				/**
+				 * This is the class that will be used to denote that the attached
+				 * element is a portlet widget.
+				 * @type {string}
+				 */
+				"portletClass": "cjaf-portlet"
 			},
 			_create: function () {
 				var o	= this.options,
@@ -53,6 +59,7 @@
 				command;
 
 				el.html(this._view({}));
+				el.addClass(o.portletClass);
 
 				el.bind("title.change", $.proxy(this, "_handleTitleChange"))
 					.bind("portlet.maximize", $.proxy(this, "_handleMaximize"))
@@ -115,7 +122,7 @@
 				el		= this.element,
 				body	= this.getBody();
 
-				if (typeof body[o.widgetName] === 'function') {
+				if (typeof body[o.widgetName] !== 'function') {
 					$.error("You must provide a valid CJAF widget to the portlet container.");
 				}
 

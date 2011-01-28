@@ -28,7 +28,7 @@
 			 * @param {string|jQuery} title
 			 */
 			"setTitle": function (title) {
-				title.trigger("title.change", [title]);
+				this.target.trigger("title.change", [title]);
 			},
 
 			/**
