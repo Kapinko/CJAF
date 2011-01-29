@@ -18,12 +18,6 @@
 	 */
 	function (Model, Cache) {
 		/**
-		 * This is the factory object that will be provided when the user
-		 * calls the Model.getFactory() method.
-		 * @type {cjaf.Model.Factory}
-		 */
-		var factory = null;
-		/**
 		 * @param {string} id
 		 * @param {Object.<string,function()>} filters
 		 * @return {cjaf.Model.Base}
@@ -259,15 +253,13 @@
 		 * @param {cjaf.Model.Factory} factory
 		 * @return {cjaf.Model.Base}
 		 */
-		Model.Base.setFactory	= function (model, factory) {
-			if (!(factory instanceof cjaf.Model.Factory)) {
-				$.error("Factory given is not a valid model factory.");
-			}
-			function (factory) {
+		Model.Base["setFactory"]	= function (model, factory) {
+			var adder	= function (factory) {
 				model.getFactory	= function () {
 					return factory;
 				}
-			}(new factory());
+			};
+			adder(new factory());
 
 			return this;
 		};
