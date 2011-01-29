@@ -18,6 +18,12 @@
 	 */
 	function (Model, Cache) {
 		/**
+		 * This is the factory object that will be provided when the user
+		 * calls the Model.getFactory() method.
+		 * @type {cjaf.Model.Factory}
+		 */
+		var factory = null;
+		/**
 		 * @param {string} id
 		 * @param {Object.<string,function()>} filters
 		 * @return {cjaf.Model.Base}
@@ -100,6 +106,19 @@
 				}
 
 				return value;
+			},
+			/**
+			 * Listen to the given element and update the given field in
+			 * real time when the given element's value changes.
+			 * @param {jQuery} element
+			 * @param {string} property_name,
+			 * @return {cjaf.Model.Base}
+			 */
+			"listenTo": function (element, property_name) {
+				element.change($.proxy(function () {
+					this.setProperty(property_name, element.val());
+					return false;
+				}, this));
 			},
 			/**
 			 * Get the identifier for this model object.
@@ -233,6 +252,24 @@
 				this.filters[name]	= filter;
 				return this;
 			}
+		};
+		/**
+		 * Set the factory object for the given model model.
+		 * @param {cjaf.Model.Base} model
+		 * @param {cjaf.Model.Factory} factory
+		 * @return {cjaf.Model.Base}
+		 */
+		Model.Base.setFactory	= function (model, factory) {
+			if (!(factory instanceof cjaf.Model.Factory)) {
+				$.error("Factory given is not a valid model factory.");
+			}
+			function (factory) {
+				model.getFactory	= function () {
+					return factory;
+				}
+			}(new factory());
+
+			return this;
 		};
 		
 		return Model.Base;
