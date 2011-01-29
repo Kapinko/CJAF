@@ -92,7 +92,7 @@
 			 * Create this element widget.
 			 */
 			"_create": function () {
-				var o		= this.options, error_locale;
+				var o		= this.option;
 					
 				this.elementId	= this.element.attr('id');
 
