@@ -109,6 +109,12 @@
 			 * @return {cjaf.Model.Base}
 			 */
 			"listenTo": function (element, property_name) {
+				var value	= this.getProperty(property_name);
+
+				if (value !== undefined && value !== null) {
+					element.val(value);
+				}
+
 				element.change($.proxy(function () {
 					this.setProperty(property_name, element.val());
 					return false;
