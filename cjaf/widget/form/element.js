@@ -139,12 +139,7 @@
 			 * @return {jQuery}
 			 */
 			"addValidators": function (validators) {
-				if ($.isArray(validators)) {
-					for (var i = 0; i < validators.length; i += 1) {
-						this.addValidator(validators[i].type, validators[i].options);
-					}
-				}
-				return this.element;
+				this.element.addValidators(validators);
 			},
 			/**
 			 * Add a given validator with the given options to this form element.
@@ -153,23 +148,7 @@
 			 * @return {jQuery}
 			 */
 			"addValidator": function (validator, options) {
-				var el		= this.element,
-				elements	= el.find(':input'),
-				validators	= cjaf.Validator, i, val_class;
-				
-				if (el.is('input')) {
-					elements.push(el[0]);
-				}
-				if (typeof options === 'undefined') {
-					options	= {};
-				}
-				
-				for (i = 0; i < elements.length; i += 1) {
-					if (typeof validators[validator] === 'function') {
-						val_class	= new validators[validator]($(elements[i]), options);
-					}
-				}
-				return el;
+				this.element.addValidator(validator, options);
 			},
 			/**
 			 * Add the configured error listeners to this element

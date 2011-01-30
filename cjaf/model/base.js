@@ -200,7 +200,9 @@
 					this.listeners[property_name]	= current_listeners.add(element);
 				}
 
-				this._addValidators(element, config.validators);
+				if ($.isArray(config.validators) && config.validators.length > 0) {
+					element.addValidators(config.validators);
+				}
 
 				//Notify on add so that the element can display an appropriate
 				//response to the bind action.
@@ -221,46 +223,6 @@
 
 				if (listeners) {
 					listeners.trigger("model.property.set", [new_value, old_value]);
-				}
-				return this;
-			},
-			/**
-			 * Add a given set of validators to this form element.
-			 * @param {jQuery} element
-			 * @param {Array.<*>} validators
-			 * @return {jQuery}
-			 */
-			"_addValidators": function (element, validators) {
-				if ($.isArray(validators)) {
-					for (var i = 0; i < validators.length; i += 1) {
-						this._addValidator(element, validators[i].type, validators[i].options);
-					}
-				}
-				return this;
-			},
-			/**
-			 * Add a given validator with the given options to this form element.
-			 * @param {jQuery} element
-			 * @param {$.validator} validator
-			 * @param {Object.<string, *>} options
-			 * @return {jQuery}
-			 */
-			"_addValidator": function (element, validator, options) {
-				var elements	= element.find(':input'),
-				validators		= cjaf.Validator,
-				i, val_class;
-
-				if (element.is('input')) {
-					elements.push(element[0]);
-				}
-				if (typeof options === 'undefined') {
-					options	= {};
-				}
-
-				for (i = 0; i < elements.length; i += 1) {
-					if (typeof validators[validator] === 'function') {
-						val_class	= new validators[validator]($(elements[i]), options);
-					}
 				}
 				return this;
 			},
