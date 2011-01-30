@@ -52,7 +52,8 @@ window.cjaf	= (function ($, require, window, document) {
 		'cjaf/view/renderer',
 		'cjaf/widget',
 		'cjaf/widget/dispatcher',
-		'cjaf/widget/dispatcher/page/notifier'
+		'cjaf/widget/dispatcher/page/notifier',
+		"lib/jquery/jquery.error"
 	],
 
 	/**
