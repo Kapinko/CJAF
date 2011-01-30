@@ -202,6 +202,10 @@
 
 				this._addValidators(element, config.validators);
 
+				//Notify on add so that the element can display an appropriate
+				//response to the bind action.
+				this._notifyChange(property_name, value, value);
+
 				return this;
 			},
 			/**
