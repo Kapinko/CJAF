@@ -115,7 +115,7 @@
 				var old_value	= this.getProperty(name);
 
 				this[name]	= value;
-				this.notifyChange(name, value, old_value);
+				this._notifyChange(name, value, old_value);
 				return this;
 			},
 			/**
