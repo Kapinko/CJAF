@@ -10,7 +10,8 @@
 		"cjaf/widget/form/helper/event",
 		'cjaf/widget/form/element/listener/error_styling',
 		'cjaf/widget/form/element/listener/error_message',
-		"lib/jquery/jquery.translate"
+		"lib/jquery/jquery.translate",
+		"lib/jquery/jquery.validate"
 	],
 	/**
 	 * @param {cjaf.Widget.Form.Helper.Event} EventHelper
