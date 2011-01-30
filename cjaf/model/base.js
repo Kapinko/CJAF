@@ -113,6 +113,8 @@
 					this.setProperty(property_name, element.val());
 					return false;
 				}, this));
+
+				return this;
 			},
 			/**
 			 * Get the identifier for this model object.
