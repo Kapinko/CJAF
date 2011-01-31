@@ -1,0 +1,28 @@
+{
+	"title": "Test Console",
+	"language": {
+		"select": {
+			"label": "Choose a Language",
+			"languages": [
+				{"name": "English", "value": "en-US"},
+				{"name": "Italian", "value": "it"},
+				{"name": "Spanish", "value": "es"},
+				{"name": "Polish", "value": "pl"}
+			]
+		}
+	},
+	"renderer": {
+		"select": {
+			"label": "Choose a Renderer",
+			"options": [
+				{"name": "Standard", "value": "jQueryUI"},
+				{"name": "Dock", "value": "Dock"}
+				
+			]
+		}
+	},
+	"validation": {
+		"label": "Client Side Validation"
+	},
+	
+}
