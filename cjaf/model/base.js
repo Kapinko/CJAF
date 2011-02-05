@@ -276,7 +276,7 @@
 			 * @param {function(XMLHttpRequest, string, Object): boolean} error
 			 */
 			"_update": function (success, error) {
-				throw "_update method not implemented.";
+				$.error("_update method not implemented");
 			},
 			/**
 			 * This function will be called when this model object does not have
@@ -288,7 +288,7 @@
 			 * @param {function(XMLHttpRequest, string, Object): boolean} error
 			 */
 			"_create": function (success, error) {
-				throw "_create method not implemented.";
+				$.error("_create method not implemented");
 			},
 			/**
 			 * This function will return this object in a structure that is
