@@ -118,6 +118,25 @@
 					this.iterator	= this.collection.getIter();
 				}
 				return this.iterator;
+			},
+			/**
+			 * Iterate through all of the contained objects and fire off the
+			 * given event using the current object as the event data.
+			 * @param {string} event_name
+			 * @param {jQuery} element.
+			 */
+			eventIterator: function (event_name, element) {
+				if (!element) {
+					element	= $(document);
+				}
+
+				while (this.hasNext()) {
+					element.trigger(event_name, [this.getNext()]);
+				}
+
+				this.reset();
+
+				return this;
 			}
 		};
 		
