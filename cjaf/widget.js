@@ -61,7 +61,7 @@
 				} else {
 					locale	= this.widgetName;
 				}
-				data	= $.extend(true, data, Global.localize(locale));
+				data	= $.extend(true, Global.localize(locale), data);
 			}
 			
 			return cjaf.view(options, data, partials);
