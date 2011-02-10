@@ -60,9 +60,14 @@
 			 * @return {jqGridPlugin}
 			 */
 			"render": function () {
-				var config			= this.translateOptions();
+				var config	= this.translateOptions(),
+				heading		= this.options.headerText;
 
 				this.table.dataTable(config);
+
+				if (heading) {
+					this.element.prepend("<h4 class=\"ui-widget-header ui-datagrid-header\">"+heading+"</h4>");
+				}
 
 				return this;
 			},
@@ -105,14 +110,26 @@
 					"iDisplayLength": o.rowsToDisplay,
 					"sPaginationType": o.sPaginationType
 				}
-
+				
+				if (o.searchLabel) {
+					grid.oSearch	= {
+						"sSearch": o.searchLabel,
+						"bRegex": o.hasOwnProperty("regexSearch") ? o.regexSearch : false,
+						"bSmart": o.hasOwnProperty("smartSearch") ? o.smartSearch : true
+					}
+					grid.bFilter	= true;
+				}
 				if (grid.bServerSide || o.clientSideSort) {
 					grid.sAjaxSource	= this._getServerSideRequestUrl(o.serverUrl);
 					grid.fnServerData	= $.proxy(this, "_loadTableData");
+
+					if (o.clientSideSort) {
+						grid.bServerSide	= false;
+					}
 				}
 
 				grid.fnDrawCallback	= $.proxy(this, "_drawCallback");
-
+				
 				return grid;
 			},
 			/**

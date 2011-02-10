@@ -135,6 +135,12 @@
 				 */
 				"loadingLocaleKey": "loading",
 				/**
+				 * This is the locale key we're going to use for the tables
+				 * search box label
+				 * @type {string}
+				 */
+				"searchLocaleKey": "search",
+				/**
 				 * This is the locale key we're going to use to retrieve the 
 				 * column names.
 				 * @type {string}
@@ -176,6 +182,7 @@
 
 				o.headerText	= locale[o.headerLocaleKey];
 				o.loadingText	= locale[o.loadingLocaleKey];
+				o.searchLabel	= locale[o.searchLocaleKey];
 
 				o.columnNames	= $.map(o.columnNameKeys, function (item) {
 					return locale[o.columnNameLocaleKey][item]
