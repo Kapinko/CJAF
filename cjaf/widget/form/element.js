@@ -93,7 +93,7 @@
 			 * Create this element widget.
 			 */
 			"_create": function () {
-				var o		= this.option;
+				var o		= this.options;
 					
 				this.elementId	= this.element.attr('id');
 
