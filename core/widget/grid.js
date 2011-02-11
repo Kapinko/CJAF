@@ -141,6 +141,11 @@
 				 */
 				"searchLocaleKey": "search",
 				/**
+				 * Should we show a search box?
+				 * @type {boolean}
+				 */
+				"showSearchBox": false,
+				/**
 				 * This is the locale key we're going to use to retrieve the 
 				 * column names.
 				 * @type {string}

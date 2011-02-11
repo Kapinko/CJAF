@@ -108,16 +108,16 @@
 					"bLengthChange": o.bLengthChange ? true : false,
 					"bAutoWidth": o.bAutoWidth,
 					"iDisplayLength": o.rowsToDisplay,
-					"sPaginationType": o.sPaginationType
+					"sPaginationType": o.sPaginationType,
+					"oLanguage": {}
 				}
 				
-				if (o.searchLabel) {
-					grid.oSearch	= {
-						"sSearch": o.searchLabel,
-						"bRegex": o.hasOwnProperty("regexSearch") ? o.regexSearch : false,
-						"bSmart": o.hasOwnProperty("smartSearch") ? o.smartSearch : true
-					}
+				if (o.showSearchBox) {
 					grid.bFilter	= true;
+
+					if (o.searchLabel) {
+						grid.oLanguage.sSearch	= o.searchLabel;
+					}
 				}
 				if (grid.bServerSide || o.clientSideSort) {
 					grid.sAjaxSource	= this._getServerSideRequestUrl(o.serverUrl);
