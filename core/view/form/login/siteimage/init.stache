@@ -1,0 +1,93 @@
+<div class="ui-widget-content ui-corner-all">
+	{{#step1}}
+	<fieldset class="username" style="display:none;">
+		<legend>
+			{{title}}
+			<span class="ui-icon ui-icon-locked"></span>
+			<button class="help username"></button>
+		</legend>
+		{{#username}}
+		<label for="username">
+			{{label}}
+			<input type="text" id="username" name="username" />
+		</label>
+		{{/username}}
+
+		{{#submit}}
+		<button type="submit" class="form-submit-login">{{label}}</button>
+		{{/submit}}
+
+		{{#forgot}}
+		<a href="#forgot-username">{{label}}</a>
+		{{/forgot}}
+	</fieldset>
+	{{/step1}}
+
+	{{#step2}}
+	<fieldset class="password site-image" style="display:none;">
+		<legend>
+			{{title}}, <span class="name-first">{{username}}</span>
+		</legend>
+		<p>
+			<span class="directive">{{directive}}</span>
+			{{#site_image}}
+			<img src="" alt="{{alt}}" class="site-image" />
+			{{/site_image}}
+		</p>
+		<p>
+			{{#password}}
+			<label for="password">
+				{{label}}
+				<input type="password" id="password" name="password" />
+			</label>
+			{{/password}}
+
+			{{#forgot}}
+			<a href="forgot-password">{{label}}</a>
+			{{/forgot}}
+		</p>
+		<p>
+			{{#submit}}
+			<button type="submit" class="form-submit-login">{{label}}</button>
+			{{/submit}}
+		</p>
+	</fieldset>
+	{{/step2}}
+
+	{{#step3}}
+	<fieldset class="secret" style="display:none;">
+		<legend>
+			{{title}}, <span class="name-first">{{username}}</span>
+		</legend>
+		<p>
+			{{#secret}}
+			<label for="answer">
+				<span class="directive">{{directive}}</span>
+				<span class="question">{{question}}</span>
+
+				<input type="password" id="answer" name="answer" />
+			</label>
+			{{/secret}}
+
+			{{#forgot}}
+			<a href="#forgot-secret">{{label}}</a>
+			{{/forgot}}
+		</p>
+		<p>
+			{{#remember}}
+			<label for="remember">
+				<input type="checkbox" id="remember" name="remember" value="1" />
+				{{label}}
+			</label>
+			{{/remember}}
+			<button class="help remember"></button>
+		</p>
+		<p>
+			{{#submit}}
+			<button type="submit" class="form-submit-login
+					">{{label}}</button>
+			{{/submit}}
+		</p>
+	</fieldset>
+	{{/step3}}
+</div>

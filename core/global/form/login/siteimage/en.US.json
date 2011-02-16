@@ -1,0 +1,45 @@
+{
+	"step1": {
+		"title": "Account Center Log In",
+		"username": {
+			"label": "Enter username"
+		},
+		"forgot": {
+			"label": "Forgot login?"
+		},
+		"submit": {
+			"label": "Log In"
+		}
+	},
+
+	"step2": {
+		"title": "Welcome",
+		"directive": "If this is not your personal site image, do not enter your Password and contact 800-555-1515 immediately.",
+		"password": {
+			"label": "Enter Password"
+		},
+		"forgot": {
+			"label": "Forgot password?"
+		},
+		"submit": {
+			"label": "Log In"
+		}
+	},
+
+	"step3": {
+		"title": "Welcome",
+		"secret": {
+			"directive": "Answer your secret question:",
+			"question": "What is the name of your favorite pet?"
+		},
+		"forgot": {
+			"label": "Forgot answer?"
+		},
+		"remember": {
+			"label": "Remember this computer"
+		},
+		"submit": {
+			"label": "Enter"
+		}
+	}
+}
