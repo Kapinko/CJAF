@@ -31,7 +31,7 @@
 		<p>
 			<span class="directive">{{directive}}</span>
 			{{#site_image}}
-			<img src="" alt="{{alt}}" class="site-image" />
+			<img src="/img/siteimage.jpg" alt="{{alt}}" width="100" height="150"class="site-image" />
 			{{/site_image}}
 		</p>
 		<p>
