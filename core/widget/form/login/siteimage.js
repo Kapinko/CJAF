@@ -7,6 +7,7 @@
 (function ($, cjaf) {
 	cjaf.define("core/widget/form/login/siteimage", [
 		"core/widget/form/login/helper/handler",
+		"cjaf/widget/form/helper/ui",
 		"cjaf/widget/form",
 		"cjaf/widget/form/element",
 		"cjaf/widget/form/listener/error_message",
@@ -15,9 +16,10 @@
 	],
 	/**
 	 * @param {HandlerHelper} HandlerHelper
+	 * @param {cjaf.Widget.Form.Helper.UI} UIHelper
 	 */
-	function (HandlerHelper) {
-		$.widget("cjaf.core_form_login_siteimage", {
+	function (HandlerHelper, UIHelper) {
+		$.widget("cjaf.core_form_login_siteimage", $.cjaf.form, {
 			options: {
 				/**
 				 * This is the jQuery selector that will be used to retrieve the
@@ -57,11 +59,29 @@
 				 */
 				"eventHandler": HandlerHelper,
 				/**
+				 * Get the UIHelper class for this form widget.
+				 * @type {cjaf.Widget.Form.Helper.UI}
+				 */
+				"ui": cjaf.Class.extend(UIHelper, {
+					"getElementList": function () {
+						var filtered	= [],
+						unfiltered		= this.element_list, index;
+
+						for (index = 0; index < unfiltered.length; index += 1) {
+							if (unfiltered[index].is(":visible")) {
+								filtered.push(unfiltered[index]);
+							}
+						}
+
+						return filtered;
+					}
+				}),
+				/**
 				 * This is the jQuery selector that will be used to retrieve the
 				 * submit button element.
 				 * @type {string}
 				 */
-				"submitSelector": ".form-submit-login",
+				"submitTrigger": ".form-submit-login",
 				/**
 				 * These are the options that will be sent to the submit trigger
 				 * bind method.
@@ -70,7 +90,23 @@
 				"submitTriggerOptions": {
 					"iconPrimary": "ui-icon-star",
 					"processingImageUrl": "/img/loading/ajax-arrows.gif"
-				}
+				},
+				/**
+				 * These are the form steps in the order that they should be
+				 * processed.
+				 * @type {Array.<string>}
+				 */
+				"steps": [
+					"fieldset.username",
+					"fieldset.secret",
+					"fieldset.password"
+					
+				],
+				/**
+				 * This is the step we're currnetly on.
+				 * @type {number}
+				 */
+				"currentStep": 0
 			},
 
 			_create: function () {
@@ -78,18 +114,11 @@
 				el		= this.element;
 
 
-				el.html(this._view({
+				el.html(this._view({}));
 
-				}));
+				this.getCurrentStep().fadeIn();
 
-				//turn the help span into a button
-				this.getHelp().button({
-					"icons": {
-						"primary": "ui-icon-help"
-					}
-				});
-
-				
+				$.cjaf.form.prototype._create.apply(this, arguments);
 			},
 			/**
 			 * Ste up all the elements for this form.
@@ -99,28 +128,32 @@
 			initFormElements: function (form_ui, form_locale) {
 				var username	= this.getUsername(),
 				password		= this.getPassword(),
-				answer			= this.getAnswer();
+				answer			= this.getAnswer(),
+				locale			= form_locale.errors;
 
 				username.form_element({
 					valdiators: [
 						{type: "NotEmpty", options: {}}
-					]
+					],
+					errorLocale: locale.username
 				});
 				form_ui.addElement(username);
 
 				password.form_element({
 					validators: [
 						{type: "NotEmpty", options: {}}
-					]
+					],
+					errorLocale: locale.password
 				});
-				form_ui.form_element(password);
+				form_ui.addElement(password);
 
 				answer.form_element({
 					validators: [
 						{type: "NotEmpty", options: {}}
-					]
+					],
+					errorLocale: locale.answer
 				});
-				form_ui.form_element(answer);
+				form_ui.addElement(answer);
 			},
 			/**
 			 * Submit the form data to the server
@@ -129,7 +162,13 @@
 			 * @param {function()} error
 			 */
 			runAjaxCall: function (success, error) {
-
+				console.log("boo");
+				if (this.hasNextStep()) {
+					this.getCurrentStep().effect("slide", {"mode": "hide", "direction": "left"}, $.proxy(function () {
+						this.getNextStep().effect("slide", {"mode": "show", "direction": "right"});
+					}, this));
+					success();
+				}
 			},
 			/**
 			 * Get the username input element
@@ -165,6 +204,51 @@
 			 */
 			getHelp: function () {
 				return this.element.find(this.options.helpSelector);
+			},
+			/**
+			 * Get the current step
+			 * @return {jQuery}
+			 */
+			getCurrentStep: function () {
+				var o		= this.options,
+				selector	= o.steps[o.currentStep];
+
+				return this.element.find(selector);
+			},
+			/**
+			 * Get the previous step
+			 * @return {jQuery}
+			 */
+			getPreviousStep: function () {
+				if (this.hasPreviousStep()) {
+					this.options.currentStep -= 1;
+				}
+				return this.getCurrentStep();
+			},
+			/**
+			 * Get the next step
+			 * @return {jQuery}
+			 */
+			getNextStep: function () {
+				if (this.hasNextStep()) {
+					this.options.currentStep += 1;
+				}
+				return this.getCurrentStep();
+			},
+			/**
+			 * Are there any more steps?
+			 * @return {boolean}
+			 */
+			hasNextStep: function () {
+				var o	= this.options;
+				return o.steps.length > o.currentStep + 1 ? true :false;
+			},
+			/**
+			 * Is this the 1st step?
+			 * @return {boolean}
+			 */
+			hasPreviousStep: function () {
+				return this.options.currentStep > 0 ? true : false;
 			}
 		});
 	});

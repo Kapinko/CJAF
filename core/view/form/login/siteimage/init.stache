@@ -4,7 +4,7 @@
 		<legend>
 			{{title}}
 			<span class="ui-icon ui-icon-locked"></span>
-			<button class="help username"></button>
+			<span class="help username"></span>
 		</legend>
 		{{#username}}
 		<label for="username">
@@ -14,7 +14,7 @@
 		{{/username}}
 
 		{{#submit}}
-		<button type="submit" class="form-submit-login">{{label}}</button>
+		<input type="button" class="form-submit-login" value="{{label}}" />
 		{{/submit}}
 
 		{{#forgot}}
@@ -48,7 +48,7 @@
 		</p>
 		<p>
 			{{#submit}}
-			<button type="submit" class="form-submit-login">{{label}}</button>
+			<input type="button" class="form-submit-login" value="{{label}}" />
 			{{/submit}}
 		</p>
 	</fieldset>
@@ -84,8 +84,7 @@
 		</p>
 		<p>
 			{{#submit}}
-			<button type="submit" class="form-submit-login
-					">{{label}}</button>
+			<input type="button" class="form-submit-login" value="{{label}}" />
 			{{/submit}}
 		</p>
 	</fieldset>

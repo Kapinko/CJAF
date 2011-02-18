@@ -41,5 +41,20 @@
 		"submit": {
 			"label": "Enter"
 		}
+	},
+
+	"errors": {
+		"username": {
+			"empty": "You must provide your username.",
+			"invalid": "Sorry, we could not locate your account."
+		},
+		"password": {
+			"empty": "You must provide your password.",
+			"invalid": "Password provided does not match our records."
+		},
+		"answer": {
+			"empty": "You must provide your secret question answer.",
+			"invalid": "Your answer does not match our records."
+		}
 	}
 }
