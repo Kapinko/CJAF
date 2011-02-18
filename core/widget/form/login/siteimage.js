@@ -119,6 +119,12 @@
 				this.getCurrentStep().fadeIn();
 
 				$.cjaf.form.prototype._create.apply(this, arguments);
+
+				this.handler.setLoggedInHandler($.proxy(function () {
+					if (!this.hasNextStep()) {
+						this.options.loggedInRedirector();
+					}
+				}, this));
 			},
 			/**
 			 * Ste up all the elements for this form.
@@ -162,11 +168,12 @@
 			 * @param {function()} error
 			 */
 			runAjaxCall: function (success, error) {
-				console.log("boo");
 				if (this.hasNextStep()) {
 					this.getCurrentStep().effect("slide", {"mode": "hide", "direction": "left"}, $.proxy(function () {
 						this.getNextStep().effect("slide", {"mode": "show", "direction": "right"});
 					}, this));
+					success();
+				} else {
 					success();
 				}
 			},
