@@ -138,7 +138,7 @@
 				locale			= form_locale.errors;
 
 				username.form_element({
-					valdiators: [
+					validators: [
 						{type: "NotEmpty", options: {}}
 					],
 					errorLocale: locale.username
