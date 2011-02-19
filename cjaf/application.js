@@ -20,10 +20,20 @@ window.cjaf	= (function ($, require, window, document) {
 	 */
 	var DEFAULT_LOCALE		= 'en-US', //default locale is U.S. English.
 	/**
+	 * This is the default currency.
+	 * @type {string}
+	 */
+	DEFAULT_CURRENCY	= "USD",
+	/**
 	 * where the locale is stored.
 	 * @type {string}
 	 */
 	COOKIE_LOCALE		= 'cjaf.locale',
+	/**
+	 * Where the currency type is stored.
+	 * @type {string}
+	 */
+	COOKIE_CURRENCY		= "cjaf.currency",
 	/**
 	 * This is the URL that will be used as the default requireJS "baseUrl".
 	 * @type {string}
@@ -97,6 +107,20 @@ window.cjaf	= (function ($, require, window, document) {
 		window.LocaleSetting	= locale;
 		return locale;
 	},
+	/**
+	 * This function will retrieve the current currency setting from the
+	 * "cjaf.currency" cookie.
+	 * @return {string}
+	 */
+	getCurrency	= function () {
+		var currency	= getCookie(COOKIE_CURRENCY);
+
+		if (!currency) {
+			currency	= DEFAULT_CURRENCY;
+		}
+		window.CurrencySetting	= currency;
+		return currency;
+	},
 
 	//Create the CJAF namespace
 	cjaf	= {
@@ -105,6 +129,11 @@ window.cjaf	= (function ($, require, window, document) {
 		 * @type {string}
 		 */
 		'LOCALE': getLocale(),
+		/**
+		 * This is the current currency setting.
+		 * @type {string}
+		 */
+		"CURRENCY": getCurrency(),
 		/**
 		 * Function to load any dependencies before executing the callback.
 		 * This is just a hide of the requireJS functionality in case we
@@ -183,6 +212,13 @@ window.cjaf	= (function ($, require, window, document) {
 		 */
 		"getLocale": function () {
 			return cjaf.LOCALE;
+		},
+		/**
+		 * This function return the currently set currency type.
+		 * @return {string}
+		 */
+		"getCurrency": function () {
+			return cjaf.CURRENCY;
 		},
 		/**
 		 * This function returns the base path to the locale files.
@@ -331,6 +367,7 @@ window.cjaf	= (function ($, require, window, document) {
 									require.ready(function () {
 										//set the locale
 										cjaf.Global.setLocale(Bootstrap.getLocale())
+											.setCurrency(Bootstrap.getCurrency())
 											.setBasePath(Bootstrap.getLocalePath());
 										
 										Bootstrap.run(cornerstone);

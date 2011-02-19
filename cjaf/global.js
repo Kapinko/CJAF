@@ -6,10 +6,11 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/global', [
-		'jQuery/jquery.glob'
+		'jQuery/global/jquery.global'
 	],
 	function () {
 		var already_loaded	= {},
+		jGlobal	= $.global,
 		make_path	= function (widget, locale, base_path) {
 			var path, file;
 			
@@ -29,7 +30,7 @@
 					method: 'GET',
 					async: false,
 					success: function (response, status, XMLHttpRequest) {
-						$.localize(widget, locale, response);
+						jGlobal.localize(widget, locale, response);
 						already_loaded[path]	= true;
 						load_ok	= true;
 					},
@@ -42,10 +43,32 @@
 			return load_ok;
 		},
 		get_currency_symbol	= function (currency) {
-			var symbol = "$";
+			var symbol;
 			//@todo add lookup for different currencies
-
+			switch(currency) {
+			case "EUR":
+				symbol	= "&euro;";
+				break;
+			case "USD":
+			default:
+				symbol	= "$";
+			}
+			
 			return symbol;
+		},
+		set_jquery_locale	= function (locale) {
+			var path	= "js/lib/jquery/global/globinfo/jquery.glob." + locale;
+
+			if (!already_loaded[path]) {
+				$.ajax({
+					"url": path + ".js",
+					"dataType": "script",
+					"async": false,
+					"success": function () {
+						already_loaded[path]	= true;
+					}
+				});
+			}
 		},
 		Global	= cjaf.namespace('Global', {
 			/**
@@ -59,6 +82,11 @@
 			 * @type {string}
 			 */
 			locale: "en-US",
+			/**
+			 * This is the currently selected currency format.
+			 * @type {string}
+			 */
+			currency_type: "USD",
 			/**
 			 * This is the base path for localization files.
 			 * @type {string}
@@ -86,6 +114,7 @@
 			 * @return {Global}
 			 */
 			"setLocale": function (locale) {
+				set_jquery_locale(locale);
 				this.locale	= locale;
 				return this;
 			},
@@ -94,7 +123,26 @@
 			 * @return {string}
 			 */
 			"getLocale": function () {
+				if (!this.locale) {
+					this.locale	= this.getDefaultLocale();
+				}
 				return this.locale;
+			},
+			/**
+			 * Set the current currency format
+			 * @param {string} type
+			 * @return {Global}
+			 */
+			"setCurrency": function (type) {
+				this.currency_type	= type;
+				return this;
+			},
+			/**
+			 * Get the current currency format
+			 * @return {string}
+			 */
+			"getCurrency": function () {
+				return this.currency_type;
 			},
 			/**
 			 * Set the base path for localization files.
@@ -137,10 +185,10 @@
 				
 				load(widget, locale, base_path);
 
-				localized	= $.localize(widget, locale);
+				localized	= jGlobal.localize(widget, locale);
 
 				if (localized === null) {
-					localized	= $.localize(widget, default_locale);
+					localized	= jGlobal.localize(widget, default_locale);
 				}
 
 				return localized;
@@ -154,16 +202,16 @@
 			 */
 			"currency": function (value, locale, currency) {
 				if (!currency) {
-					currency	= "US"
+					currency	= this.getCurrency()
 				}
 				if (!locale) {
-					locale	= this.getDefaultLocale();
+					locale	= this.getLocale();
 				}
 
-				value		= $.parseFloat(value, 10);
+				value		= jGlobal.parseFloat(value.toString(), 10);
 
 				var symbol	= get_currency_symbol(currency),
-				formatted	= symbol + $.format(value, "n2");
+				formatted	= symbol + jGlobal.format(value, "n2", locale);
 
 				return formatted;
 			},
@@ -177,7 +225,7 @@
 				if (!locale) {
 					locale	= this.getDefaultLocale();
 				}
-				return $.parseDate(date, custom_formats, locale);
+				return jGlobal.parseDate(date, custom_formats, locale);
 			},
 			/**
 			 * Format the given date object according to the given format.
@@ -189,7 +237,7 @@
 					date	= new Date(date * 1000);
 				}
 
-				return $.format(date, format);
+				return jGlobal.format(date, format, this.getLocale());
 			}
 		});
 		

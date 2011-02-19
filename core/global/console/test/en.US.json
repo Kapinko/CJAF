@@ -11,6 +11,15 @@
 			]
 		}
 	},
+	"currency": {
+		"select": {
+			"label": "Choose a Currency",
+			"options": [
+				{"name": "US Dollar (USD)", "value": "USD"},
+				{"name": "Euro (EUR)", "value": "EUR"}
+			]
+		}
+	},
 	"renderer": {
 		"select": {
 			"label": "Choose a Renderer",

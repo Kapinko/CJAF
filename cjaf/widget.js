@@ -11,10 +11,10 @@
 		'cjaf/request'
 	],
 	/**
-	 * @param {cjaf.Global} Global
+	 * @param {cjaf.Global} i18n
 	 * @param {cjaf.Request} Request
 	 */
-	function (Global, Request) {
+	function (i18n, Request) {
 		/**
 		 * Obtain a rendered view for this widget.
 		 * @param {string} view
@@ -59,7 +59,7 @@
 				} else {
 					locale	= this.widgetName;
 				}
-				data	= $.extend(true, Global.localize(locale), data);
+				data	= $.extend(true, i18n.localize(locale), data);
 			}
 			
 			return cjaf.view(o.initView || view, data, partials);
@@ -67,6 +67,14 @@
 
 		$.Widget.prototype._getRequest	= function () {
 			return Request;
+		};
+
+		/**
+		 * Get the locale object for the current widget
+		 * @return {Object.<string,Object|string>}
+		 */
+		$.Widget.prototype._getLocale	= function () {
+			return i18n.localize(this.widgetName);
 		}
 	});
 }(jQuery, cjaf));

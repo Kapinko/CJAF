@@ -6,6 +6,7 @@
 	function(){
 		var DISABLE_CLIENT_SIDE_VALIDATION	= 'stax.disableClientSideValidation',
 		LOCALE_COOKIE			= 'cjaf.locale',
+		CURRENCY_COOKIE			= "cjaf.currency",
 		MENU_RENDERER_COOKIE	= "cjaf.menu.renderer";
 
 		$.widget('cjaf.core_console_test', {
@@ -16,6 +17,7 @@
 				this.element.html(this._view({}));
 				
 				this._setUpLanguage();
+				this._setUpCurrency();
 				this._setUpRenderer();
 				this._setUpClientSideValidation();
 				this._setUpDialog();
@@ -50,6 +52,15 @@
 						window.location.reload();
 				});
 
+			},
+			_setUpCurrency: function () {
+				var selectBox	= this._getCurrencySelect();
+				selectBox.attr("selected", false);
+				selectBox.val($.cookie(CURRENCY_COOKIE));
+				selectBox.change(function (ev) {
+					$.cookie(CURRENCY_COOKIE, ev.currentTarget.value);
+					window.location.reload();
+				});
 			},
 			_setUpRenderer: function () {
 				var select	= this._getRendererSelect();
@@ -86,6 +97,10 @@
 
 			_getLanguageSelect: function(){
 				return $("#client-language");
+			},
+
+			_getCurrencySelect: function () {
+				return $("#client-currency");
 			},
 
 			_getRendererSelect: function () {

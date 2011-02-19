@@ -20,6 +20,19 @@
 			{{/language}}
 		</li>
 		<li>
+			{{#currency}}
+
+			{{#select}}
+			<label class="css-left" for="client-currency">{{label}}</label>
+			<select id="client-currency" class="ui-widget-content ui-corner-all ui-state-default">
+				{{#options}}
+				<option value="{{value}}">{{name}}</option>
+				{{/options}}
+			</select>
+			{{/select}}
+			{{/currency}}
+		</li>
+		<li>
 			{{#renderer}}
 			{{#select}}
 			<label class="css-left" for="menu-renderer">{{label}}</label>
