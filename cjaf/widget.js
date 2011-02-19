@@ -21,27 +21,25 @@
 		 * @param {*} data
 		 */
 		$.Widget.prototype._view	= function (view, data) {
-			var o		= this.options,
-			partials	= null,
-			options, locale;
+			var o			= this.options,
+			partials		= null,
+			view_is_string	= typeof view === "string" ? true : false,
+			locale;
 
-			if (this.options.initView && arguments.length < 2) {
-				options	= o.initView;
-
-				if (view !== "string") {
-					data	= view;
-				}
-				
-			} else {
-				if (typeof view !== 'string') {
-					data	= view;
-					view	= cjaf.View.getDefault();
-				}
-				options	= {
-					"name": this.widgetName.split('_').join('/'),
+			if (arguments.length < 2 && !view_is_string) {
+				data	= view;
+				view	= {
+					"name": this.widgetName,
+					"view": cjaf.View.getDefault()
+				};
+			} else if (view_is_string) {
+				view	= {
+					"name": this.widgetName,
 					"view": view
 				};
 			}
+
+			view.name	= view.name.split("_").join("/");
 			
 			//If the user has provided custom view data as an option then merge 
 			//it in now.
@@ -64,7 +62,7 @@
 				data	= $.extend(true, Global.localize(locale), data);
 			}
 			
-			return cjaf.view(options, data, partials);
+			return cjaf.view(o.initView || view, data, partials);
 		};
 
 		$.Widget.prototype._getRequest	= function () {
