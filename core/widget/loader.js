@@ -7,7 +7,7 @@
 
 (function ($, cjaf) {
 	cjaf.define("core/widget/loader", [
-		"cjaf/model/Base"
+		"cjaf/model/base"
 	],
 	/**
 	 * @param {cjaf.Model.Base} BaseModel
