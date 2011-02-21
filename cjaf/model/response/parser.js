@@ -94,7 +94,7 @@
 							console.log(response);
 						}
 						$.error('Response object not valid. Missing "' +
-									field + '" field.');
+									field.getName() + '" field.');
 					}
 					
 					return_obj[field.getName()]	= value;
