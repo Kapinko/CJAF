@@ -16,7 +16,14 @@
 			"label": "Choose a Currency",
 			"options": [
 				{"name": "US Dollar (USD)", "value": "USD"},
-				{"name": "Euro (EUR)", "value": "EUR"}
+				{"name": "Euro (EUR)", "value": "EUR"},
+				{"name": "Pound (GBP)", "value": "GBP"},
+				{"name": "Peso (MXN)", "value": "MXN"},
+				{"name": "Yen (JPY)", "value": "JPY"},
+				{"name": "Yuan (CNY)", "value": "CNY"},
+				{"name": "Zloty (PLN)", "value": "PLN"},
+				{"name": "Jamaican (JMD)", "value": "JMD"},
+				{"name": "Zimbabwean (ZWL)", "value": "ZWL"},
 			]
 		}
 	},

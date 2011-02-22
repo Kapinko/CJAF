@@ -49,6 +49,23 @@
 			case "EUR":
 				symbol	= "&euro;";
 				break;
+			case "GBP":
+				symbol	= "&pound;";
+				break;
+			case "JPY":
+			case "CNY":
+				symbol	= "&yen;";
+				break;
+			case "JMD":
+				symbol	= "J$";
+				break;
+			case "ZWL":
+				symbol	= "Z$";
+				break;
+			case "PLN":
+				symbol	= "PLN";
+				break;
+			case "MXN":
 			case "USD":
 			default:
 				symbol	= "$";
