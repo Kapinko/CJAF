@@ -196,20 +196,29 @@
 			 * @param {function()} callback
 			 */
 			_loadTableData: function (url, data, callback) {
-				var response_filter	= $.proxy(this, '_filterResponse');
-				$.ajax({
-					dataType: 'json',
-					url: this._getServerSideRequestUrl(url),
-					type: this.options.requestType,
-					data: this._filterRequest(data),
-					success: function(response, status, xmlHttpRequest){
-						var table_data	= response_filter(response);
-						callback(table_data, status, xmlHttpRequest);
-					},
-					error: function(xmlHttpRequest, status, error){
-
-					}
-				});
+				var response_filter	= $.proxy(this, '_filterResponse'),
+				
+				success	= function (response, status, XMLHttpRequest) {
+					var table_data	= response_filter(response);
+					callback(table_data, status, XMLHttpRequest);
+				},
+				error	= function (XMLHttpRequest, status, error) {
+					
+				};
+				
+				if (typeof this.options.ajax === "function") {
+					this.options.ajax(success, error);
+					
+				} else {
+					$.ajax({
+						dataType: 'json',
+						url: this._getServerSideRequestUrl(url),
+						type: this.options.requestType,
+						data: this._filterRequest(data),
+						success: success,
+						error: error
+					});
+				}
 			},
 			/**
 			 * Filter the dataTables generated request object. You MUST always

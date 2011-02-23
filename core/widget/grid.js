@@ -32,6 +32,15 @@
 					"column_names": {}
 				},
 				/**
+				 * If this is set to a function, then it will be used to
+				 * retrieve the data from the server instead of the jQuery.ajax
+				 * function.  This is useful for testing where you just want to
+				 * return a set of data. NOTE: It must accept a success and error
+				 * function as it's 2 parameters.
+				 * @type {function();boolean)
+				 */
+				"ajax": null,
+				/**
 				 * This is the string that we'll use for the table container
 				 * element's "id" attribute
 				 * @type {string}
