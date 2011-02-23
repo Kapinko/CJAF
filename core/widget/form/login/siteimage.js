@@ -100,7 +100,6 @@
 					"fieldset.username",
 					"fieldset.secret",
 					"fieldset.password"
-					
 				],
 				/**
 				 * This is the step we're currnetly on.
