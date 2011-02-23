@@ -197,7 +197,7 @@
 				o.headerText	= locale[o.headerLocaleKey];
 				o.loadingText	= locale[o.loadingLocaleKey];
 				o.searchLabel	= locale[o.searchLocaleKey];
-
+				
 				o.columnNames	= $.map(o.columnNameKeys, function (item) {
 					return locale[o.columnNameLocaleKey][item]
 				});

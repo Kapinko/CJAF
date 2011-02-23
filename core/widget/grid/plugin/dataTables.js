@@ -139,7 +139,7 @@
 			 * @return {Object.<string, *>}
 			 */
 			_translateColumnSpec: function (spec, names) {
-				var item, column, counter = 0,
+				var item, column, counter = 0, iter,
 				renderTranslator	= function(formatter, formatter_options) {
 					return function (data) {
 						var row_data	= data.aData,
@@ -153,12 +153,13 @@
 						return formatter(value, options, row_data);
 					}
 				};
+				
+				iter	= spec.getIter();
 
-				for (item in spec) {
-					column	= spec[item];
+				while(iter.hasNext()) {
+					column	= iter.getNext();
 					column['sTitle'] = names[counter];
 					counter += 1;
-
 					//translate the parameters sent to the formatter functions.
 					if (typeof column.formatter === 'function') {
 						column.fnRender	= renderTranslator(column.formatter, column.formatoptions);
@@ -167,6 +168,7 @@
 					column.sName	= column.index;
 					column.sWidth	= column.width;
 				}
+				iter.reset();
 
 				return spec;
 			},
