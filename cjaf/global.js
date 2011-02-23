@@ -196,17 +196,16 @@
 				base_path			= this.getBasePath(),
 				localized;
 				
-				if (locale !== default_locale) {
-					load(widget, default_locale, base_path, true);
-				}
 				
 				load(widget, locale, base_path);
 
 				localized	= jGlobal.localize(widget, locale);
-
-				if (localized === null) {
-					localized	= jGlobal.localize(widget, default_locale);
+				
+				if (locale !== default_locale) {
+					load(widget, default_locale, base_path, true);
 				}
+				
+				localized	= $.extend(true, jGlobal.localize(widget, default_locale), localized);
 
 				return localized;
 			},
