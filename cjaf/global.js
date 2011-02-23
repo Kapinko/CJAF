@@ -205,7 +205,7 @@
 					load(widget, default_locale, base_path, true);
 				}
 				
-				localized	= $.extend(true, jGlobal.localize(widget, default_locale), localized);
+				localized	= $.extend(true, {}, jGlobal.localize(widget, default_locale), localized);
 
 				return localized;
 			},

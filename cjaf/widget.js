@@ -59,7 +59,7 @@
 				} else {
 					locale	= this.widgetName;
 				}
-				data	= $.extend(true, i18n.localize(locale), data);
+				data	= $.extend(true, {}, i18n.localize(locale), data);
 			}
 			
 			return cjaf.view(o.initView || view, data, partials);
