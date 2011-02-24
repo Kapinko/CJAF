@@ -26,7 +26,7 @@
 				 */
 				'getChoices': function () {
 					return [
-						{'value': 'en_US', 'display': 'US English'},
+						{'value': '', 'display': 'US English'},
 						{'value': 'af', 'display': 'Afrikaans'},
 						{'value': 'sq', 'display': 'Albanian'},
 						{'value': 'ar', 'display': 'Arabic'},
