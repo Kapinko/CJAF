@@ -162,6 +162,13 @@
 				return this.currency_type;
 			},
 			/**
+			 * Get the current currency symbol
+			 * @return {string}
+			 */
+			"getCurrencySymbol": function () {
+				return get_currency_symbol(this.getCurrency());
+			},
+			/**
 			 * Set the base path for localization files.
 			 * @param {string} path
 			 * @return {Global}
