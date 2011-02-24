@@ -3,13 +3,14 @@
  */
 
 /** JSLint defines */
-/*global console: false, jQuery: false, cjaf: false*/
+/*global console: false, jQuery: false, cjaf: false, window: false*/
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/model/response/parser', [
 		'cjaf/collection',
 		'cjaf/model/response',
-		'cjaf/model/response/field'
+		'cjaf/model/response/field',
+		"lib/plugins/Array/iterator"
 	],
 	/**
 	 * @param {cjaf.Collection} Collection
@@ -18,6 +19,7 @@
 	 * @return {cjaf.Response.Parser}
 	 */
 	function (Collection, Response, Field) {
+		var Iterator	= window.Iterator;
 		/**
 		 * This is an object that is used to parse out
 		 * information from a service response.
@@ -75,7 +77,7 @@
 					field	= field_list.getNext();
 					
 					if (!response.hasOwnProperty(field.getName())) {
-						alt_iter	= field.getAlternateNames().getIter();
+						alt_iter	= new Iterator(field.getAlternateNames());
 
 						while (alt_iter.hasNext()) {
 							alt	= alt_iter.getNext();

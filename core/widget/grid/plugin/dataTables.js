@@ -3,14 +3,16 @@
  * the cjaf grid plugin.
  */
 /*jslint nomen:false*/
-/*global jQuery:false, cjaf:false, document:false*/
+/*global jQuery:false, cjaf:false, document:false, window:false*/
 
-(function ($, cjaf) {
+(function ($, cjaf, window) {
 	cjaf.define('core/widget/grid/plugin/dataTables', [
+		"lib/plugins/Array/iterator",
 		'lib/jquery/jquery.dataTables'
 	],
 	function () {
-		var default_options	= {
+		var Iterator	= window.Iterator, //this is from the Array iterator plugin.
+		default_options	= {
 			"useJQueryUIClasses": true,
 			"bProcessing": true,
 			"bServerSide": true,
@@ -154,7 +156,7 @@
 					}
 				};
 				
-				iter	= spec.getIter();
+				iter	= new Iterator(spec);
 
 				while(iter.hasNext()) {
 					column	= iter.getNext();
@@ -380,4 +382,4 @@
 
 		return cjaf.namespace("Grid.Plugin.DataTables", DataTablesPlugin);
 	});
-}(jQuery, cjaf));
+}(jQuery, cjaf, window));

@@ -3,9 +3,9 @@
  */
 
 /** JSLint Declarations */
-/*global jQuery: false, cjaf: false*/
+/*global jQuery: false, cjaf: false, window: false*/
 
-(function ($, cjaf) {
+(function ($, cjaf, window) {
 	cjaf.define('cjaf/collection', [
 		'lib/plugins/Array/iterator'
 	],
@@ -13,6 +13,11 @@
 	 * @return {cjaf.Collection}
 	 */
 	function () {
+		/**
+		 * @type {Iterator}
+		 */
+		var Iterator	= window.Iterator;
+
 		/**
 		 * This is an object to store an iterate through a collection of
 		 * items.
@@ -115,7 +120,7 @@
 			 */
 			getIterator: function () {
 				if (this.iterator === null) {
-					this.iterator	= this.collection.getIter();
+					this.iterator	= new Iterator(this.collection);
 				}
 				return this.iterator;
 			},
@@ -142,4 +147,4 @@
 		
 		return cjaf.Collection;
 	});
-}(jQuery, cjaf));
+}(jQuery, cjaf, window));
