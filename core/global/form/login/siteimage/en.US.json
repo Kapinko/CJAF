@@ -15,7 +15,7 @@
 	"step2": {
 		"title": "Welcome",
 		"site_image":"foo",
-		"directive": "If this is not your personal site image, do not enter your Password and contact 800-555-1515 immediately.",
+		"directive": "If this is not your personal site image, do not enter your Password and contact 800.555.151 immediately.",
 		"password": {
 			"label": "Enter Password"
 		},
