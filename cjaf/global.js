@@ -25,18 +25,18 @@
 
 			if (!already_loaded[path]) {
 				$.ajax({
-					url: path,
-					dataType: 'json',
-					method: 'GET',
-					async: false,
-					success: function (response, status, XMLHttpRequest) {
-						jGlobal.localize(widget, locale, response);
-						already_loaded[path]	= true;
-						load_ok	= true;
-					},
-					failure: function (XMLHttpRequest, status, errorThrown) {
-						load_ok	= false;
-					}
+					"url": path,
+					"dataType": "json",
+					"method": "GET",
+					"async": false
+				}).done(function (response, status, XMLHttpRequest) {
+					jGlobal.localize(widget, locale, response);
+					already_loaded[path]	= true;
+					load_ok	= true;
+					
+				}).fail(function (XMLHttpRequest, status, errorThrown) {
+					load_ok	= false;
+					$.error(errorThrown);
 				});
 			}
 
