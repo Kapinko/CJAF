@@ -113,7 +113,18 @@
 					"sPaginationType": o.sPaginationType,
 					"oLanguage": {},
 					"fnRowCallback": o.renderCallbacks.rowComplete,
-					"fnHeaderCallback": o.renderCallbacks.headerComplete
+					"fnHeaderCallback": o.renderCallbacks.headerComplete,
+					"sPaginationType": "full_numbers",
+					"sDom": '<"H"Tfr>t<"F"ip>'
+				}
+				
+				if (o.showTableTools) {
+					grid.oTableTools	= {
+						"sSwfPath": "/js/lib/jquery/dataTables/copy_cvs_xls_pdf.swf",
+						"aButtons": [
+							"copy", "csv", "xls", "pdf"
+						]
+					}
 				}
 				
 				if (o.showSearchBox) {
@@ -133,7 +144,7 @@
 				}
 
 				grid.fnDrawCallback	= $.proxy(this, "_drawCallback");
-				
+				console.log
 				return grid;
 			},
 			/**
