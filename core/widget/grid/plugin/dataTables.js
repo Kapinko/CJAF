@@ -68,7 +68,7 @@
 				this.table.dataTable(config);
 
 				if (heading) {
-					this.element.prepend("<h4 class=\"ui-widget-header ui-datagrid-header\">"+heading+"</h4>");
+					this.element.prepend("<h4 class=\"ui-widget-header ui-datagrid-header ui-corner-top\">"+heading+"</h4>");
 				}
 
 				return this;
