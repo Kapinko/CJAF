@@ -41,6 +41,14 @@
 				 */
 				"ajax": null,
 				/**
+				 * This is a list of callbacks for various table rendering events.
+				 * @type {Object.<string,function()>}
+				 */
+				"renderCallbacks": {
+					"headerComplete": null,
+					"rowComplete": null
+				},
+				/**
 				 * This is the string that we'll use for the table container
 				 * element's "id" attribute
 				 * @type {string}

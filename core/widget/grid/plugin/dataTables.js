@@ -111,7 +111,9 @@
 					"bAutoWidth": o.bAutoWidth,
 					"iDisplayLength": o.rowsToDisplay,
 					"sPaginationType": o.sPaginationType,
-					"oLanguage": {}
+					"oLanguage": {},
+					"fnRowCallback": o.renderCallbacks.rowComplete,
+					"fnHeaderCallback": o.renderCallbacks.headerComplete
 				}
 				
 				if (o.showSearchBox) {
