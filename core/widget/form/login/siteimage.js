@@ -111,6 +111,8 @@
 			_create: function () {
 				var o	= this.options,
 				el		= this.element;
+				
+				this.credentials	= new $.Auth.Credentials();
 
 
 				el.html(this._view({}));
@@ -167,13 +169,20 @@
 			 * @param {function()} error
 			 */
 			runAjaxCall: function (success, error) {
+				var credentials;
+				
 				if (this.hasNextStep()) {
 					this.getCurrentStep().effect("slide", {"mode": "hide", "direction": "left"}, $.proxy(function () {
 						this.getNextStep().effect("slide", {"mode": "show", "direction": "right"});
 					}, this));
 					success();
 				} else {
-					success();
+					credentials	= new $.Auth.Credentials(
+						this.getUsername().val(),
+						this.getPassword().val(),
+						"Security Code"
+					);
+					$.Auth('login', credentials, success, error);
 				}
 			},
 			/**
