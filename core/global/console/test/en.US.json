@@ -33,12 +33,10 @@
 			"options": [
 				{"name": "Standard", "value": "jQueryUI"},
 				{"name": "Dock", "value": "Dock"}
-				
 			]
 		}
 	},
 	"validation": {
 		"label": "Client Side Validation"
-	},
-	
+	}
 }
