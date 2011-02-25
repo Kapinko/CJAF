@@ -114,11 +114,11 @@
 					"oLanguage": {},
 					"fnRowCallback": o.renderCallbacks.rowComplete,
 					"fnHeaderCallback": o.renderCallbacks.headerComplete,
-					"sPaginationType": "full_numbers",
-					"sDom": '<"H"Tfr>t<"F"ip>'
+					"sPaginationType": "full_numbers"
 				}
 				
 				if (o.showTableTools) {
+					grid.sDom	= '<"H"Tfr>t<"F"ip>';
 					grid.oTableTools	= {
 						"sSwfPath": "/js/lib/jquery/dataTables/copy_cvs_xls_pdf.swf",
 						"aButtons": [
