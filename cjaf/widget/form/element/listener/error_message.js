@@ -8,6 +8,7 @@
 	cjaf.define('cjaf/widget/form/element/listener/error_message', [
 		'cjaf/widget/form/element/listener',
 		'cjaf/widget/tooltip',
+		"lib/jquery/jquery.qtip",
 		'jQuery/jquery.decorator'
 	],
 	function () {
@@ -110,10 +111,24 @@
 				if (this.options.target === 'parent') {
 					target	= target.parent();
 				}
-
-				this.tooltip	= target.tooltip({
-					"content": $.proxy(this, "_getErrorList")
+				
+				this.tooltip	= target.qtip({
+					"content": {
+						"text": this._getErrorList()
+					},
+					"position": {
+						"at": "right center",
+						"my": "left center",
+						"adjust": { "screen": true }
+					},
+					"style": {
+						"widget": true
+					}
 				});
+
+				//this.tooltip	= target.tooltip({
+				//	"content": $.proxy(this, "_getErrorList")
+				//});
 			},
 			/**
 			 * @param {jQuery.Event} event
@@ -123,7 +138,8 @@
 				this.clearErrors();
 
 				if (this.tooltip) {
-					this.tooltip.tooltip("destroy");
+					this.tooltip.qtip("destroy");
+					//this.tooltip.tooltip("destroy");
 				}
 			},
 			/**
