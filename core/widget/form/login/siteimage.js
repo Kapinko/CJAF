@@ -177,12 +177,14 @@
 					}, this));
 					success();
 				} else {
-					credentials	= new $.Auth.Credentials(
+					/*credentials	= new $.Auth.Credentials(
 						this.getUsername().val(),
 						this.getPassword().val(),
 						"Security Code"
 					);
-					$.Auth('login', credentials, success, error);
+
+					$.Auth('login', credentials, success, error);*/
+					success();
 				}
 			},
 			/**
