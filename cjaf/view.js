@@ -3,7 +3,9 @@
 /*jslint */
 
 (function ($, cjaf) {
-	cjaf.define('cjaf/view', [],
+	cjaf.define('cjaf/view', [
+		'cjaf/namespace'
+	],
 	/**
 	 * @return {cjaf.View}
 	 */

@@ -8,7 +8,9 @@
 /*jslint nomen: false */
 
 (function ($, cjaf, window) {
-	cjaf.define('cjaf/bootstrap/abstract', [],
+	cjaf.define('cjaf/bootstrap/abstract', [
+		'cjaf/view'
+	],
 	/**
 	 * @param {cjaf.Widget.Helper.Event} EventHelper
 	 * @return {AbstractBootstrap}
