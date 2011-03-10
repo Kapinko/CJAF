@@ -8,7 +8,8 @@
 (function ($, cjaf) {
 	cjaf.define('cjaf/widget', [
 		'cjaf/global',
-		'cjaf/request'
+		'cjaf/request',
+		'cjaf/view'
 	],
 	/**
 	 * @param {cjaf.Global} i18n
