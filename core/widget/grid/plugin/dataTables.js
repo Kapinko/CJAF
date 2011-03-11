@@ -109,7 +109,7 @@
 					"bStateSave": o.bStateSave ? true : false,
 					"bLengthChange": o.bLengthChange ? true : false,
 					"bAutoWidth": o.bAutoWidth,
-					"iDisplayLength": o.rowsToDisplay,
+					"iDisplayLength": o.rowsDisplayed,
 					"sPaginationType": o.sPaginationType,
 					"oLanguage": {},
 					"fnRowCallback": o.renderCallbacks.rowComplete,
