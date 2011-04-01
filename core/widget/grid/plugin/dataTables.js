@@ -144,7 +144,7 @@
 				}
 
 				grid.fnDrawCallback	= $.proxy(this, "_drawCallback");
-				console.log
+				
 				return grid;
 			},
 			/**
@@ -224,7 +224,7 @@
 				};
 				
 				if (typeof this.options.ajax === "function") {
-					this.options.ajax(success, error);
+					this.options.ajax(success, error, this._filterRequest(data), url);
 					
 				} else {
 					$.ajax({
