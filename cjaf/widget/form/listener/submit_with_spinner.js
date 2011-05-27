@@ -7,7 +7,7 @@
 /*jslint nomen: false */
 
 (function ($, cjaf, document) {
-	cjaf.define('cjaf/submit_with_spinner', [
+	cjaf.define([
 		'cjaf/widget/form/listener'
 
 	],
