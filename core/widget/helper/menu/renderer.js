@@ -48,6 +48,18 @@
 			this.menu_item_class	= '';
 			/**
 			 * This is the CSS class that will be applied to the menu item
+			 * when it is the first item in the menu.
+			 * @type {string}
+			 */
+			this.menu_item_first_class	= 'first';
+			/**
+			 * This is the CSS class that will be applied to the menu item
+			 * when it is the last item in the menu.
+			 * @type {string}
+			 */
+			this.menu_item_last_class	= 'last';
+			/**
+			 * This is the CSS class that will be applied to the menu item
 			 * links.
 			 * @type {string}
 			 */
@@ -108,6 +120,12 @@
 				item	= this.menu_item_element.clone()
 					.addClass(this.menu_item_class);
 					
+				if (is_first) {
+					item.addClass(this.menu_item_first_class);
+				} else if (is_last) {
+					item.addClass(this.menu_item_last_class);
+				}
+					
 				this.renderMenuItemLink(title, ref, title).appendTo(item);
 				
 				item	= this.renderSubMenu(item, menu_item);
@@ -146,6 +164,35 @@
 				    .attr('href', href)
 				    .attr('title', title)
 				    .html(text);
+			},
+			/**
+			 * Render the menu structure and return it.
+			 * @param {Menu} menu
+			 * @return {jQuery}
+			 */
+			"render": function (menu) {
+				this.preRenderHook(menu);
+				
+				var menu_html	= this.renderMenu(menu),
+				menu_item_list	= menu.getItems(),
+				first			= true,
+				menu_item;
+				
+				while (menu_item_list.hasNext()) {
+					menu_item	= menu_item_list.getNext();
+					
+					this.menuItemCallback(
+						this.renderMenuItem(menu_item, first, !menu_item_list.hasNext())
+							.appendTo(menu_html), menu_item
+					);
+					
+					first	= false;
+				}
+				
+				this.postRenderHook(menu_html, menu);
+				this.menuCompleteCallback(menu_html, menu);
+				
+				return menu_html;
 			},
 			/**
 			 * Set the menu structure element.
@@ -212,6 +259,34 @@
 				return this;
 			},
 			/**
+			 * Set the CSS class for menu items that are the first displayed.
+			 * @param {string} css_class
+			 * @param {boolean} clear_default
+			 * @return {Menu.Renderer}
+			 */
+			'setMenuItemFirstClass': function (css_class, clear_default) {
+				if (clear_default) {
+					this.menu_item_first_class	= css_class;
+				} else {
+					this.menu_item_first_class	+= ' ' + css_class;
+				}
+				return this;
+			},
+			/**
+			 * Set the CSS class for menu items that are the last displayed.
+			 * @param {string} css_class
+			 * @param {boolean} clear_default
+			 * @return {Menu.Renderer}
+			 */
+			'setMenuItemLastClass': function (css_class, clear_default) {
+				if (clear_default) {
+					this.menu_item_last_class	= css_class;
+				} else {
+					this.menu_item_last_class	+= ' ' + css_class;
+				}
+				return this;
+			},
+			/**
 			 * Set the CSS class to the menu item links
 			 * @param {string} css_class
 			 * @param {boolean} clear_default
@@ -224,35 +299,6 @@
 					this.menu_item_link_class	+= ' ' + css_class;
 				}
 				return this;
-			},
-			/**
-			 * Render the menu structure and return it.
-			 * @param {Menu} menu
-			 * @return {jQuery}
-			 */
-			"render": function (menu) {
-				this.preRenderHook(menu);
-				
-				var menu_html	= this.renderMenu(menu),
-				menu_item_list	= menu.getItems(),
-				first			= true,
-				menu_item;
-				
-				while (menu_item_list.hasNext()) {
-					menu_item	= menu_item_list.getNext();
-					
-					this.menuItemCallback(
-						this.renderMenuItem(menu_item, first, !menu_item_list.hasNext())
-							.appendTo(menu_html), menu_item
-					);
-					
-					first	= false;
-				}
-				
-				this.postRenderHook(menu_html, menu);
-				this.menuCompleteCallback(menu_html, menu);
-				
-				return menu_html;
 			},
 			/**
 			 * This is a hook so that child classes can to any necessary
@@ -275,22 +321,6 @@
 			 */
 			"postRenderHook": function (container, menu_html, menu) {
 				return this;
-			},
-			/**
-			 * This will return the jQuery representation of the menu
-			 * structure element.
-			 * @return {jQuery}
-			 */
-			_getMenuElement: function () {
-				return $('<ul>');
-			},
-			/**
-			 * This will return the jQuery representation of the menu item
-			 * structure element.
-			 * @return {jQuery}
-			 */
-			_getMenuItemElement: function () {
-				return $('<li>');
 			}
 		};
 		return Renderer;
