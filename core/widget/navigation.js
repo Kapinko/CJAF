@@ -41,6 +41,7 @@
 				"pageList": {
 					'home': {
 						'localeKey': 'index',
+						'linkClass': '',
 						'isAllowed': function () {
 							return true;
 						},
@@ -120,6 +121,10 @@
 			 	if (page.hasOwnProperty('image')) {
 			 		menu_item.setImageUrl(page.image);
 			 	}
+				
+				if (page.hasOwnProperty('linkClass')) {
+					menu_item.setLinkClass(page.linkClass);
+				}
 			 	
 			 	if (page.hasOwnProperty('subPages')) {
 			 		sub_menu_items	= this._getMenuFromPageList(page.subPages).getItems();

@@ -62,6 +62,11 @@
 			 * @type {Collection}
 			 */
 			this.sub_menu_items	= new Collection();
+			/**
+			 * This is a custom CSS class to be applied to the menu link.
+			 * @type {string}
+			 */
+			this.link_class	= '';
 		});
 		Item.prototype	= {
 			/**
@@ -111,6 +116,22 @@
 			 */
 			"getRef": function () {
 				return this.ref;
+			},
+			/**
+			 * Set a custom class for the menu item link.
+			 * @param {string}
+			 * @return {MenuItem}
+			 */
+			'setLinkClass': function (css_class) {
+				this.link_class	= css_class;
+				return this;
+			},
+			/**
+			 * Get a custom class fro the menu item link
+			 * @return {string}
+			 */
+			'getLinkClass': function () {
+				return this.link_class;
 			},
 			/**
 			 * Set the icon image url for this menu item.
