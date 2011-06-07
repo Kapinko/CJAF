@@ -7,19 +7,28 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/model/response/parser', [
-		'cjaf/collection',
 		'cjaf/model/response',
-		'cjaf/model/response/field',
-		"lib/plugins/Array/iterator"
+		'cjaf/model/response/field'
 	],
 	/**
-	 * @param {cjaf.Collection} Collection
 	 * @param {cjaf.Model.Response} Response
 	 * @param {cjaf.Model.Response.Field} Field
 	 * @return {cjaf.Response.Parser}
 	 */
-	function (Collection, Response, Field) {
-		var Iterator	= window.Iterator;
+	function (Response, Field) {
+		/**
+		 * Get a field object from the given definition.
+		 * @param {string} field_name
+		 * @param {Object.<string,*>} def
+		 * @return {Field}
+		 */
+		function field_from_definition(field_name, def) {
+			var required	= def.hasOwnProperty('required') ? def.required : false,
+			alternate_names	= def.hasOwnProperty('alts') ? def.alts : [];
+			
+			return new Field(field_name, required, alternate_names);
+		}
+		
 		/**
 		 * This is an object that is used to parse out
 		 * information from a service response.
@@ -27,32 +36,12 @@
 		 * @constructor
 		 */ 
 		Response.Parser	= function (fields) {
-			var field_name, field_rec, field_obj, required, alts;
+			/**
+			 * @type {Array.<Field>}
+			 */
+			this.fields	= [];
 			
-			this.fields	= null;
-			
-			if (!(fields instanceof Collection)) {
-				this.fields	= new Collection();
-				
-				for (field_name in fields) {
-					if (fields.hasOwnProperty(field_name)) {
-						field_rec	= fields[field_name];
-						
-						if (!(field_rec instanceof Field)) {
-							required	= field_rec.hasOwnProperty('required') ? field_rec.required : false;
-							alts		= field_rec.hasOwnProperty('alts') ? field_rec.alts : [];
-							
-							field_obj	= new Field(field_name, required, alts);
-						} else {
-							field_obj	= field_rec;
-						}
-						
-						this.fields.add(field_obj);
-					}
-				}
-			} else {
-				this.fields	= fields;
-			}
+			this.add(fields);
 		};
 		Response.Parser.prototype	= {
 			/**
@@ -65,44 +54,56 @@
 			 * @return {Object}
 			 */
 			parse: function (response) {
-				var field_list	= this.fields,
-					return_obj	= {},
-					field, value, required, alt, alt_iter, has_field;
-
-				//reset iterator.
-				field_list.reset();
+				var return_obj	= {};
 					
-				while (field_list.hasNext()) {
-					value	= null;
-					field	= field_list.getNext();
+				$.each(this.fields, function (trash, field) {
+					var field_name	= field.getName(), 
+					value			= null;
 					
-					if (!response.hasOwnProperty(field.getName())) {
-						alt_iter	= new Iterator(field.getAlternateNames());
-
-						while (alt_iter.hasNext()) {
-							alt	= alt_iter.getNext();
-
-							if (response.hasOwnProperty(alt)) {
-								value	= response[alt];
+					if (!response.hasownProperty(field_name)) {
+						
+						$.each(field.getAlternateNames(), function (trash, alt_name) {
+							if (response.hasOwnProperty(alt_name)) {
+								value	= response[alt_name];
 							}
-						}
+						});
+						
 					} else {
-						value	= response[field.getName()];
+						value	= response[field_name];
 					}
 					
-					if ((value === null || value === undefined) && field.isRequired()) {
+					if ((value == null || value === undefined) && field.isRequired()) {
 						if (console) {
-							console.log('missing field: ' + field.getName());
+							console.log('missing field: ' + field_name);
 							console.log(response);
 						}
-						$.error('Response object not valid. Missing "' +
-									field.getName() + '" field.');
+						$.error('Response object not valid. Missing "' + field_name + '" field.');
 					}
 					
-					return_obj[field.getName()]	= value;
-				}
+					return_obj[field_name]	= value;
+				});
 				
 				return return_obj;
+			},
+			/**
+			 * Allow for the addition of fields.
+			 * @param {Array.<Field>|Field}
+			 * @return {Response.Parser}
+			 */
+			'add': function (fields) {
+				$.each(fields, $.proxy(function(field_name, definition) {
+					var field;
+					
+					if (definition instanceof Field) {
+						this.fields.push(definition);
+						
+					} else {
+						field	= field_from_definition(field_name, definition);
+						this.fields.push(field);
+					}
+				}, this));
+				
+				return this;
 			}
 		};
 		
