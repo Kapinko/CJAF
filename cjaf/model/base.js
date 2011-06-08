@@ -7,11 +7,13 @@
 
 (function ($, cjaf) {
 	cjaf.define('cjaf/model/base', [
+		'cjaf/class',
 		'cjaf/model',
 		'cjaf/cache',
 		'lib/plugins/String/camelCaseToUnderscore'
 	],
 	/**
+	 * @parma {cjaf.Class} Class
 	 * @param {cjaf.Model} Model
 	 * @param {cjaf.Cache} Cache
 	 * @return {cjaf.Model.Base}
@@ -377,6 +379,14 @@
 			adder(new factory());
 
 			return this;
+		};
+		/**
+		 * Allow this to be extended.
+		 * @param {Object.<string,*>} child
+		 * @return {*}
+		 */
+		Model.extend	= function (child) {
+			return Class.extend(this, child);
 		};
 
 		return Model.Base;

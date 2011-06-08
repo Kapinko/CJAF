@@ -97,9 +97,6 @@
 					}
 					
 				}
-
-		
-
 				return collection;
 			},
 			/**

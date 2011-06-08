@@ -7,21 +7,22 @@
 /*jslint newcap: false*/
 
 (function ($, cjaf) {
-	cjaf.define('cjaf/model/collection', [
-		'cjaf/class',
-		'cjaf/collection',
+	cjaf.define([
+		'lib/underscore',
 		'cjaf/model',
 		'cjaf/model/response/parser'
 	],
 	/**
-	 * @param {cjaf.Class} Class
-	 * @param {cjaf.Collection} Collection
+	 * @param {underscore} _
 	 * @param {cjaf.Model} Model
-	 * @param {cjaf.Model.Response.Parser} ResponseParser
+	 * @param {ResponseParser} ResponseParser
 	 * @return {cjaf.Model.Collection}
 	 */
-	function (Class, Collection, Model, ResponseParser) {
-		Model.Collection	= Class.extend(Collection, {
+	function (_, Model, ResponseParser) {
+		function ModelCollection () {
+			
+		}
+		ModelCollection.prototype	= {
 			/**
 			 * Thses are the fields that should/must be in a server response
 			 * that claims to contain a collection.
@@ -49,28 +50,20 @@
 				 */
 				this.serviceTotal	= null;
 				/**
-				 * This is the prototype object for all the objects that we 
-				 * are collecting.
-				 * @type {Object}
+				 * This is the array of model objects.
+				 * @type {Array.<Model>}
 				 */
-				this.containedPrototype	= null;
+				this.models	= [];
 			},
 			/**
 			 * Add the given model object to this collection.
-			 * @param {cjaf.Model.Abstract} model
-			 * @return {cjaf.Model.Collection.Base}
+			 * @param {Model} model
+			 * @return {ModelCollection}
 			 * @throw {Exception}
 			 */
 			"add": function (model) {
-//				if (this.containedPrototype === null) {
-//					this.containedPrototype	= model;
-//
-//				} else if (!(model instanceof this.containedPrototype)) {
-//					$.error('Given model is not an instance of ' +
-//						this.containedPrototype);
-//				}
-				
-				return Collection.prototype.add.apply(this, arguments);
+				this.models.push(model);
+				return this;
 			},
 			/**
 			 * Get the number of model objects that the service we used to 
@@ -86,16 +79,44 @@
 			 */
 			"validate": function () {
 				//Nothing to validate for the base collection.
+			},
+			/**
+			 * Iterate over all the models in the collection yielding each in
+			 * turn to the given callback function.
+			 * @param {function(number, Model)} callback
+			 */
+			'each': function (callback) {
+				$.each(this.models, callback);
+			},
+			
+			//Integrate some Underscore.js methods.
+			
+			/**
+			 * Produces a new array by passing each model in the collection
+			 * to the given transformation function.
+			 * @param {function(Model):Model} transform
+			 * @param {*} context
+			 * @return {Array}
+			 */
+			'map': function (transform, context) {
+				return _.map(this.models, transform, context);
+			},
+			/**
+			 * Return an an array of values for a given model attribute.
+			 * @param {string} attribute
+			 * @return {Array.<*>}
+			 */
+			'pluck': function (attribute) {
+				return _.pluck(this.models, attribute);
 			}
-		});
-		
+		};
 		/**
 		 * Get a collection object from the given response object.
 		 * @param {Object.<string,*>} response
 		 * @param {XMLHttpRequest} XMLHttpRequest
-		 * @return {cjaf.Model.Collection}
+		 * @return {ModelCollection}
 		 */
-		Model.Collection.wrap	= function (response, XMLHttpRequest) {
+		ModelCollection.wrap	= function (response, XMLHttpRequest) {
 			var collection	= new this(),
 				parser		= new ResponseParser(collection.fields);
 				
@@ -108,6 +129,6 @@
 			return collection;
 		};
 		
-		return Model.Collection;
+		return ModelCollection;
 	});
 }(jQuery, cjaf));
