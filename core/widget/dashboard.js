@@ -9,6 +9,7 @@
 	cjaf.define("core/widget/dashboard", [
 		'cjaf/view',
 		'cjaf/global',
+		"core/widget/dashboard/portlet/container",
 		'core/widget/dashboard/portlet'
 	],
 	/**
@@ -30,28 +31,61 @@
 				 */
 				bodySelector: ".cjaf-dashboard-body",
 				/**
-				 * These are the options that will be passed to the jQueryUI
-				 * sortable widget
-				 * @see http://jqueryui.com/demos/sortable/
+				 * This is the CSS class that will be applied to each of the
+				 * portlet containers.
+				 * @type {string}
+				 */
+				containerClass: "cjaf-portlet-container",
+				/**
+				 * These are the options that will be passed to the portlet
+				 * container widget as options to the jQueryUI sortable widget.
 				 * @type {Object.<string,*>}
 				 */
-				sortable: {
-					handle: ".cjaf-portlet-head",
-					cursor: "move",
-					placeholder: "ui-state-highlight",
-					forcePlaceholderSize: true
-				}
+				sortableOptions: {},
+				/**
+				 * These are the containers for this dashboard.
+				 * format:
+				 * column_name: {
+				 * 		"cssClass": <string>,
+				 * 		"isDefault": <boolean>
+				 * }
+				 * @type {Object.<string, *>}
+				 */
+				"containers": {},
+				/**
+				 * This is the element that will be cloned to create the
+				 * portlet containers.
+				 * @type {jQuery}
+				 */
+				"container": $("<div>")
 			},
 
 			_create: function () {
 				var o	= this.options,
 				el		= this.element;
+				
+				/**
+				 * A has of the portlet containers
+				 * @type {Obejct.<string, jQuery>}
+				 */
+				this.containers	= {};
+				/**
+				 * This is the name of the default portlet container
+				 * @type {string}
+				 */
+				this.defaultName	= null;
 
 				el.html(this._view({
 					title: o.title
 				}));
-
-				this._getBody().sortable(o.sortable);
+				
+				$.each(o.containers, $.proxy(function (name, options) {
+					if (!this.defaultName || options.isDefault) {
+						this.defaultName	= name;
+					}
+					
+					this.addContainer(name, options);
+				}, this));
 			},
 			/**
 			 * Get the dashboard body area.
@@ -60,48 +94,64 @@
 			_getBody: function () {
 				return this.element.find(this.options.bodySelector);
 			},
-
 			/**
-			 * Add a widget to this dashboard
-			 * @param {string} widget_name
-			 * @param {jQuery} structure - this is the structure necessary for this
-			 *					widget. This will be appended to the widget body
-			 * @param {string|jQuery} template - This is the template to use as
-			 *					the structure for the contained widget.  This is
-			 *					the structure that will be used as the portlet's
-			 *					body.s
+			 * Add the given portlet to the container known by the given name.
+			 * @param {string} container_name
+			 * @param {string} widget_name,
+			 * @param {Object.<string,*>} options
 			 * @return {jQuery}
 			 */
-			addPortlet: function (widget_name, options, template) {
-				if (template === undefined) {
-					template = $("<div>");
-				} else if (typeof template === 'string') {
-					template	= $(View(template, i18n.localize(widget_name)));
-				} else if (!(template instanceof $)) {
-					$.error("The given template must be a template path or a jQuery object.");
+			"addPortlet": function (container_name, widget_name, options) {
+				var container	= this.getContainer(container_name);
+				
+				if (container) {
+					container.core_dashboard_portlet_container("addPortlet", widget_name, options);
 				}
-
-				if (typeof template[widget_name] !== 'function') {
-					$.error("The given widget_name must be the name of a valid CJAF widget.");
-				}
-
-				var portlet	= $("<div>");
-
-				portlet.core_dashboard_portlet({
-					"widgetName": widget_name,
-					"widgetOptions": options,
-					"widgetStructure": template
-				});
-
-				this._getBody().append(portlet).sortable("refresh");
+				
+				return this.element;
 			},
 			/**
-			 * Refresh the sortable. This will cause new items to be recognized.
+			 * Add a container to this dashboard
+			 * @param {string} name
+			 * @param {Object.<string, *>} options
 			 * @return {jQuery}
 			 */
-			refresh: function () {
-				this._getBody().sortable("refresh");
+			"addContainer": function (name, options) {
+				var o		= this.options,
+				container	= o.container.clone();
+				
+				this._getBody().append(container);
+				
+				container.core_dashboard_portlet_container($.extend({
+					"name": name,
+					"cssClass": o.containerClass
+				}, options));
+				
+				this.containers[name] 	= container;
+				
 				return this.element;
+			},
+			/**
+			 * Remove the portlet container (and all of it's contained
+			 * portlets) known by the given name.
+			 * @param {string} name
+			 * @return {jQuery}
+			 */
+			"removeContainer": function (name) {
+				var container	= this.containers[name];
+				
+				if (container) {
+					container.remove();
+				}
+				
+				return this.element;
+			},
+			/**
+			 * Get the portlet container known by the given name.
+			 * @return {jQuery}
+			 */
+			"getContainer": function (name) {
+				return this.containers[name];
 			}
 		});
 	});

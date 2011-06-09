@@ -14,16 +14,18 @@
 		'lib/underscore',
 		'cjaf/class',
 		'cjaf/cache',
-		'cjaf/event'
+		'cjaf/event',
+		'cjaf/filter'
 	],
 	/**
 	 * @param {underscore} _
 	 * @param {Class} Class
 	 * @param {Cache} Cache
 	 * @param {Events} Events
+	 * @param {Filters} Filters
 	 * @return {Model}
 	 */
-	function (_, Class, Cache, Events) {
+	function (_, Class, Cache, Events, Filters) {
 		/**
 		 * Create a new Model object.
 		 * @param {string} id
@@ -67,7 +69,7 @@
 			 */
 			this._silent				= false;
 		}
-		Model.prototype	= $.extend(true, Events, {
+		Model.prototype	= $.extend(true, Events, Filters, {
 			/**
 			 * This is an initialization method for child classes to use.
 			 */
@@ -79,13 +81,10 @@
 			 * @return {Model}
 			 */
 			'setProperty': function (name, value) {
-				//@todo add event for new property
-				//@todo add event for changed property.
-				
 				var current	= this.attributes[name];
 				
 				if (!_.isEqual(current, value)) {
-					this.attributes[name]	= value;
+					this.attributes[name]	= this.filter(name, value);
 					this._changed	= true;
 					this.changed(name);
 				}

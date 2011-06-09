@@ -3,10 +3,10 @@
  * @see http://documentcloud.github.com/backbone/
  */
 /*jslint nomen:false*/
-/*global jQuery:false, cjaf:false*/
+/*global jQuery:false, define:false*/
 
-(function ($, cjaf) {
-	cjaf.define([
+(function (define) {
+	define([
 		'lib/underscore'
 	],
 	/**
@@ -86,5 +86,6 @@
 				return this;
 			}
 		};
+		return Events;
 	});
-}(jQuery, cjaf));
+}(define));

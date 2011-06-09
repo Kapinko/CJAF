@@ -54,9 +54,6 @@ window.cjaf	= (function ($, require, window, document) {
 	 * @type {Array.<string>}
 	 */
 	DEFAULT_DEPENDENCIES	= [
-		'order!js/ext/json2.js',
-		'order!js/ext/underscore.js',
-		'order!js/ext/backbone.js',
 		'cjaf/class',
 		'cjaf/namespace',
 		'cjaf/global',

@@ -1,0 +1,10 @@
+.cjaf-portlet-container {
+	float: left;
+	margin: 1em;
+	min-width: 5em;
+	min-height: 5em;
+}
+
+.cjaf-portlet {
+	margin: .5em;
+}
