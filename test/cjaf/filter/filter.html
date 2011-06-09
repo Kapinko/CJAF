@@ -3,28 +3,26 @@
 <html>
 <head>
   <title>Jasmine Test Runner</title>
-  <link rel="stylesheet" type="text/css" href="/jasmine/lib/jasmine-1.0.2/jasmine.css">
+  <link rel="stylesheet" type="text/css" href="/js/ext/jasmine/lib/jasmine-1.0.2/jasmine.css">
   <!-- include dependencies -->
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.js"></script>
-  <script type="text/javascript" src="/jasmine/lib/jasmine-1.0.2/jasmine.js"></script>
-  <script type="text/javascript" src="/jasmine/lib/jasmine-1.0.2/jasmine-html.js"></script>
-
-  <!-- include source files here... -->
   <script type="text/javascript" src="/js/ext/require.js"></script>
-  <!-- include spec files here... -->
 </head>
 <body>
 
 <script type="text/javascript">
 	require({
-		'baseUrl': '/test/js'
+		'baseUrl': '/js'
 	},[
+		'lib/jasmine',
 		'/cjaf/filter/filterSpec.js'
 	],
-	function () {
-		jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
-		jasmine.getEnv().execute();
+	/**
+	 * @param {jasmine} jasmine
+	 */
+	function (jasmine) {
+		jasmine.run();
 	});
 </script>
 
