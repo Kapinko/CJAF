@@ -1,6 +1,7 @@
 define([
 	'lib/underscore',
-	'cjaf/filter'
+	'cjaf/filter',
+	'lib/jasmine'
 ],
 function (_, Filters) {
 	var testobj;
