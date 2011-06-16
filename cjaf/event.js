@@ -45,7 +45,7 @@
 				
 				if (calls) {
 					if (!event) {
-						calls	= {};
+						calls	= this._callbacks	= {};
 					} else if (!callback) {
 						calls[event]	= [];
 					} else {
