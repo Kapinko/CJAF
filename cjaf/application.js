@@ -234,7 +234,7 @@ window.cjaf	= (function ($, require, window, document) {
 	 * This is the CJAF Application object that will control the application as
 	 * a whole. IE to start up the application call cjaf.Application.start();
 	 */
-	cjaf.Appplication	= (function () {
+	cjaf.Application	= (function () {
 			/**
 			 * This function will run just prior to calling the bootstraps
 			 * init() function. Here we perform any customizations to our libraries.
