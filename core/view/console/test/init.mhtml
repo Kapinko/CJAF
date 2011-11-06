@@ -1,0 +1,48 @@
+<div id="container-test-console" title="{{title}}">
+	<ul>
+		<li>
+			{{#validation}}
+			<label class="css-left" for="client-side-validation">{{label}}</label>
+			<input id="client-side-validation" type="checkbox" name="client_side_validation"  value="is-enabled"/>
+			{{/validation}}
+		</li>
+		<li>
+			{{#language}}
+
+			{{#select}}
+			<label class="css-left" for="client-language">{{label}}</label>
+			<select id="client-language" class="ui-widget-content ui-corner-all ui-state-default">
+				{{#languages}}
+				<option value="{{value}}">{{name}}</option>
+				{{/languages}}
+			</select>
+			{{/select}}
+			{{/language}}
+		</li>
+		<li>
+			{{#currency}}
+
+			{{#select}}
+			<label class="css-left" for="client-currency">{{label}}</label>
+			<select id="client-currency" class="ui-widget-content ui-corner-all ui-state-default">
+				{{#options}}
+				<option value="{{value}}">{{name}}</option>
+				{{/options}}
+			</select>
+			{{/select}}
+			{{/currency}}
+		</li>
+		<li>
+			{{#renderer}}
+			{{#select}}
+			<label class="css-left" for="menu-renderer">{{label}}</label>
+			<select id="menu-renderer" class="ui-wdiget-content ui-corner-all ui-state-default">
+				{{#options}}
+				<option value="{{value}}">{{name}}</option>
+				{{/options}}
+			</select>
+			{{/select}}
+			{{/renderer}}
+		</li>
+	</ul>
+</div>
