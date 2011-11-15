@@ -76,6 +76,6 @@
 		 */
 		$.Widget.prototype._getLocale	= function () {
 			return i18n.localize(this.widgetName);
-		}
+		};
 	});
 }(jQuery, cjaf));
