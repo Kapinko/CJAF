@@ -176,15 +176,15 @@
 				var menu_html	= this.renderMenu(menu),
 				menu_item_list	= menu.getItems(),
 				first			= true,
-				menu_item;
+				menu_item, item_html;
 				
 				while (menu_item_list.hasNext()) {
 					menu_item	= menu_item_list.getNext();
-					
-					this.menuItemCallback(
-						this.renderMenuItem(menu_item, first, !menu_item_list.hasNext())
-							.appendTo(menu_html), menu_item
-					);
+                    item_html   = this.renderMenuItem(menu_item, first, !menu_item_list.hasNext());
+
+                    item_html.appendTo(menu_html).click(menu_item.getAction());
+                    
+                    this.menuItemCallback(item_html, menu_item);
 					
 					first	= false;
 				}

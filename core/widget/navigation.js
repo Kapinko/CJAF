@@ -85,7 +85,7 @@
 			 */
 			_getMenuFromPageList: function (page_list) {
 				var menu, menu_item, page, page_opts, locale_key, action,
-				locale	= this.options.locale.links;
+				locale	= (this.options.locale || {'links': {}}).links;
 		
 				menu	= new Menu();
 		
@@ -108,34 +108,38 @@
 			 * @param {Object.<string,*>} locale - the locale object to use for this menu item.
 			 */
 			 _getMenuItemFromPageObject: function (name, page, locale) {
-			 	var locale_key	= page.hasOwnProperty('localeKey') ? page.localeKey : name,
-			 	menu_item		= new MenuItem(),
-			 	sub_menu_items;
-			 	
-			 	menu_item.setTitle(locale[locale_key])
-			 			.setRef(name);
-			 			
-			 	if (page.hasOwnProperty('isAllowed')) {
-			 		menu_item.setAuthFunction(page.isAllowed);
-			 	}
-			 	if (page.hasOwnProperty('image')) {
-			 		menu_item.setImageUrl(page.image);
-			 	}
-				
-				if (page.hasOwnProperty('linkClass')) {
-					menu_item.setLinkClass(page.linkClass);
-				}
-			 	
-			 	if (page.hasOwnProperty('subPages')) {
-			 		sub_menu_items	= this._getMenuFromPageList(page.subPages).getItems();
-			 		
-			 		while (sub_menu_items.hasNext()) {
-			 			menu_item.addItem(sub_menu_items.getNext());
-			 		}
-			 	}
-			 	
-			 	return menu_item;
-			 }
+                var locale_key	= page.hasOwnProperty('localeKey') ? page.localeKey : name,
+                    menu_item		= new MenuItem(),
+                    sub_menu_items;
+                
+                menu_item.setTitle(locale[locale_key] || name)
+                .setRef(name);
+                
+                if (page.hasOwnProperty('isAllowed')) {
+                    menu_item.setAuthFunction(page.isAllowed);
+                }
+                if (page.hasOwnProperty('image')) {
+                    menu_item.setImageUrl(page.image);
+                }
+                
+                if (page.hasOwnProperty('action')) {
+                    menu_item.setAction(page.action);
+                }
+                
+                if (page.hasOwnProperty('linkClass')) {
+                    menu_item.setLinkClass(page.linkClass);
+                }
+                
+                if (page.hasOwnProperty('subPages')) {
+                    sub_menu_items	= this._getMenuFromPageList(page.subPages).getItems();
+                
+                    while (sub_menu_items.hasNext()) {
+                        menu_item.addItem(sub_menu_items.getNext());
+                    }
+                }
+                
+                return menu_item;
+            }
 		});
     });
 }(jQuery, cjaf));
