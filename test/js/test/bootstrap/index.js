@@ -30,7 +30,7 @@
 			 */
 			"getDependencies": function () {
 				return [
-					'cjaf/view/renderer/mustache',
+					'cjaf/view/renderer/handlebars',
 					'cjaf/widget/dispatcher/plugin/widget_loader',
 					'core/widget/template',
 					'core/widget/helper/menu/renderer/dock',
@@ -53,13 +53,13 @@
 					 * for all view template retrievals.
 					 * @type {string}
 					 */
-					"base_path": '/test/js/test/view',
+					"base_path": '/js/test/view',
 					/**
 					 * This is the view renderer object we will use to render view
 					 * templates.
 					 * @type {ViewRenderer}
 					 */
-					"renderer": cjaf.View.Renderer.Mustache
+					"renderer": cjaf.View.Renderer.Handlebars
 				});
 				
 				return config;
@@ -150,7 +150,7 @@
 			 * @return {string} base_url
 			 */
 			"getBaseUrl": function () {
-				return '/test/js';
+				return '/js';
 			},
 			/**
 			 * This function returns the navigation page map.
