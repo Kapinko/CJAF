@@ -10,15 +10,19 @@
 	<link rel="stylesheet" type="text/css" href="css/print.css" media="print" />
 	<title>CJAF Unit Test Site</title>
 	
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
-	<script type="text/javascript" src="js/ext/allplugins-require.js"></script>
-	<script type="text/javascript" src="js/cjaf/application.js"></script>
+	<script type="text/javascript" 
+        src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js">
+    </script>
+	<script type="text/javascript" 
+        src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js">
+    </script>
+	<script type="text/javascript" src="js/ext/require-1.0.7.js"></script>
+    <script type="text/javascript" src="js/cjaf/application.js"></script>
 </head>
 
 <body>
 	<div id="wrap"></div>
-	<script type="text/javascript">
+	<script defer type="text/javascript">
 		cjaf.Application.start('test/bootstrap/index', $('#wrap'), $());
 	</script>
 </body>

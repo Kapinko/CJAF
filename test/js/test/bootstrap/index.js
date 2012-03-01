@@ -3,12 +3,12 @@
  */
 
 /** JSLint Declarations */
-/*global jQuery: false, cjaf: false */
+/*global jQuery: false, define: false */
 /*jslint nomen: false*/
 
-(function ($, cjaf) {
-	cjaf.define('test/bootstrap/index', [
-		'cjaf/bootstrap/abstract'
+(function ($, define) {
+	define('test/bootstrap/index', [
+        'cjaf/bootstrap/abstract'
 	],
 	/**
 	 * @param {AbstractBootstrap} AbstractBootstrap
@@ -176,4 +176,4 @@
 		
 		return TestIndexBootstrap;
 	});
-}(jQuery, cjaf));
+}(jQuery, define));

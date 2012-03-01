@@ -5,11 +5,11 @@
 
 /** JSLint Declarations */
 /*global window: false, document: false, unescape: false, ActiveXObject: false, 
-XMLHttpRequest: false, jQuery: false, require: false*/
+XMLHttpRequest: false, jQuery: false, require: false, define: false*/
 /*jslint nomen: false */
 
 //Explicitly declare the cjaf global
-window.cjaf	= (function ($, require, window, document) {
+window.cjaf	= (function ($, require, define, window, document) {
 	if (!require) {
 		throw "The CJAF Application framework must have RequireJS available (http://requirejs.org)";
 	}
@@ -54,9 +54,10 @@ window.cjaf	= (function ($, require, window, document) {
 	 * @type {Array.<string>}
 	 */
 	DEFAULT_DEPENDENCIES	= [
-		'order!js/ext/json2.js',
-		'order!js/ext/underscore.js',
-		'order!js/ext/backbone.js',
+        'ext/require/domReady',
+        'ext/require/order!js/ext/json2.js',
+		'ext/require/order!js/ext/underscore.js',
+		'ext/require/order!js/ext/backbone.js',
 		'cjaf/class',
 		'cjaf/namespace',
 		'cjaf/global',
@@ -158,7 +159,7 @@ window.cjaf	= (function ($, require, window, document) {
 		 * @param {function} callback
 		 */
 		'define': function (module_name, dependencies, callback) {
-			require.def(module_name, dependencies, callback);
+			define(module_name, dependencies, callback);
 		}
 	};
 	/**
@@ -366,8 +367,8 @@ window.cjaf	= (function ($, require, window, document) {
 
 							//start the application.
 							require(dependencies, 
-								function () {
-									require.ready(function () {
+								function (domReady) {
+                                    domReady.withResources(function () {
 										//set the locale
 										cjaf.Global.setLocale(Bootstrap.getLocale())
 											.setCurrency(Bootstrap.getCurrency())
@@ -385,4 +386,4 @@ window.cjaf	= (function ($, require, window, document) {
 		}());
 		
 	return cjaf;
-}(jQuery, require, window, window.document));
+}(jQuery, require, define, window, window.document));
